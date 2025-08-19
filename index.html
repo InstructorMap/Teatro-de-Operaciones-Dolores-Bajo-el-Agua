@@ -257,6 +257,52 @@
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
+
+        /* --- TESTIMONIOS --- */
+        .testimonial-card {
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: 20px auto;
+            border-left: 5px solid var(--accent-color);
+            text-align: left;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .testimonial-card .author-info { display: flex; align-items: center; gap: 15px; margin-top: 20px; }
+        .testimonial-card .author-info img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .testimonial-card .author { font-weight: 700; color: var(--heading-color); }
+        .testimonial-card .author span { display: block; font-weight: 400; font-size: 0.9em; color: var(--text-color); }
+
+        /* --- SECCIÓN DE CERTIFICACIÓN --- */
+        .certification-item {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+        .certification-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            filter: blur(4px);
+            border: 3px solid var(--secondary-color);
+        }
+        .certification-item::after {
+            content: 'MODELO DE CERTIFICACIÓN';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
         
         /* --- TARJETAS DE SPONSORS --- */
         .sponsor-card {
@@ -493,6 +539,43 @@
                     <div class="gallery-item"><img src="congreso7.jpg" alt="Escena de práctica 5"></div>
                     <div class="gallery-item"><img src="congreso8.jpg" alt="Escena de práctica 6"></div>
                     <div class="gallery-item"><img src="guardas.jpg" alt="Escena de práctica 7"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>La Voz de la Experiencia: Testimonios</h2>
+                <div class="grid">
+                    <div class="testimonial-card">
+                        <p>"Ningún curso me preparó para la realidad como este. Los simulacros son tan intensos que aprendés a aplicar protocolos bajo estrés real."</p>
+                        <div class="author-info">
+                            <img src="https://placehold.co/100x100/e2e8f0/2d3748?text=JA" alt="Foto de Javier Aguirre">
+                            <div class="author">Oficial Javier Aguirre<span>Grupo de Intervención Especial</span></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Como bombero, creía saber de caos, pero esto es otro nivel. Mi enfoque ahora es más estratégico y efectivo."</p>
+                        <div class="author-info">
+                            <img src="https://placehold.co/100x100/e2e8f0/2d3748?text=DB" alt="Foto de Diego Bustamante">
+                            <div class="author">Sargento Diego Bustamante<span>Bomberos de Rosario</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Tu Certificación: El Sello de un Profesional</h2>
+                <p>Al finalizar, recibirás una certificación tangible que valida tus habilidades, reconocida por instituciones de prestigio.</p>
+                <div class="grid" style="align-items: center;">
+                    <div class="certification-item">
+                        <img src="diploma.jpeg" alt="Modelo de diploma del curso">
+                    </div>
+                    <div class="certification-item">
+                        <img src="carnetmed.jpeg" alt="Modelo de carnet del curso">
+                    </div>
                 </div>
             </div>
         </section>
