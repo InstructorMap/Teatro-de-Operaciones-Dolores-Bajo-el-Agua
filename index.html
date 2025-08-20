@@ -92,7 +92,7 @@
 
         /* --- SECCIÓN HÉROE --- */
         .hero {
-            background-image: linear-gradient(rgba(26, 26, 26, 0.6), rgba(26, 26, 26, 0.6)), url('folleto guardas.png');
+            background-image: linear-gradient(rgba(26, 26, 26, 0.6), rgba(26, 26, 26, 0.6)), url('guardas.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -257,7 +257,7 @@
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-
+        
         /* --- TESTIMONIOS --- */
         .testimonial-card {
             background: var(--secondary-color);
@@ -420,6 +420,37 @@
         .back-to-top { background-color: var(--accent-color); bottom: 100px; right: 25px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         .back-to-top.visible { opacity: 1; visibility: visible; }
         
+        /* --- NUEVO: BOTONES DE CURSOS ADICIONALES --- */
+        .other-courses-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .course-button {
+            text-decoration: none;
+            color: var(--heading-color);
+            text-align: center;
+        }
+        .course-button img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            object-fit: cover;
+        }
+        .course-button:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .course-button h4 {
+            margin-top: 15px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3em;
+        }
+
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5em; }
@@ -580,6 +611,22 @@
             </div>
         </section>
 
+        <section id="inscribirse" class="section">
+            <div class="container">
+                <h2>Tu Momento es Ahora.</h2>
+                <p>Demuestra que tienes las habilidades para operar en el terreno. Los cupos para este evento de evaluación son estrictamente limitados.</p>
+                <div class="pricing-box">
+                    <p><strong>Inscripción al Teatro de Operaciones</strong></p>
+                    <h3 style="font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--bonus-color); margin: 10px 0;">$120.000 ARS</h3>
+                    <p><small>(Incluye participación, evaluación y certificado de aprobación)</small></p>
+                    <a href="https://wa.link/cfa2ah" target="_blank" class="btn btn-bonus pulsing-btn">¡QUIERO PARTICIPAR!</a>
+                    <hr style="border-color: #cbd5e0; margin: 30px 0;">
+                    <p><strong>¿Necesitas un Plan a tu Medida?</strong></p>
+                    <a href="https://wa.link/cfa2ah" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Consultar por Cuotas</a>
+                </div>
+            </div>
+        </section>
+        
         <section id="sponsors" class="section">
             <div class="container">
                 <h2>Sea Sponsor: Una Oportunidad Única</h2>
@@ -645,18 +692,18 @@
             </div>
         </section>
 
-        <section id="inscribirse" class="section">
+        <section class="section">
             <div class="container">
-                <h2>Tu Momento es Ahora.</h2>
-                <p>Demuestra que tienes las habilidades para operar en el terreno. Los cupos para este evento de evaluación son estrictamente limitados.</p>
-                <div class="pricing-box">
-                    <p><strong>Inscripción al Teatro de Operaciones</strong></p>
-                    <h3 style="font-family: 'Oswald', sans-serif; font-size: 2.5em; color: var(--bonus-color); margin: 10px 0;">$120.000 ARS</h3>
-                    <p><small>(Incluye participación, evaluación y certificado de aprobación)</small></p>
-                    <a href="https://wa.link/cfa2ah" target="_blank" class="btn btn-bonus pulsing-btn">¡QUIERO PARTICIPAR!</a>
-                    <hr style="border-color: #cbd5e0; margin: 30px 0;">
-                    <p><strong>¿Necesitas un Plan a tu Medida?</strong></p>
-                    <a href="https://wa.link/cfa2ah" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Consultar por Cuotas</a>
+                <h2>Explore Otras Formaciones de Élite</h2>
+                <div class="other-courses-grid">
+                    <a href="https://instructormap.github.io/Operador-de-Medicina-Tactica/" target="_blank" class="course-button">
+                        <img src="medtaclogo.jpeg" alt="Logo del Curso de Operador de Medicina Táctica">
+                        <h4>Operador de Medicina Táctica</h4>
+                    </a>
+                    <a href="https://instructormap.github.io/Operador-de-Primeros-Auxilios-Psicologicos/#cta" target="_blank" class="course-button">
+                        <img src="paplogo.jpeg" alt="Logo del Curso de Primeros Auxilios Psicológicos">
+                        <h4>Primeros Auxilios Psicológicos</h4>
+                    </a>
                 </div>
             </div>
         </section>
