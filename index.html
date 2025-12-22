@@ -4,25 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dolores Bajo el Agua | Congreso & Entrenamiento</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- ESTILOS GENERALES --- */
+        /* --- ESTILOS VISUALES --- */
         :root {
-            --primary: #0f172a;
-            --secondary: #0ea5e9;
-            --accent: #f97316;
+            --primary: #0f172a;      /* Azul Oscuro */
+            --secondary: #0ea5e9;    /* Azul Claro */
+            --accent: #f97316;       /* Naranja */
             --text: #334155;
             --bg: #f8fafc;
             --white: #ffffff;
-            --success: #10b981;
+            --whatsapp: #25d366;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Roboto', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; }
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         a { text-decoration: none; }
         img { max-width: 100%; }
@@ -38,8 +39,9 @@
         
         .section-title { text-align: center; margin-bottom: 50px; font-size: 2.2rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- HERO (Fondo Principal) --- */
+        /* --- HERO HEADER --- */
         .hero {
+            /* IMAGEN: congreso1.jpg */
             background: linear-gradient(rgba(15,23,42,0.85), rgba(15,23,42,0.6)), url('img/congreso1.jpg');
             background-size: cover; background-position: center;
             color: var(--white); padding: 140px 0 100px; text-align: center;
@@ -54,7 +56,7 @@
         .time-box span { display: block; font-size: 2rem; font-weight: 900; color: var(--accent); }
         .time-box label { font-size: 0.8rem; text-transform: uppercase; }
 
-        /* --- ESTACIONES --- */
+        /* --- ESTACIONES (GRID) --- */
         .stations { padding: 80px 0; }
         .station-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
         .station-card { position: relative; height: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: 0.3s; }
@@ -74,14 +76,14 @@
         }
         .sponsor-logo:hover { filter: grayscale(0%); transform: scale(1.05); opacity: 1; }
 
-        /* --- REGISTRO Y PAGOS (MODIFICADO) --- */
+        /* --- REGISTRO Y PAGO --- */
         .registration-process { padding: 80px 0; background: #e2e8f0; }
         .steps-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
         
         .step-card { background: var(--white); padding: 40px; border-radius: 20px; flex: 1; min-width: 300px; max-width: 550px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); }
         .step-number { background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 20px; }
 
-        /* Estilos nuevos para opciones de pago */
+        /* Opciones de pago */
         .payment-options { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
         .pay-option { 
             border: 2px solid #e2e8f0; border-radius: 10px; padding: 20px; 
@@ -91,7 +93,7 @@
         .pay-option:hover { border-color: var(--accent); background: #fff7ed; }
         .pay-price { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
         .pay-desc { font-size: 0.9rem; color: #64748b; }
-        .pay-btn-small { background: var(--accent); color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; }
+        .pay-btn-small { background: var(--accent); color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; text-align: center; min-width: 120px; }
 
         /* --- FOOTER --- */
         footer { background: #020617; color: #94a3b8; padding: 50px 0; text-align: center; }
@@ -187,7 +189,7 @@
             <p style="color: #64748b;">Organismos y empresas comprometidas con la seguridad.</p>
             
             <div class="sponsors-grid">
-                <img src="img/logotipo de aaps.jpg" alt="AAPS" class="sponsor-logo">
+                <img src="img/logotipo%20de%20aaps.jpg" alt="AAPS" class="sponsor-logo">
                 <img src="img/colbertologo.png" alt="Colbert" class="sponsor-logo">
                 <img src="img/medtaclogo.jpeg" alt="Medicina Tactica" class="sponsor-logo">
                 <img src="img/paplogo.jpeg" alt="PAP" class="sponsor-logo">
@@ -212,12 +214,14 @@
                     
                     <div class="payment-options">
                         
-                        <a href="https://www.gocuotas.com/payment_link/checkouts/28636?verification=14318.0&order_amount=100000.0" target="_blank" class="pay-option">
+                        <a href="https://wa.me/54922136424775?text=Hola,%20quiero%20abonar%20la%20entrada%20de%20$100.000%20por%20transferencia.%20%C2%BFPodr%C3%ADan%20pasarme%20el%20Alias?" target="_blank" class="pay-option">
                             <div>
                                 <div class="pay-price">$100.000</div>
-                                <div class="pay-desc"><i class="fas fa-check-circle" style="color: var(--success)"></i> Precio Contado / 1 Pago</div>
+                                <div class="pay-desc"><i class="fas fa-university" style="color: #059669"></i> Transferencia / Efectivo</div>
                             </div>
-                            <div class="pay-btn-small">PAGAR AHORA</div>
+                            <div class="pay-btn-small" style="background-color: var(--whatsapp);">
+                                <i class="fab fa-whatsapp"></i> PEDIR ALIAS
+                            </div>
                         </a>
 
                         <a href="https://www.gocuotas.com/payment_link/checkouts/28636?verification=14318.0&order_amount=120000.0" target="_blank" class="pay-option">
@@ -230,16 +234,16 @@
 
                     </div>
 
-                    <div style="text-align: center; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                        <img src="img/diploma.jpeg" style="width: 50px; border: 1px solid #ccc; border-radius: 3px;" alt="Diploma">
-                        <span style="font-size: 0.8rem; color: #666;">Incluye Certificación</span>
+                    <div style="text-align: center; margin-top: 25px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <img src="img/diploma.jpeg" style="width: 60px; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="Diploma">
+                        <span style="font-size: 0.85rem; color: #666; font-weight: 500;">Incluye Certificación Oficial</span>
                     </div>
                 </div>
 
                 <div class="step-card" style="border-top-color: var(--secondary);">
                     <div class="step-number" style="background: var(--secondary);">2</div>
                     <h3>Validar y Obtener Credencial</h3>
-                    <p style="margin: 15px 0; color: #64748b;">Una vez realizado el pago (opción 1 o 2), completa el formulario y adjunta tu comprobante.</p>
+                    <p style="margin: 15px 0; color: #64748b;">Una vez realizado el pago (transferencia o tarjeta), completa el formulario y adjunta tu comprobante.</p>
                     
                     <div style="background: #e0f2fe; color: #0369a1; padding: 15px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 20px;">
                         <i class="fas fa-info-circle"></i> Recibirás tu credencial oficial por email.
@@ -265,6 +269,7 @@
     <a href="https://wa.me/54922136424775" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
     <script>
+        // Fecha del evento: 15 de Abril 2025 (Año, Mes-1, Día)
         const eventDate = new Date(2025, 3, 15).getTime();
 
         const timer = setInterval(function() {
