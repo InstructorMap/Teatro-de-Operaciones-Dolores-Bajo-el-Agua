@@ -3,129 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Congreso de Medicina y Rescate</title>
+    <title>Dolores Bajo el Agua - Jornada Intensiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* RESET & BASE */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        :root {
+            --water: #0a2e38; /* Azul oscuro inundación */
+            --deep: #05161a; /* Casi negro */
+            --alert: #ff6b00; /* Naranja rescate */
+            --light: #e0f7fa;
+            --tactical: #2c3e50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            /* Fondo Principal solicitado: congreso1.jpg */
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('congreso1.jpg');
-            background-attachment: fixed; /* Efecto Parallax */
-            background-size: cover;
-            background-position: center;
-            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--deep);
+            color: var(--light);
             line-height: 1.6;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h2 { text-align: center; margin-bottom: 40px; font-size: 2.5rem; text-transform: uppercase; color: #f4f4f4; border-bottom: 2px solid #e74c3c; display: inline-block; padding-bottom: 10px; }
-        .section-title-wrapper { text-align: center; margin: 60px 0 30px; }
+        h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; }
 
-        /* HEADER */
-        header { background: rgba(0,0,0,0.9); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid #e74c3c; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo { height: 60px; } /* Ajuste para colbertologo.png */
-        .cta-btn { background-color: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: 0.3s; }
-        .cta-btn:hover { background-color: #c0392b; transform: scale(1.05); }
+        /* --- HEADER & HERO --- */
+        header {
+            padding: 20px 5%;
+            position: fixed;
+            width: 100%;
+            background: rgba(5, 22, 26, 0.95);
+            z-index: 1000;
+            border-bottom: 2px solid var(--alert);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* HERO SECTION */
-        .hero { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 80px 20px; gap: 40px; }
-        .hero-text { flex: 1; min-width: 300px; }
-        .hero-text h1 { font-size: 3rem; margin-bottom: 20px; line-height: 1.2; }
-        .hero-text p { font-size: 1.2rem; margin-bottom: 30px; color: #ddd; }
-        .hero-img { flex: 1; min-width: 300px; max-width: 600px; }
-        .hero-img img { width: 100%; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 4px solid #fff; } /* Portada: guardas.jpg */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to right, rgba(5, 22, 26, 0.9), rgba(5, 22, 26, 0.6)), url('congreso1.jpg'); /* Usa tu imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+        }
 
-        /* TEMARIO / AREAS */
-        .topics { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 50px 20px; }
-        .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 15px; text-align: center; width: 300px; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
-        .card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.2); }
-        .card img { width: 120px; height: 120px; object-fit: contain; margin-bottom: 20px; border-radius: 50%; background: #fff; padding: 5px; }
-        .card h3 { margin-bottom: 15px; color: #e74c3c; }
+        .hero-content { max-width: 800px; }
+        .hero-tag { background: var(--alert); color: #000; padding: 5px 15px; font-weight: bold; display: inline-block; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        h1 { font-size: 4rem; line-height: 1; margin-bottom: 20px; text-shadow: 0 0 20px rgba(0,0,0,0.8); }
+        h1 span { color: var(--alert); }
+        
+        .hero-subtitle { font-size: 1.5rem; margin-bottom: 40px; border-left: 5px solid var(--alert); padding-left: 20px; }
 
-        /* CERTIFICACION */
-        .certification { text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.05); margin-top: 50px; }
-        .cert-img-wrapper { max-width: 700px; margin: 30px auto; position: relative; }
-        .cert-img-wrapper img { width: 100%; border-radius: 5px; box-shadow: 0 0 20px rgba(231, 76, 60, 0.4); } /* Diploma */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--alert);
+            color: #000;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover { background: #fff; transform: translateY(-3px); }
 
-        /* GALERIA GRID */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .gallery-item { overflow: hidden; border-radius: 8px; height: 200px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .gallery-item:hover img { transform: scale(1.1); }
-        /* Hacemos que la primera imagen sea más ancha para romper la simetría */
-        .gallery-item:first-child { grid-column: span 2; } 
+        /* --- PERFILES (GRID) --- */
+        .profiles { padding: 80px 10%; background: var(--water); }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; }
+        .section-title span { border-bottom: 3px solid var(--alert); }
 
-        /* FOOTER */
-        footer { text-align: center; padding: 40px 20px; background: #111; margin-top: 80px; border-top: 1px solid #333; }
-        .footer-logo { height: 50px; opacity: 0.7; margin-bottom: 20px; }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .profile-card {
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-top: 4px solid var(--alert);
+            transition: 0.3s;
+        }
+        .profile-card:hover { transform: translateY(-10px); background: rgba(0,0,0,0.5); }
+        .profile-card h3 { color: var(--alert); margin-bottom: 15px; }
+        .profile-card ul { list-style: none; }
+        .profile-card li { margin-bottom: 10px; font-size: 0.9rem; position: relative; padding-left: 20px; }
+        .profile-card li::before { content: '►'; color: var(--alert); position: absolute; left: 0; font-size: 0.8rem; }
+
+        /* --- CRONOGRAMA INTENSIVO --- */
+        .agenda { padding: 80px 10%; background: var(--deep); }
+        
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background: var(--tactical); top: 0; bottom: 0; left: 20px; }
+        
+        .event { position: relative; margin-bottom: 40px; padding-left: 60px; }
+        .event::before { content: ''; position: absolute; left: 12px; top: 5px; width: 20px; height: 20px; background: var(--alert); border-radius: 50%; z-index: 1; border: 4px solid var(--deep); }
+        
+        .time { font-weight: bold; color: var(--alert); display: block; margin-bottom: 5px; font-family: 'Exo 2'; font-size: 1.2rem; }
+        .event h3 { font-size: 1.4rem; margin-bottom: 10px; }
+        .event p { color: #aaa; font-size: 0.95rem; }
+
+        /* --- ESTACIONES --- */
+        .stations { padding: 80px 5%; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('congreso2.jpg'); background-size: cover; background-attachment: fixed; }
+        
+        .station-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .station-item { background: rgba(5, 22, 26, 0.9); padding: 40px; border-left: 5px solid var(--alert); }
+        .station-item h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+        .station-item p { margin-bottom: 20px; color: #ccc; }
+        .skills-tag { font-size: 0.8rem; background: var(--tactical); padding: 5px 10px; margin-right: 5px; border-radius: 3px; display: inline-block; margin-bottom: 5px; }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 50px; background: #000; border-top: 1px solid #333; }
 
         @media (max-width: 768px) {
-            .hero-text h1 { font-size: 2rem; }
-            .gallery-item:first-child { grid-column: span 1; }
+            h1 { font-size: 2.5rem; }
+            .station-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="nav-container">
-            <img src="colbertologo.png" alt="Instituto Colber" class="logo">
-            <a href="#inscripcion" class="cta-btn">Reservar Lugar</a>
-        </div>
+        <h3>Jornada Intensiva 2025</h3>
+        <a href="#registro" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">Inscribirse</a>
     </header>
 
     <section class="hero">
-        <div class="hero-text">
-            <h1>Congreso Nacional de<br><span style="color:#e74c3c">Emergencia y Rescate</span></h1>
-            <p>Únete a los profesionales más destacados en una jornada intensiva de capacitación teórica y práctica.</p>
-            <a href="#inscripcion" class="cta-btn">Ver Cronograma</a>
-        </div>
-        <div class="hero-img">
-            <img src="guardas.jpg" alt="Portada Congreso">
+        <div class="hero-content">
+            <div class="hero-tag">Teatro de Operaciones Interdisciplinario</div>
+            <h1>Dolores <br><span>Bajo el Agua</span></h1>
+            <p class="hero-subtitle">Entrenamiento intensivo de respuesta ante inundaciones súbitas. Paramédicos, Tácticos, Rescate y PAP en un mismo escenario[cite: 1, 3].</p>
+            <a href="#agenda" class="btn">Ver Cronograma del Día</a>
         </div>
     </section>
 
-    <div class="section-title-wrapper">
-        <h2>Áreas de Capacitación</h2>
-    </div>
-    <section class="topics">
-        <div class="card">
-            <img src="medtaclogo.jpeg" alt="Medicina Táctica">
-            <h3>Medicina Táctica</h3>
-            <p>Protocolos TCCC/TECC, manejo de trauma en zonas hostiles y control de hemorragias masivas.</p>
-        </div>
-        <div class="card">
-            <img src="paplogo.jpeg" alt="PAP">
-            <h3>P.A.P.</h3>
-            <p>Primeros Auxilios Psicológicos: Intervención en crisis, contención emocional y prevención de TEPT.</p>
+    <section class="profiles">
+        <h2 class="section-title"><span>¿Quiénes Operan?</span></h2>
+        <div class="grid-4">
+            <div class="profile-card">
+                <h3>Paramédicos</h3>
+                <ul>
+                    <li>Triage START en víctimas múltiples[cite: 62].</li>
+                    <li>Atención en entorno acuático.</li>
+                    <li>Manejo de hipotermia y RCP adverso[cite: 63, 65].</li>
+                </ul>
+            </div>
+            <div class="profile-card">
+                <h3>Medicina Táctica</h3>
+                <ul>
+                    <li>Protocolo MARCH bajo amenaza[cite: 76, 81].</li>
+                    <li>Extracción rápida en zonas hostiles[cite: 75].</li>
+                    <li>Entornos con riesgo eléctrico/estructural[cite: 80].</li>
+                </ul>
+            </div>
+            <div class="profile-card">
+                <h3>Radioperadores</h3>
+                <ul>
+                    <li>Gestión del Puesto de Comando[cite: 93].</li>
+                    <li>Coordinación de Bomberos, Policía y Salud[cite: 99].</li>
+                    <li>Fraseología y bitácora de crisis[cite: 101, 104].</li>
+                </ul>
+            </div>
+            <div class="profile-card">
+                <h3>Psicología (PAP)</h3>
+                <ul>
+                    <li>Contención en crisis y pánico[cite: 115].</li>
+                    <li>Manejo de ansiedad y desorientación[cite: 125].</li>
+                    <li>Técnicas de Escucha Activa y Conexión[cite: 130, 143].</li>
+                </ul>
+            </div>
         </div>
     </section>
 
-    <section class="certification">
-        <h2>Certificación Oficial</h2>
-        <p>Al finalizar el congreso, recibirás un diploma acreditando tus horas de capacitación.</p>
-        <div class="cert-img-wrapper">
-            <img src="diploma.jpeg" alt="Modelo de Certificado">
+    <section class="agenda" id="agenda">
+        <h2 class="section-title"><span>Cronograma Operativo</span></h2>
+        <div class="timeline">
+            
+            <div class="event">
+                <span class="time">08:00 - 09:00</span>
+                <h3>Acreditación y Briefing</h3>
+                <p>Registro de operadores y entrega de materiales. Formación de equipos mixtos[cite: 18, 149].</p>
+            </div>
+
+            <div class="event">
+                <span class="time">09:00 - 11:00</span>
+                <h3>Fase 1: El Escenario (Teoría)</h3>
+                <p>Análisis de amenaza de inundación en Dolores. Protocolos de activación del sistema de emergencias y coordinación inicial interinstitucional[cite: 25, 31].</p>
+            </div>
+
+            <div class="event">
+                <span class="time">11:00 - 14:00</span>
+                <h3>Fase 2: Estaciones de Habilidades (Rotación)</h3>
+                <p>Evaluación práctica por estaciones de 45 minutos. Los grupos rotan por escenarios de Trauma en Agua, Zona Hostil, Centro de Comunicaciones y Albergue de Evacuados[cite: 42, 52].</p>
+            </div>
+
+            <div class="event">
+                <span class="time">14:00 - 15:00</span>
+                <h3>Almuerzo Operativo</h3>
+                <p>Receso breve en zona de concentración.</p>
+            </div>
+
+            <div class="event">
+                <span class="time">15:00 - 17:30</span>
+                <h3>Fase 3: SIMULACRO INTEGRADOR</h3>
+                <p><strong>Escenario: Inundación Súbita.</strong> Despliegue total. Búsqueda y rescate, establecimiento de Puesto Médico de Avanzada (PMA), contención psicológica y evacuación real[cite: 147, 148, 160].</p>
+            </div>
+
+            <div class="event">
+                <span class="time">17:30 - 18:30</span>
+                <h3>Debriefing y Cierre</h3>
+                <p>Análisis "en caliente" de acciones. Entrega de certificados de aprobación a quienes superaron la evaluación[cite: 151, 202].</p>
+            </div>
+
         </div>
     </section>
 
-    <div class="section-title-wrapper">
-        <h2>Ediciones Anteriores</h2>
-    </div>
-    <section class="gallery-grid">
-        <div class="gallery-item"><img src="congreso7.jpg" alt="Evento anterior"></div>
-        <div class="gallery-item"><img src="congreso4.jpg" alt="Evento anterior"></div>
-        <div class="gallery-item"><img src="congreso2.jpg" alt="Evento anterior"></div>
-        <div class="gallery-item"><img src="congreso3.jpg" alt="Evento anterior"></div>
-        <div class="gallery-item"><img src="congreso8.jpg" alt="Evento anterior"></div>
+    <section class="stations">
+        <h2 class="section-title" style="color:white; text-shadow: 0 2px 10px #000;">Habilidades a Evaluar</h2>
+        <div class="station-grid">
+            <div class="station-item">
+                <h3>Zona Roja: Rescate Táctico</h3>
+                <p>Operarás en un entorno caótico con estructuras inestables y "fuego" hostil o riesgos eléctricos. Deberás aplicar torniquetes y empaquetar víctimas bajo presión extrema.</p>
+                <span class="skills-tag">MARCH</span>
+                <span class="skills-tag">Extracción</span>
+            </div>
+            <div class="station-item">
+                <h3>Zona Húmeda: Triage Acuático</h3>
+                <p>Simulación de orilla con múltiples víctimas rescatadas. Clasificación rápida (START) de hipotermias, fracturas y ahogamientos.</p>
+                <span class="skills-tag">START</span>
+                <span class="skills-tag">Inmovilización</span>
+            </div>
+            <div class="station-item">
+                <h3>Puesto de Comando</h3>
+                <p>El cerebro de la operación. Deberás filtrar el ruido, priorizar mensajes de radio urgentes y despachar recursos sin saturar la red.</p>
+                <span class="skills-tag">Códigos Q</span>
+                <span class="skills-tag">Despacho</span>
+            </div>
+            <div class="station-item">
+                <h3>Zona de Albergue (PAP)</h3>
+                <p>Contención de familiares en crisis y víctimas con shock emocional agudo. Tu objetivo es reducir la ansiedad y prevenir TEPT.</p>
+                <span class="skills-tag">Empatía</span>
+                <span class="skills-tag">Primeros Auxilios Psicológicos</span>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <img src="colbertologo.png" alt="Colber Logo" class="footer-logo">
-        <p>Organiza: Instituto Colber</p>
-        <p>&copy; 2024 Todos los derechos reservados.</p>
+    <footer id="registro">
+        <h2>Asegura tu posición en el equipo</h2>
+        <p style="margin: 20px 0; color: #999;">Cupos limitados por la naturaleza práctica del evento.</p>
+        <a href="#" class="btn">Solicitar Inscripción</a>
+        <br><br>
+        <p>© 2025 Dolores Bajo el Agua - Entrenamiento Especializado</p>
     </footer>
 
 </body>
