@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolores Bajo el Agua - Jornada Intensiva de Rescate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>Dolores Bajo el Agua 2026 | Congreso & Entrenamiento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --water: #0a2e38; /* Azul oscuro inundación */
-            --deep: #05161a; /* Casi negro */
-            --alert: #ff6b00; /* Naranja rescate */
+            --water: #0a2e38;
+            --deep: #020b0e;
+            --alert: #ff6b00; /* Naranja Rescate */
             --light: #e0f7fa;
-            --tactical: #2c3e50;
+            --tactical: #37474f;
+            --gold: #d4af37;
             --success: #00c853;
         }
 
@@ -22,212 +25,154 @@
             background-color: var(--deep);
             color: var(--light);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; }
+        h1, h2, h3, h4 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- HEADER & HERO --- */
-        header {
-            padding: 15px 5%;
-            position: fixed;
-            width: 100%;
-            background: rgba(5, 22, 26, 0.95);
-            z-index: 1000;
-            border-bottom: 2px solid var(--alert);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .logo { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: 1px; }
-        .logo span { color: var(--alert); }
-
-        .hero {
-            height: 100vh;
-            /* Placeholder de imagen de fondo - CAMBIAR POR TU IMAGEN REAL */
-            background: linear-gradient(to right, rgba(5, 22, 26, 0.95), rgba(5, 22, 26, 0.5)), url('https://images.unsplash.com/photo-1588612509802-273574945d48?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            padding: 0 10%;
-            position: relative;
-        }
-
-        .hero-content { max-width: 800px; position: relative; z-index: 2; }
-        .hero-tag { background: var(--alert); color: #000; padding: 5px 15px; font-weight: 800; display: inline-block; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
-        
-        h1 { font-size: 4rem; line-height: 1; margin-bottom: 20px; text-shadow: 0 0 20px rgba(0,0,0,0.8); }
-        h1 span { color: var(--alert); }
-        
-        .hero-subtitle { font-size: 1.4rem; margin-bottom: 40px; border-left: 5px solid var(--alert); padding-left: 20px; color: #cfd8dc; }
-
-        /* --- BOTONES --- */
+        /* --- BOTONES Y UI --- */
         .btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background: var(--alert);
-            color: #000;
-            font-weight: 800;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 2px;
+            display: inline-block; padding: 15px 35px;
+            background: var(--alert); color: #000; font-weight: 800;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
-        .btn:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .btn:hover { background: #fff; transform: scale(1.05); }
         
         .btn-outline {
-            background: transparent;
-            border: 2px solid var(--alert);
-            color: var(--alert);
-            margin-left: 10px;
+            background: transparent; border: 2px solid var(--alert); color: var(--alert);
+            padding: 12px 30px; border-radius: 4px; text-decoration: none; font-weight: 700;
+            display: inline-block;
         }
         .btn-outline:hover { background: var(--alert); color: #000; }
 
-        /* --- CRONOGRAMA --- */
-        .agenda { padding: 80px 10%; background: var(--deep); }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; color: #fff; }
-        .section-title span { border-bottom: 4px solid var(--alert); padding-bottom: 10px; }
-
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
-        .timeline::after { content: ''; position: absolute; width: 4px; background: var(--tactical); top: 0; bottom: 0; left: 20px; }
-        .event { position: relative; margin-bottom: 40px; padding-left: 60px; }
-        .event::before { content: ''; position: absolute; left: 12px; top: 5px; width: 20px; height: 20px; background: var(--alert); border-radius: 50%; z-index: 1; border: 4px solid var(--deep); }
-        .time { font-weight: bold; color: var(--alert); display: block; margin-bottom: 5px; font-family: 'Exo 2'; font-size: 1.2rem; }
-        .event h3 { font-size: 1.4rem; margin-bottom: 5px; color: #fff; }
-        .event p { color: #90a4ae; font-size: 1rem; }
-
-        /* --- ESTACIONES (SKILLS) --- */
-        .stations { 
-            padding: 80px 5%; 
-            /* Placeholder fondo - CAMBIAR */
-            background: linear-gradient(rgba(5, 22, 26, 0.95), rgba(5, 22, 26, 0.9)), url('https://images.unsplash.com/photo-1626302599298-2992080769a6?q=80&w=1470&auto=format&fit=crop'); 
-            background-size: cover; 
-            background-attachment: fixed; 
+        .tag {
+            background: var(--tactical); padding: 5px 10px; font-size: 0.75rem;
+            border-left: 3px solid var(--alert); margin-right: 5px; display: inline-block; margin-bottom: 5px;
         }
+
+        /* --- HEADER & HERO --- */
+        header {
+            padding: 15px 5%; position: fixed; width: 100%;
+            background: rgba(2, 11, 14, 0.95); z-index: 1000;
+            border-bottom: 1px solid var(--alert);
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .logo { font-weight: 800; font-size: 1.2rem; color: #fff; }
+        .logo span { color: var(--alert); }
+
+        .hero {
+            min-height: 100vh;
+            /* Placeholder - Reemplaza la URL con tu imagen real de fondo */
+            background: linear-gradient(to right, rgba(2, 11, 14, 0.9), rgba(2, 11, 14, 0.4)), url('https://images.unsplash.com/photo-1455731976212-d17e742d9972?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; padding: 140px 10% 80px;
+        }
+        .hero-content { max-width: 900px; z-index: 2; animation: fadeIn 1s ease-out; }
+        .hero-date { color: var(--alert); font-weight: 900; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 15px; display: block; border: 1px solid var(--alert); display: inline-block; padding: 5px 15px; }
         
-        .station-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 30px; 
-            max-width: 1400px; 
-            margin: 0 auto; 
+        h1 { font-size: 4rem; line-height: 0.95; margin-bottom: 25px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        h1 span { color: var(--alert); display: block; font-size: 2.5rem; margin-top: 5px; }
+        .hero-p { font-size: 1.2rem; margin-bottom: 40px; max-width: 700px; border-left: 4px solid var(--alert); padding-left: 20px; color: #cfd8dc; }
+
+        /* --- SECCIONES GENERALES --- */
+        section { padding: 80px 10%; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; color: white; }
+        .section-title span { border-bottom: 3px solid var(--alert); padding-bottom: 10px; }
+
+        /* --- PERFILES --- */
+        .profiles { background: #051014; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .profile-card { background: rgba(255,255,255,0.05); padding: 25px; border: 1px solid #1f2933; text-align: center; transition: 0.3s; }
+        .profile-card:hover { border-color: var(--alert); transform: translateY(-5px); }
+        .profile-icon { font-size: 2rem; color: var(--alert); margin-bottom: 15px; }
+
+        /* --- AGENDA (Timeline) --- */
+        .agenda { background: #020b0e; }
+        .timeline-container { max-width: 800px; margin: 0 auto; border-left: 2px solid var(--tactical); padding-left: 30px; }
+        .day-block { margin-bottom: 50px; position: relative; }
+        .day-badge { 
+            position: absolute; left: -46px; top: 0; background: var(--alert); color: #000; 
+            font-weight: 800; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;
         }
+        .timeline-item { margin-bottom: 30px; }
+        .t-time { color: var(--gold); font-weight: bold; font-size: 0.9rem; }
+        .t-title { font-size: 1.3rem; margin: 5px 0; color: #fff; }
+        .t-desc { color: #b0bec5; font-size: 0.95rem; }
 
-        .station-card {
-            background: #0f1f24;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            border: 1px solid #1f3a44;
-            display: flex;
-            flex-direction: column;
+        /* --- ESTACIONES --- */
+        .stations { background: var(--water); }
+        .stations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .station-card { background: rgba(0,0,0,0.4); padding: 25px; border-left: 4px solid var(--alert); transition: 0.3s; }
+        .station-card:hover { background: rgba(0,0,0,0.6); transform: translateX(5px); }
+        .station-card h3 { color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .station-card p { font-size: 0.9rem; color: #ccc; }
+
+        /* --- INSTRUCTORES (Dinámico) --- */
+        .instructors-bg { background: #081a20; }
+        .instructor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+        .instructor-card { background: #0f171a; text-align: center; padding-bottom: 15px; border: 1px solid #333; }
+        .inst-img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(100%); border-bottom: 2px solid var(--alert); transition: 0.3s; }
+        .instructor-card:hover .inst-img { filter: grayscale(0%); }
+        .inst-name { font-size: 1.1rem; color: #fff; margin: 15px 0 5px; font-weight: 700; }
+        .inst-role { color: var(--alert); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+
+        /* --- ALOJAMIENTOS --- */
+        .accom-bg { background: #020b0e; }
+        .accom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .accom-card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 8px; border-top: 3px solid var(--gold); text-align: center; }
+        .accom-card h3 { color: #fff; margin-bottom: 10px; font-size: 1.2rem; }
+        .accom-icon { font-size: 1.5rem; color: var(--gold); margin-bottom: 10px; display: block; }
+
+        /* --- PRECIOS & VENTA --- */
+        .pricing { background: radial-gradient(circle at center, #1a262b 0%, #000 100%); text-align: center; }
+        .price-card {
+            background: rgba(255,255,255,0.05); max-width: 500px; margin: 0 auto;
+            padding: 50px 30px; border: 1px solid var(--gold); position: relative;
         }
+        .price-tag { font-size: 3.5rem; font-weight: 900; color: #fff; margin: 20px 0; }
+        .includes { text-align: left; margin: 30px 0; list-style: none; }
+        .includes li { margin-bottom: 12px; padding-left: 25px; position: relative; color: #ccc; }
+        .includes li::before { content: '✓'; color: var(--success); position: absolute; left: 0; font-weight: bold; }
 
-        .station-card:hover { transform: translateY(-5px); border-color: var(--alert); }
+        /* --- SPONSORS (Dinámico) --- */
+        .sponsors-section { background: #fff; color: #111; text-align: center; padding: 60px 10%; }
+        .sponsor-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 30px; align-items: center; }
+        .sponsor-logo { height: 60px; filter: grayscale(100%); opacity: 0.7; transition: 0.3s; }
+        .sponsor-logo:hover { filter: grayscale(0%); opacity: 1; }
 
-        .station-img {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-            border-bottom: 3px solid var(--alert);
-            filter: grayscale(30%);
+        /* --- MODAL PAGO --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
         }
-
-        .station-content { padding: 25px; flex-grow: 1; }
-        .station-content h3 { color: #fff; font-size: 1.4rem; margin-bottom: 10px; }
-        .station-content p { color: #b0bec5; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.5; }
-        
-        .skills-tag { 
-            font-size: 0.7rem; 
-            background: var(--tactical); 
-            color: #fff;
-            padding: 4px 8px; 
-            margin-right: 5px; 
-            border-radius: 4px; 
-            display: inline-block; 
-            margin-bottom: 5px; 
-            border: 1px solid #455a64;
-            text-transform: uppercase;
-            font-weight: 600;
+        .payment-modal {
+            background: #fff; color: #000; padding: 30px; border-radius: 8px;
+            width: 90%; max-width: 400px; position: relative; text-align: center;
         }
+        .payment-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
 
-        /* --- PRECIOS E INSCRIPCIÓN (CIERRE DE VENTA) --- */
-        .pricing {
-            padding: 80px 10%;
-            background: #0a1114;
-            text-align: center;
+        /* --- ADMIN PANEL --- */
+        #adminPanel {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #fff; color: #000; padding: 20px; z-index: 9999; width: 90%; max-width: 500px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 8px; max-height: 80vh; overflow-y: auto;
         }
+        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .admin-tab { padding: 8px 15px; cursor: pointer; background: #eee; border: none; font-weight: bold; font-size: 0.8rem; }
+        .admin-tab.active { background: var(--alert); color: white; }
+        .admin-content { display: none; }
+        .admin-content.active { display: block; }
 
-        .pricing-card {
-            background: #fff;
-            color: #333;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 40px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pricing-card::before {
-            content: 'CUPOS LIMITADOS';
-            position: absolute;
-            top: 20px;
-            right: -35px;
-            background: #d32f2f;
-            color: white;
-            padding: 5px 40px;
-            transform: rotate(45deg);
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        .price { font-size: 3.5rem; font-weight: 900; color: #000; font-family: 'Exo 2'; margin: 20px 0; }
-        .price small { font-size: 1rem; color: #555; font-weight: normal; }
-        
-        .benefits-list { list-style: none; text-align: left; margin: 30px 0; }
-        .benefits-list li { margin-bottom: 15px; padding-left: 30px; position: relative; font-size: 1.1rem; }
-        .benefits-list li::before { content: '✔'; color: var(--success); position: absolute; left: 0; font-weight: bold; }
-
-        /* --- CTA FLOTANTE --- */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            padding: 15px 25px;
-            font-size: 1.2rem;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            z-index: 2000;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-        .whatsapp-float:hover { transform: scale(1.05); background-color: #20b85a; }
-
-        footer { text-align: center; padding: 30px; background: #000; color: #555; font-size: 0.8rem; margin-top: auto; }
-
-        /* --- RESPONSIVE --- */
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 2.8rem; }
-            .hero-content { text-align: center; }
-            .hero-subtitle { border-left: none; padding-left: 0; }
-            .btn-outline { display: block; margin: 15px auto 0; width: 100%; }
-            .btn { width: 100%; text-align: center; }
-            .timeline::after { left: 10px; }
-            .event { padding-left: 35px; }
-            .event::before { left: 2px; }
+            h1 { font-size: 3rem; }
+            .hero { padding-top: 140px; text-align: center; }
+            .hero-content { margin: 0 auto; }
+            .hero-date { display: inline-block; }
         }
     </style>
 </head>
@@ -235,142 +180,325 @@
 
     <header>
         <div class="logo">OPERACIONES <span>DOLORES</span></div>
-        <a href="#registro" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">Inscribirse Ahora</a>
+        <button onclick="openPaymentModal()" class="btn" style="padding: 10px 20px; font-size: 0.8rem;">INSCRIBIRSE</button>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-tag">Teatro de Operaciones Interdisciplinario</div>
-            <h1>Dolores <br><span>Bajo el Agua</span></h1>
-            <p class="hero-subtitle">Entrenamiento intensivo de respuesta ante inundaciones súbitas, colapso estructural y entornos hostiles. Certificación oficial.</p>
-            <div>
-                <a href="#registro" class="btn">Asegurar mi Lugar</a>
-                <a href="#agenda" class="btn btn-outline">Ver Cronograma</a>
+            <div class="hero-date"><i class="far fa-calendar-alt"></i> 27 (Virtual) y 28 (Presencial) FEB 2026</div>
+            <h1>DOLORES <br><span>BAJO EL AGUA</span></h1>
+            <p class="hero-p">
+                Entrenamiento intensivo en inundaciones, altura y estructuras colapsadas. 
+                <strong>Abierto a todo público</strong> con vocación de servicio.
+            </p>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; md:justify-content: flex-start;">
+                <button onclick="openPaymentModal()" class="btn">Quiero mi Lugar</button>
+                <a href="#estaciones" class="btn-outline">Ver Estaciones</a>
             </div>
         </div>
     </section>
 
-    <section class="agenda" id="agenda">
-        <h2 class="section-title"><span>Fases Operativas</span></h2>
-        <div class="timeline">
-            <div class="event">
-                <span class="time">08:00 - 09:00</span>
-                <h3>Acreditación y Equipamiento</h3>
-                <p>Registro, entrega de EPP y formación de células de trabajo mixtas.</p>
+    <section class="profiles">
+        <h2 class="section-title"><span>Dirigido A</span></h2>
+        <div class="grid-4">
+            <div class="profile-card">
+                <i class="fas fa-user-nurse profile-icon"></i>
+                <h3>Paramédicos</h3>
+                <p style="font-size:0.9rem; color:#aaa;">Triage y soporte vital en entorno hostil.</p>
             </div>
-            <div class="event">
-                <span class="time">09:00 - 10:30</span>
-                <h3>Fase 1: Briefing Táctico</h3>
-                <p>Análisis de la amenaza, protocolos de activación y seguridad en escena inundada y estructuras colapsadas.</p>
+            <div class="profile-card">
+                <i class="fas fa-person-military-rifle profile-icon"></i>
+                <h3>Rescatistas</h3>
+                <p style="font-size:0.9rem; color:#aaa;">Operaciones tácticas y verticales.</p>
             </div>
-            <div class="event">
-                <span class="time">10:30 - 15:30</span>
-                <h3>Fase 2: Circuito de Estaciones (Skills)</h3>
-                <p>Rotación intensiva por las 6 estaciones de habilidades críticas (Ver detalle abajo).</p>
+            <div class="profile-card">
+                <i class="fas fa-headset profile-icon"></i>
+                <h3>Radioperadores</h3>
+                <p style="font-size:0.9rem; color:#aaa;">Coordinación de Puesto de Comando.</p>
             </div>
-            <div class="event">
-                <span class="time">16:00 - 18:00</span>
-                <h3>Fase 3: Simulacro Integrador</h3>
-                <p>Despliegue total en escenario de catástrofe con víctimas múltiples y terreno complejo.</p>
+            <div class="profile-card">
+                <i class="fas fa-user-shield profile-icon"></i>
+                <h3>Civiles / Seguridad</h3>
+                <p style="font-size:0.9rem; color:#aaa;">Primer respuesta y organización comunitaria.</p>
             </div>
         </div>
     </section>
 
-    <section class="stations">
-        <h2 class="section-title" style="color:white; text-shadow: 0 2px 10px #000;"><span>Circuito de Entrenamiento</span></h2>
-        <div class="station-grid">
+    <section class="agenda">
+        <h2 class="section-title"><span>Cronograma Operativo</span></h2>
+        <div class="timeline-container">
+            <div class="day-block">
+                <div class="day-badge">VIERNES 27 FEB (VIRTUAL)</div>
+                <div class="timeline-item">
+                    <span class="t-time">18:00 - 21:00 hs</span>
+                    <h4 class="t-title">Módulo Teórico Intensivo</h4>
+                    <p class="t-desc">Protocolos de activación, seguridad en escena y coordinación teórica.</p>
+                </div>
+            </div>
+            <div class="day-block">
+                <div class="day-badge">SÁBADO 28 FEB (PRESENCIAL)</div>
+                <div class="timeline-item">
+                    <span class="t-time">08:00 - 09:00</span>
+                    <h4 class="t-title">Acreditación y Equipamiento</h4>
+                </div>
+                <div class="timeline-item">
+                    <span class="t-time">09:00 - 13:00</span>
+                    <h4 class="t-title">Circuito de 6 Estaciones (Skills)</h4>
+                    <p class="t-desc">Rotación práctica por todas las estaciones operativas.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="t-time">14:00 - 17:00</span>
+                    <h4 class="t-title">Simulacro Integrador Final</h4>
+                    <p class="t-desc">Escenario de catástrofe en tiempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="instructors-bg" id="instructores">
+        <h2 class="section-title"><span>Instructores</span></h2>
+        <div class="instructor-grid" id="instructorGrid">
+            <p style="text-align:center; color:#666; width:100%;">Cargando Staff...</p>
+        </div>
+    </section>
+
+    <section id="estaciones" class="stations">
+        <h2 class="section-title"><span>6 Estaciones Operativas</span></h2>
+        <div class="stations-grid">
+            <div class="station-card">
+                <h3><i class="fas fa-water"></i> Rescate Acuático</h3>
+                <p>Técnicas en correntada y extracción segura.</p>
+            </div>
+            <div class="station-card">
+                <h3><i class="fas fa-mountain"></i> Rescate en Altura</h3>
+                <p>Rappel táctico y evacuación vertical.</p>
+            </div>
+            <div class="station-card">
+                <h3><i class="fas fa-dungeon"></i> Espacios Confinados</h3>
+                <p>Búsqueda en estructuras colapsadas (BREC).</p>
+            </div>
+            <div class="station-card">
+                <h3><i class="fas fa-briefcase-medical"></i> Medicina Táctica</h3>
+                <p>Control de hemorragias en zona roja (MARCH).</p>
+            </div>
+            <div class="station-card">
+                <h3><i class="fas fa-headset"></i> Comunicaciones</h3>
+                <p>Gestión de redes y Puesto de Comando.</p>
+            </div>
+            <div class="station-card">
+                <h3><i class="fas fa-brain"></i> Psicología (PAP)</h3>
+                <p>Contención emocional y manejo de estrés.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="accom-bg">
+        <h2 class="section-title"><span>Alojamiento Sugerido</span></h2>
+        <div class="accom-grid">
+            <div class="accom-card">
+                <i class="fas fa-hotel accom-icon"></i>
+                <h3>Hotel Plaza</h3>
+                <p>Opción céntrica y cómoda. Descuento evento.</p>
+            </div>
+            <div class="accom-card">
+                <i class="fas fa-campground accom-icon"></i>
+                <h3>Camping Municipal</h3>
+                <p>Opción económica con servicios completos.</p>
+            </div>
+            <div class="accom-card">
+                <i class="fas fa-bed accom-icon"></i>
+                <h3>Albergue Deportivo</h3>
+                <p>Cupos limitados (Dormis). Reservar.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sponsors-section">
+        <h2>NOS ACOMPAÑAN</h2>
+        <div id="sponsorGrid" class="sponsor-grid">
+            <p>Espacio Disponible</p>
+        </div>
+        <a href="https://wa.me/1234567890" class="btn-outline" style="color:#333; border-color:#333; margin-top:20px;">Quiero ser Sponsor</a>
+    </section>
+
+    <section class="pricing" id="inscripcion">
+        <div class="price-card">
+            <h3 style="color: var(--alert);">PASE FULL 2026</h3>
+            <div class="price-tag">$100.000 <small>ARS</small></div>
+            <p style="color: #fff; margin-bottom: 20px;">Virtual + Presencial</p>
             
-            <div class="station-card">
-                <img src="https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=1470&auto=format&fit=crop" alt="Rescate Acuatico" class="station-img">
-                <div class="station-content">
-                    <h3>Rescate Acuático</h3>
-                    <p>Manejo de víctimas en correntada y orilla. Técnicas de natación defensiva, uso de bolsas de rescate y extracción.</p>
-                    <span class="skills-tag">Seguridad Acuática</span>
-                    <span class="skills-tag">Correntada</span>
-                </div>
-            </div>
-
-            <div class="station-card">
-                <img src="https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=1470&auto=format&fit=crop" alt="Rescate en Altura" class="station-img">
-                <div class="station-content">
-                    <h3>Rescate en Altura</h3>
-                    <p>Operaciones verticales. Sistemas de anclaje, descenso controlado (Rappel) y empaquetado vertical de víctimas.</p>
-                    <span class="skills-tag">Cuerdas</span>
-                    <span class="skills-tag">Rappel Táctico</span>
-                </div>
-            </div>
-
-            <div class="station-card">
-                <img src="https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=1470&auto=format&fit=crop" alt="Espacios Confinados" class="station-img">
-                <div class="station-content">
-                    <h3>Espacios Confinados (BREC)</h3>
-                    <p>Búsqueda y extracción en estructuras colapsadas. Atmósferas peligrosas y extracción tipo "gusano".</p>
-                    <span class="skills-tag">BREC</span>
-                    <span class="skills-tag">Estructuras Colapsadas</span>
-                </div>
-            </div>
-
-            <div class="station-card">
-                <img src="https://images.unsplash.com/photo-1599467657930-b3b3cb913d78?q=80&w=1470&auto=format&fit=crop" alt="Medicina Tactica" class="station-img">
-                <div class="station-content">
-                    <h3>Medicina Táctica</h3>
-                    <p>Atención bajo amenaza activa (Zona Roja). Control de hemorragias masivas, torniquetes y protocolo MARCH.</p>
-                    <span class="skills-tag">MARCH</span>
-                    <span class="skills-tag">Stop The Bleed</span>
-                </div>
-            </div>
-
-            <div class="station-card">
-                <img src="https://images.unsplash.com/photo-1595232777477-d3da77093223?q=80&w=1470&auto=format&fit=crop" alt="Comando Incidentes" class="station-img">
-                <div class="station-content">
-                    <h3>Comando de Incidentes</h3>
-                    <p>Organización de la escena, comunicaciones y triaje START en incidentes con víctimas múltiples.</p>
-                    <span class="skills-tag">SCI</span>
-                    <span class="skills-tag">Comunicaciones</span>
-                </div>
-            </div>
-
-            <div class="station-card">
-                <img src="https://images.unsplash.com/photo-1517462964319-33ca74a4df9d?q=80&w=1466&auto=format&fit=crop" alt="Psicologia" class="station-img">
-                <div class="station-content">
-                    <h3>Psicología de la Emergencia</h3>
-                    <p>Primeros auxilios psicológicos para víctimas y control del estrés operativo en rescatistas.</p>
-                    <span class="skills-tag">PAP</span>
-                    <span class="skills-tag">Manejo de Estrés</span>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="pricing" id="registro">
-        <h2 class="section-title"><span>Inscripción</span></h2>
-        
-        <div class="pricing-card">
-            <h3>Pase Operativo Full</h3>
-            <div class="price">$50.000 <small>ARS</small></div>
-            <p style="color:#666;">Jornada Completa + Certificación</p>
-            
-            <ul class="benefits-list">
-                <li>Acceso a las 6 estaciones</li>
-                <li>Certificado Oficial Digital</li>
-                <li>Hidratación y Almuerzo de campaña</li>
-                <li>Parche conmemorativo del evento</li>
-                <li>Seguro de accidentes personales</li>
+            <ul class="includes">
+                <li>Acceso a Jornadas Virtual y Presencial</li>
+                <li><strong>Kit Operativo:</strong> Remera, Parche, Hidratación</li>
+                <li>Almuerzo de campaña incluido</li>
+                <li>Certificación Oficial Digital</li>
             </ul>
 
-            <a href="#" class="btn" style="width: 100%; text-align: center;">QUIERO INSCRIBIRME</a>
-            <p style="margin-top: 15px; font-size: 0.8rem; color: #888;">*Cupos limitados por seguridad operativa.</p>
+            <button onclick="openPaymentModal()" class="btn" style="width: 100%; margin-top: 20px;">PAGAR INSCRIPCIÓN</button>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #888;">*Acceso inmediato al generador de credencial.</p>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 Dolores Bajo el Agua - Entrenamiento de Alto Rendimiento.</p>
+        <p>© 2026 Dolores Bajo el Agua</p>
+        <button onclick="toggleAdmin()" style="background:none; border:none; color:#555; font-size:0.7rem; margin-top:10px; cursor:pointer;">Admin</button>
     </footer>
 
-    <a href="https://wa.me/+542213642475" class="whatsapp-float" target="_blank">
-        <span> Consultas</span>
-    </a>
+    <div class="modal-overlay" id="paymentModal">
+        <div class="payment-modal">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <h3>Inscripción 2026</h3>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Ingrese sus datos para generar la credencial.</p>
+            <form onsubmit="processPayment(event)">
+                <input type="text" id="payName" class="payment-input" placeholder="Nombre Completo" required>
+                <input type="text" id="payDni" class="payment-input" placeholder="DNI" required>
+                <button type="submit" class="btn" style="width: 100%;">PAGAR $100.000</button>
+            </form>
+        </div>
+    </div>
 
+    <div id="adminPanel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 style="color:black; margin:0;">Administración</h3>
+            <button onclick="toggleAdmin()" style="color:red; border:none; cursor:pointer;">X</button>
+        </div>
+        
+        <div class="admin-nav">
+            <button onclick="showTab('sponsors')" class="admin-tab active" id="btnSponsors">Sponsors</button>
+            <button onclick="showTab('instructors')" class="admin-tab" id="btnInstructors">Instructores</button>
+        </div>
+
+        <div id="tabSponsors" class="admin-content active">
+            <input type="text" id="sName" placeholder="Nombre" class="payment-input">
+            <input type="text" id="sUrl" placeholder="URL Logo" class="payment-input">
+            <button onclick="addSponsor()" class="btn" style="width:100%; padding:10px;">Agregar</button>
+            <div id="admSponsorList" style="margin-top:15px;"></div>
+        </div>
+
+        <div id="tabInstructors" class="admin-content">
+            <input type="text" id="iName" placeholder="Nombre" class="payment-input">
+            <input type="text" id="iRole" placeholder="Rol" class="payment-input">
+            <input type="text" id="iImg" placeholder="URL Foto" class="payment-input">
+            <button onclick="addInstructor()" class="btn" style="width:100%; padding:10px;">Agregar</button>
+            <div id="admInstList" style="margin-top:15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { loadSponsors(); loadInstructors(); });
+
+        // --- DATA LOADERS ---
+        function loadSponsors() {
+            const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
+            const grid = document.getElementById('sponsorGrid');
+            const admList = document.getElementById('admSponsorList');
+            
+            grid.innerHTML = data.length ? '' : '<p>Espacio Disponible</p>';
+            admList.innerHTML = '';
+
+            data.forEach((item, i) => {
+                grid.innerHTML += `<img src="${item.url}" class="sponsor-logo" title="${item.name}">`;
+                admList.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>${item.name}</span><button onclick="delSponsor(${i})" style="color:red; border:none;">X</button></div>`;
+            });
+        }
+
+        function loadInstructors() {
+            const data = JSON.parse(localStorage.getItem('dba_instructors')) || [];
+            const grid = document.getElementById('instructorGrid');
+            const admList = document.getElementById('admInstList');
+            
+            grid.innerHTML = data.length ? '' : '<p style="text-align:center; color:#666; width:100%;">Próximamente</p>';
+            admList.innerHTML = '';
+
+            data.forEach((item, i) => {
+                grid.innerHTML += `
+                    <div class="instructor-card">
+                        <img src="${item.img}" class="inst-img">
+                        <div class="inst-name">${item.name}</div>
+                        <div class="inst-role">${item.role}</div>
+                    </div>`;
+                admList.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>${item.name}</span><button onclick="delInstructor(${i})" style="color:red; border:none;">X</button></div>`;
+            });
+        }
+
+        // --- ADMIN FUNCTIONS ---
+        function addSponsor() {
+            const name = document.getElementById('sName').value;
+            const url = document.getElementById('sUrl').value;
+            if(!name || !url) return;
+            const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
+            data.push({name, url});
+            localStorage.setItem('dba_sponsors', JSON.stringify(data));
+            loadSponsors();
+        }
+        function delSponsor(i) {
+            const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
+            data.splice(i, 1);
+            localStorage.setItem('dba_sponsors', JSON.stringify(data));
+            loadSponsors();
+        }
+
+        function addInstructor() {
+            const name = document.getElementById('iName').value;
+            const role = document.getElementById('iRole').value;
+            const img = document.getElementById('iImg').value;
+            if(!name || !role) return;
+            const data = JSON.parse(localStorage.getItem('dba_instructors')) || [];
+            data.push({name, role, img: img || 'https://placehold.co/300'});
+            localStorage.setItem('dba_instructors', JSON.stringify(data));
+            loadInstructors();
+        }
+        function delInstructor(i) {
+            const data = JSON.parse(localStorage.getItem('dba_instructors')) || [];
+            data.splice(i, 1);
+            localStorage.setItem('dba_instructors', JSON.stringify(data));
+            loadInstructors();
+        }
+
+        // --- UI ---
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            if(panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                const pass = prompt("Clave Admin:");
+                if(pass === "admin2026") panel.style.display = 'block';
+                else alert("Incorrecto");
+            }
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+            
+            if(tab === 'sponsors') {
+                document.getElementById('tabSponsors').classList.add('active');
+                document.getElementById('btnSponsors').classList.add('active');
+            } else {
+                document.getElementById('tabInstructors').classList.add('active');
+                document.getElementById('btnInstructors').classList.add('active');
+            }
+        }
+
+        function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; }
+        function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
+
+        function processPayment(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const name = document.getElementById('payName').value;
+            const dni = document.getElementById('payDni').value;
+            
+            btn.innerHTML = 'Procesando...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Generar Token Único
+                const token = btoa(dni + Date.now());
+                // Redirigir al Generador (panel.html)
+                window.location.href = `panel.html?event=dolores26&paid=true&name=${encodeURIComponent(name)}&dni=${dni}&token=${token}`;
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
