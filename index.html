@@ -14,66 +14,75 @@
             --hydro-cyan: #00e5ff; --text-main: #f0f0f0; --glass: rgba(13, 17, 20, 0.95);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-deep); color: var(--text-main); line-height: 1.6; overflow-x: hidden; background-image: radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.03) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(255, 69, 0, 0.03) 0%, transparent 20%); }
+        
+        body { 
+            font-family: 'Roboto', sans-serif; background-color: var(--bg-deep); color: var(--text-main); 
+            line-height: 1.6; overflow-x: hidden; position: relative; min-height: 100vh;
+        }
+
+        /* FONDO DINÁMICO */
+        #dynamic-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-size: cover; background-position: center; opacity: 0.15;
+            filter: grayscale(80%) contrast(120%); pointer-events: none;
+            background-image: url('https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=1470&auto=format&fit=crop');
+        }
+
         h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* UI COMPONENTS */
-        .btn { display: inline-block; padding: 14px 35px; background: linear-gradient(135deg, var(--rescue-orange), #d50000); color: #fff; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase; font-family: 'Exo 2'; letter-spacing: 1px; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); }
+        /* UI */
+        .btn { display: inline-block; padding: 14px 35px; background: linear-gradient(135deg, var(--rescue-orange), #d50000); color: #fff; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase; font-family: 'Exo 2'; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(255, 69, 0, 0.6); }
-        .btn-hydro { background: rgba(0, 229, 255, 0.05); border: 1px solid var(--hydro-cyan); color: var(--hydro-cyan); padding: 12px 30px; font-weight: 700; text-transform: uppercase; text-decoration: none; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; display: inline-block; }
+        .btn-hydro { background: rgba(0, 229, 255, 0.05); border: 1px solid var(--hydro-cyan); color: var(--hydro-cyan); padding: 12px 30px; font-weight: 700; text-transform: uppercase; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; display: inline-block; text-decoration: none; }
         .btn-hydro:hover { background: rgba(0, 229, 255, 0.15); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
 
-        /* HEADER */
+        /* HEADER & HERO */
         header { padding: 15px 5%; position: fixed; width: 100%; top: 0; background: var(--glass); z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: 'Black Ops One'; font-size: 1.5rem; color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.5); } .logo span { color: var(--rescue-orange); }
-
-        /* HERO */
-        .hero { min-height: 100vh; position: relative; background: linear-gradient(180deg, rgba(2,4,5,0.7) 0%, #020405 100%), url('https://images.unsplash.com/photo-1599999039645-3c480436d2c4?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 140px 10% 80px; }
-        .hero-content { position: relative; z-index: 2; border-left: 4px solid var(--hydro-cyan); padding-left: 30px; max-width: 800px; }
+        .hero { min-height: 100vh; display: flex; align-items: center; padding: 140px 10% 80px; position: relative; }
+        .hero-content { position: relative; z-index: 2; border-left: 4px solid var(--hydro-cyan); padding-left: 30px; max-width: 800px; background: linear-gradient(90deg, rgba(0,0,0,0.8), transparent); padding: 40px; border-radius: 0 10px 10px 0; }
         .hero-badge { background: rgba(0, 229, 255, 0.1); color: var(--hydro-cyan); padding: 6px 15px; font-weight: bold; border: 1px solid var(--hydro-cyan); display: inline-block; margin-bottom: 20px; font-size: 0.85rem; letter-spacing: 2px; }
         h1 { font-size: 4rem; line-height: 0.95; margin-bottom: 25px; color: white; } h1 span { color: var(--rescue-orange); font-style: italic; }
         .hero-p { font-size: 1.2rem; color: #b0bec5; margin-bottom: 35px; max-width: 600px; }
 
+        /* SECTIONS */
+        section { padding: 90px 10%; position: relative; z-index: 2; }
+        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 10px; color: white; }
+        .section-sub { text-align: center; color: var(--hydro-cyan); font-weight: 700; margin-bottom: 60px; letter-spacing: 3px; font-size: 0.9rem; }
+
         /* AVALES */
-        .avales-section { background: #0a0e11; padding: 40px 10%; text-align: center; border-bottom: 1px solid #222; }
-        .avales-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 25px; align-items: center; }
+        .avales-section { background: rgba(10, 14, 17, 0.9); padding: 40px 10%; text-align: center; border-bottom: 1px solid #222; position: relative; z-index: 2; }
+        .avales-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 25px; }
         .aval-item { background: #ffffff; padding: 10px 20px; border-radius: 8px; transition: 0.3s; height: 80px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .aval-item:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--hydro-cyan); }
+        .aval-item:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--hydro-cyan); } 
         .aval-img { max-height: 100%; max-width: 180px; object-fit: contain; }
 
-        /* SECCIONES & GRIDS */
-        section { padding: 90px 10%; }
-        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 10px; color: white; }
-        .section-sub { text-align: center; color: var(--hydro-cyan); font-weight: 700; margin-bottom: 60px; letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
-        .grid-cards, .inst-grid, .gallery-grid, .accom-grid { display: grid; gap: 30px; }
-        .grid-cards { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-        .inst-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); text-align: center; }
-        .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .accom-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-
         /* CARDS */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .station-card { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; transition: 0.3s; border-radius: 4px; }
         .station-card:hover { transform: translateY(-5px); border-color: var(--rescue-orange); }
         .station-img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.7) grayscale(30%); transition: 0.4s; }
         .station-card:hover .station-img { filter: brightness(1.1) grayscale(0%); }
         .station-body { padding: 25px; } .station-title { font-size: 1.4rem; color: white; margin-bottom: 10px; font-weight: 700; }
         
+        .inst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; text-align: center; }
         .inst-card { padding: 20px; background: rgba(255,255,255,0.02); border-radius: 10px; transition: 0.3s; }
         .inst-card:hover { background: rgba(255,255,255,0.05); transform: scale(1.05); }
         .inst-img-wrap { width: 170px; height: 170px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid var(--rescue-orange); box-shadow: 0 0 25px rgba(255, 69, 0, 0.15); }
         .inst-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .gallery-item { height: 220px; overflow: hidden; border-radius: 4px; cursor: pointer; border: 1px solid #333; }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .gallery-item:hover .gallery-img { transform: scale(1.1); }
+        .inst-name { color: white; font-weight: 800; font-size: 1.3rem; } .inst-role { color: #888; font-size: 0.9rem; font-weight: 600; }
 
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .gallery-item { height: 220px; overflow: hidden; border-radius: 4px; cursor: pointer; border: 1px solid #333; }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; } .gallery-item:hover .gallery-img { transform: scale(1.1); }
+
+        .accom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .accom-card { background: #111; padding: 25px; border-left: 3px solid var(--hydro-cyan); border-radius: 0 8px 8px 0; transition: 0.3s; }
         .accom-card:hover { background: #161616; padding-left: 30px; }
 
         /* PRICING */
         .pricing-section { background: linear-gradient(to top, black, #080c0f); padding-top: 50px; }
         .price-box { background: linear-gradient(145deg, #111, #0a0a0a); border: 1px solid var(--hydro-cyan); max-width: 500px; margin: 0 auto; padding: 60px 40px; text-align: center; position: relative; box-shadow: 0 0 60px rgba(0, 229, 255, 0.1); }
-        .price-badge { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background: var(--rescue-orange); color: white; padding: 5px 20px; font-weight: bold; font-size: 0.8rem; }
         .price-val { font-size: 4rem; color: white; font-weight: 900; margin: 20px 0; line-height: 1; }
 
         /* ADMIN PANEL */
@@ -101,6 +110,8 @@
     </style>
 </head>
 <body>
+
+    <div id="dynamic-bg"></div>
 
     <header>
         <div class="logo">DBA <span>2026</span></div>
@@ -130,7 +141,7 @@
         <div class="grid-cards" id="publicStations"></div>
     </section>
 
-    <section id="instructores" style="background: rgba(8, 12, 15, 0.95);">
+    <section id="instructores" style="background: rgba(8, 12, 15, 0.9);">
         <p class="section-sub">CUERPO DOCENTE</p>
         <h2 class="section-title">STAFF PROFESIONAL</h2>
         <div class="inst-grid" id="publicInstructors"></div>
@@ -142,7 +153,7 @@
         <div class="gallery-grid" id="publicGallery"></div>
     </section>
 
-    <section id="alojamiento" style="background: rgba(8, 12, 15, 0.95);">
+    <section id="alojamiento" style="background: rgba(8, 12, 15, 0.9);">
         <h2 class="section-title">LOGÍSTICA & ALOJAMIENTO</h2>
         <div class="accom-grid" id="publicAccom"></div>
     </section>
@@ -165,45 +176,40 @@
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-content">
             <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">&times;</span>
-            
             <h3 style="color:white; font-size:1.5rem; margin-bottom:5px;">ELIGE TU PASE</h3>
-            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Últimos lugares disponibles.</p>
+            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Asegura tu lugar hoy mismo.</p>
             
             <div style="text-align:left; margin-bottom:20px;">
                 <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
                 <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
             </div>
 
-            <div style="border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 15px; background: rgba(255,255,255,0.02); display:flex; justify-content:space-between; align-items:center;">
-                <div style="text-align:left;">
-                    <span style="display:block; color:white; font-weight:bold;">PAGO TOTAL</span>
-                    <span style="color:#aaa; font-size:0.8rem;">$100.000 (MP / Débito)</span>
-                </div>
-                <button onclick="processPayment('MP')" class="btn" style="padding:10px 15px; font-size:0.8rem;">PAGAR</button>
-            </div>
-
-            <div id="goCuotasContainer" class="gocuotas-box">
-                <div class="gocuotas-badge">PROMO</div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                    <span style="color:var(--rescue-orange); font-weight:bold;">3 CUOTAS</span>
-                    <span style="color:white; font-size:0.8rem; font-weight:bold;">GOCUOTAS</span>
-                </div>
+            <div style="display:flex; gap:10px; flex-direction:column;">
+                <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
+                    <span>PAGO TOTAL ($100k)</span> <i class="fas fa-credit-card"></i>
+                </button>
                 
-                <div style="text-align:left; margin-bottom:10px;">
-                    <span style="display:block; color:white; font-size:1.1rem; font-weight:900;">3 x $33.333</span>
-                    <span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span>
+                <div id="goCuotasContainer" class="gocuotas-box">
+                    <div class="gocuotas-badge">PROMO</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="text-align:left;">
+                            <span style="display:block; color:white; font-weight:bold;">3 x $33.333</span>
+                            <span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span>
+                        </div>
+                        <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.8rem; padding:8px 15px;">ELEGIR CUOTAS</button>
+                    </div>
+                    <div class="counter-bar"><div id="slotsBar" class="counter-fill"></div></div>
+                    <p id="slotsText" style="text-align:right; font-size:0.7rem; color:var(--hydro-cyan);">Quedan cupos</p>
                 </div>
-
-                <div class="counter-bar"><div id="slotsBar" class="counter-fill"></div></div>
-                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--hydro-cyan); font-weight:bold;">
-                    <span><i class="fas fa-bolt"></i> ALTA DEMANDA</span>
-                    <span id="slotsText">Quedan 50 cupos</span>
-                </div>
-
-                <button onclick="processPayment('GO')" class="btn-hydro" style="width:100%; margin-top:10px; font-size:0.8rem;">ELEGIR CUOTAS</button>
             </div>
-            
-            <p style="color:#666; font-size:0.7rem; margin-top:15px;">*Al pagar serás redirigido al generador de credencial.</p>
+
+            <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
+                <p style="color:#00e5ff; font-weight:bold; margin-bottom:10px;">¡CASI LISTO!</p>
+                <p style="color:#ccc; font-size:0.9rem; margin-bottom:15px;">Para activar tu inscripción y recibir tu <strong>CÓDIGO DE ACCESO ÚNICO</strong>, envía el comprobante de pago ahora.</p>
+                <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%;">
+                    <i class="fab fa-whatsapp"></i> ENVIAR COMPROBANTE
+                </button>
+            </div>
         </div>
     </div>
 
@@ -214,8 +220,8 @@
         </div>
         
         <div class="admin-nav">
-            <button class="tab-btn active" onclick="showTab('admPagos')">VENTAS</button>
-            <button class="tab-btn" onclick="showTab('tabConfig')">FONDO</button>
+            <button class="tab-btn active" onclick="showTab('tabKeys')">🔑 CLAVES</button>
+            <button class="tab-btn" onclick="showTab('tabConfig')">CONFIG</button>
             <button class="tab-btn" onclick="showTab('tabSponsors')">AVALES</button>
             <button class="tab-btn" onclick="showTab('tabStations')">ESTACIONES</button>
             <button class="tab-btn" onclick="showTab('tabInst')">INSTRUCTORES</button>
@@ -223,41 +229,42 @@
             <button class="tab-btn" onclick="showTab('tabAcc')">ALOJAMIENTO</button>
         </div>
 
-        <div id="admPagos" class="admin-section active">
-            <h4 style="color:var(--hydro-cyan); margin-bottom:10px;">CONFIGURACIÓN DE PAGOS</h4>
-            
-            <label style="font-size:0.8rem; color:#888;">Link Mercado Pago ($100k):</label>
-            <input type="text" id="linkMP" class="input-dark" placeholder="https://link.mercadopago...">
-            
-            <label style="font-size:0.8rem; color:#888;">Link GoCuotas (3 Cuotas):</label>
-            <input type="text" id="linkGO" class="input-dark" placeholder="https://www.gocuotas...">
-            
-            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-            
-            <h4 style="color:var(--rescue-orange); margin-bottom:10px;">CONTROL DE CUPOS GOCUOTAS</h4>
-            <div style="background:#222; padding:15px; border-radius:5px;">
-                <label style="font-size:0.8rem; color:#fff;">Cupos Vendidos (Manual):</label>
-                <input type="number" id="soldSlots" class="input-dark" value="0" min="0" max="50">
-                <p style="font-size:0.75rem; color:#888;">Total disponible: 50. Si llega a 50, se oculta la opción.</p>
-                
-                <label style="font-size:0.8rem; color:#fff; margin-top:10px; display:block;">Fecha Límite Promo:</label>
-                <input type="date" id="limitDate" class="input-dark">
+        <div id="tabKeys" class="admin-section active">
+            <div style="background:#222; padding:20px; border-radius:8px; text-align:center;">
+                <h4 style="color:var(--rescue-orange); margin-bottom:10px;">GENERADOR DE ACCESO</h4>
+                <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">Ingresa el DNI del alumno que pagó para crear su código.</p>
+                <input type="number" id="keyDNI" class="input-dark" placeholder="DNI Alumno" style="text-align:center; font-size:1.2rem;">
+                <button onclick="generateUniqueKey()" class="btn" style="width:100%; padding:15px; background:white; color:black; margin-top:10px;">GENERAR CÓDIGO</button>
+                <div id="keyResult" style="margin-top:20px; padding:15px; border:2px dashed var(--hydro-cyan); display:none;">
+                    <p style="color:#888; font-size:0.7rem;">CÓDIGO PARA EL ALUMNO:</p>
+                    <h2 id="finalKey" style="color:var(--hydro-cyan); font-size:2rem; font-family:'Black Ops One'; margin:10px 0; user-select:all; cursor:pointer;" onclick="copyKey()"></h2>
+                    <p id="copyMsg" style="color:#00c853; font-size:0.8rem; display:none;">¡Copiado!</p>
+                </div>
             </div>
-
-            <button onclick="savePaymentConfig()" class="btn" style="padding:10px; width:100%; margin-top:15px;">GUARDAR CAMBIOS</button>
         </div>
 
         <div id="tabConfig" class="admin-section">
+            <h4 style="color:var(--hydro-cyan);">FONDO & PAGOS</h4>
             <input type="file" id="bgFile" class="input-dark" accept="image/*">
             <button onclick="updateBackground()" class="btn" style="padding:10px; width:100%;">CAMBIAR FONDO</button>
-            <button onclick="clearBackground()" style="margin-top:10px; color:red; background:none; border:none;">Restaurar</button>
+            <button onclick="clearBackground()" style="color:red; background:none; border:none; margin-top:5px;">Restaurar</button>
+            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+            <label style="font-size:0.8rem; color:#888;">Link Mercado Pago:</label>
+            <input type="text" id="linkMP" class="input-dark">
+            <label style="font-size:0.8rem; color:#888;">Link GoCuotas:</label>
+            <input type="text" id="linkGO" class="input-dark">
+            <label style="font-size:0.8rem; color:#888;">Cupos Vendidos:</label>
+            <input type="number" id="soldSlots" class="input-dark" value="0">
+            <button onclick="saveConfig()" class="btn" style="padding:10px; width:100%;">GUARDAR</button>
         </div>
+
         <div id="tabSponsors" class="admin-section">
-            <input type="text" id="avName" class="input-dark" placeholder="Nombre">
+            <input type="text" id="avName" class="input-dark" placeholder="Nombre Institución">
             <input type="file" id="avFile" class="input-dark" accept="image/*">
             <button onclick="addSponsor()" class="btn" style="padding:10px; width:100%;">SUBIR SPONSOR</button>
             <div id="listAvales" class="preview-list"></div>
         </div>
+
         <div id="tabStations" class="admin-section">
             <select id="stSelect" class="input-dark">
                 <option value="0">1. Rescate Acuático</option>
@@ -268,8 +275,9 @@
                 <option value="5">6. Psicología (PAP)</option>
             </select>
             <input type="file" id="stFile" class="input-dark" accept="image/*">
-            <button onclick="updateStation()" class="btn" style="padding:10px; width:100%;">ACTUALIZAR</button>
+            <button onclick="updateStation()" class="btn" style="padding:10px; width:100%;">ACTUALIZAR FOTO</button>
         </div>
+
         <div id="tabInst" class="admin-section">
             <input type="text" id="inName" class="input-dark" placeholder="Nombre">
             <input type="text" id="inRole" class="input-dark" placeholder="Cargo">
@@ -277,14 +285,17 @@
             <button onclick="addInstructor()" class="btn" style="padding:10px; width:100%;">AGREGAR</button>
             <div id="listInst" class="preview-list"></div>
         </div>
+
         <div id="tabGal" class="admin-section">
             <input type="file" id="galFile" class="input-dark" accept="image/*">
             <button onclick="addGalleryPhoto()" class="btn" style="padding:10px; width:100%;">AGREGAR FOTO</button>
             <div id="listGaleria" class="preview-list"></div>
         </div>
+
         <div id="tabAcc" class="admin-section">
             <input type="text" id="acName" class="input-dark" placeholder="Lugar">
-            <input type="text" id="acDesc" class="input-dark" placeholder="Info">
+            <input type="text" id="acDesc" class="input-dark" placeholder="Descripción">
+            <input type="text" id="acLink" class="input-dark" placeholder="Link Mapa">
             <select id="acIcon" class="input-dark"><option value="fas fa-hotel">Hotel</option><option value="fas fa-campground">Camping</option><option value="fas fa-bed">Albergue</option></select>
             <button onclick="addAccom()" class="btn" style="padding:10px; width:100%;">AGREGAR</button>
             <div id="listAccom" class="preview-list"></div>
@@ -292,14 +303,17 @@
     </div>
 
     <script>
-        // CONFIG
-        const DB = { avales:[], stations:[], instructores:[], galeria:[], accom:[], config:{ mp:"", go:"", sold:0, limit:"" } };
+        // CONFIG INICIAL
+        const DB = { 
+            avales:[], stations:[], instructores:[], galeria:[], accom:[], 
+            config:{ mp:"", go:"", sold:0, bg:"" } 
+        };
         const DEFAULT_STATIONS = [
-            {title:"Acuático",desc:"Correntada",icon:"fas fa-water",img:"https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=400"},
-            {title:"Altura",desc:"Vertical",icon:"fas fa-mountain",img:"https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=400"},
-            {title:"Confinados",desc:"BREC",icon:"fas fa-dungeon",img:"https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=400"},
-            {title:"Táctica",desc:"MARCH",icon:"fas fa-briefcase-medical",img:"https://images.unsplash.com/photo-1599467657930-b3b3cb913d78?q=80&w=400"},
-            {title:"Radio",desc:"Comando",icon:"fas fa-headset",img:"https://images.unsplash.com/photo-1587823207416-64151c8e1d96?q=80&w=400"},
+            {title:"Acuático",desc:"Técnicas en correntada",icon:"fas fa-water",img:"https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=400"},
+            {title:"Altura",desc:"Rappel táctico",icon:"fas fa-mountain",img:"https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=400"},
+            {title:"Confinados",desc:"Búsqueda BREC",icon:"fas fa-dungeon",img:"https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=400"},
+            {title:"Táctica",desc:"Protocolo MARCH",icon:"fas fa-briefcase-medical",img:"https://images.unsplash.com/photo-1599467657930-b3b3cb913d78?q=80&w=400"},
+            {title:"Radio",desc:"Puesto de Comando",icon:"fas fa-headset",img:"https://images.unsplash.com/photo-1587823207416-64151c8e1d96?q=80&w=400"},
             {title:"PAP",desc:"Psicología",icon:"fas fa-brain",img:"https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400"}
         ];
 
@@ -311,81 +325,32 @@
             DB.galeria = JSON.parse(localStorage.getItem('dba_gallery') || '[]');
             DB.accom = JSON.parse(localStorage.getItem('dba_accom') || '[]');
             DB.stations = JSON.parse(localStorage.getItem('dba_stations') || JSON.stringify(DEFAULT_STATIONS));
-            DB.config = JSON.parse(localStorage.getItem('dba_config') || '{"mp":"","go":"","sold":0,"limit":""}');
+            DB.config = JSON.parse(localStorage.getItem('dba_config') || '{"mp":"","go":"","sold":0,"bg":""}');
             
-            // Cargar Config en Admin
+            // Cargar Config
             document.getElementById('linkMP').value = DB.config.mp;
             document.getElementById('linkGO').value = DB.config.go;
             document.getElementById('soldSlots').value = DB.config.sold;
-            document.getElementById('limitDate').value = DB.config.limit;
-            
-            // Fondo
-            const bg = localStorage.getItem('dba_bg');
-            if(bg) document.body.style.backgroundImage = `linear-gradient(rgba(2,4,5,0.85), rgba(2,4,5,0.85)), url('${bg}')`;
+            if(DB.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
         }
 
-        // --- PAYMENT LOGIC ---
-        function savePaymentConfig() {
-            DB.config.mp = document.getElementById('linkMP').value;
-            DB.config.go = document.getElementById('linkGO').value;
-            DB.config.sold = parseInt(document.getElementById('soldSlots').value);
-            DB.config.limit = document.getElementById('limitDate').value;
-            localStorage.setItem('dba_config', JSON.stringify(DB.config));
-            alert("Configuración Guardada");
+        // --- SISTEMA DE CLAVES ---
+        function generateUniqueKey() {
+            const dni = document.getElementById('keyDNI').value.trim();
+            if(!dni || dni.length < 6) return alert("DNI inválido");
+            const salt = "DOLORES26"; 
+            const code = btoa(dni + salt).substring(0, 8).toUpperCase(); 
+            document.getElementById('finalKey').innerText = code;
+            document.getElementById('keyResult').style.display = 'block';
+        }
+        function copyKey() {
+            const key = document.getElementById('finalKey').innerText;
+            navigator.clipboard.writeText(key);
+            document.getElementById('copyMsg').style.display = 'block';
+            setTimeout(() => document.getElementById('copyMsg').style.display='none', 2000);
         }
 
-        function checkSlots() {
-            const sold = DB.config.sold || 0;
-            const total = 50;
-            const remaining = total - sold;
-            const limitDate = DB.config.limit ? new Date(DB.config.limit) : null;
-            const now = new Date();
-
-            // Lógica de Bloqueo
-            let isAvailable = true;
-            if(sold >= total) isAvailable = false;
-            if(limitDate && now > limitDate) isAvailable = false;
-
-            if(!isAvailable || !DB.config.go) {
-                document.getElementById('goCuotasContainer').style.display = 'none';
-            } else {
-                document.getElementById('goCuotasContainer').style.display = 'block';
-                document.getElementById('slotsText').textContent = `Quedan ${remaining} cupos financiados`;
-                const percentage = (remaining / total) * 100;
-                document.getElementById('slotsBar').style.width = `${percentage}%`;
-                // Color crítico si quedan pocos
-                if(remaining < 10) document.getElementById('slotsBar').style.background = 'red';
-            }
-        }
-
-        function processPayment(type) {
-            const name = document.getElementById('payName').value;
-            const dni = document.getElementById('payDni').value;
-            if(!name || !dni) return alert("Completa tus datos");
-
-            const link = type === 'MP' ? DB.config.mp : DB.config.go;
-            if(!link) return alert("Link de pago no configurado aún. Contacta al administrador.");
-
-            if(confirm("Serás redirigido al pago seguro. Al finalizar, volverás para generar tu credencial.")) {
-                // Open Payment Link
-                window.open(link, '_blank');
-                // Simulate Return Logic (Update UI)
-                document.querySelector('.modal-content').innerHTML = `
-                    <div style="padding:20px;">
-                        <h3 style="color:white;">ESPERANDO CONFIRMACIÓN...</h3>
-                        <p style="color:#ccc;">Si ya realizaste el pago, haz clic abajo.</p>
-                        <br>
-                        <button onclick="finishInscription('${name}','${dni}')" class="btn" style="width:100%;">YA PAGUÉ, GENERAR MI CREDENCIAL</button>
-                    </div>`;
-            }
-        }
-
-        function finishInscription(n, d) {
-            const token = btoa(d + Date.now());
-            window.location.href = `panel.html?paid=true&name=${encodeURIComponent(n)}&dni=${d}&token=${token}`;
-        }
-
-        // --- IMAGE & DATA HANDLERS ---
+        // --- COMPRESOR IMAGENES ---
         const resize = (file, w=400) => new Promise(res => {
             const r = new FileReader();
             r.onload = e => {
@@ -394,27 +359,35 @@
                     const c = document.createElement('canvas');
                     const rat = w/i.width; c.width = w; c.height = i.height*rat;
                     c.getContext('2d').drawImage(i,0,0,c.width,c.height);
-                    res(c.toDataURL('image/jpeg',0.7));
+                    res(c.toDataURL('image/jpeg', 0.6));
                 }; i.src = e.target.result;
             }; r.readAsDataURL(file);
         });
 
+        // --- ADMIN FUNCTIONS ---
+        function saveConfig() {
+            DB.config.mp = document.getElementById('linkMP').value;
+            DB.config.go = document.getElementById('linkGO').value;
+            DB.config.sold = document.getElementById('soldSlots').value;
+            localStorage.setItem('dba_config', JSON.stringify(DB.config));
+            alert("Guardado"); checkSlots();
+        }
         async function updateBackground() {
             const f = document.getElementById('bgFile').files[0];
             if(!f) return alert("Elige imagen");
             const bg = await resize(f, 1024);
-            localStorage.setItem('dba_bg', bg);
-            location.reload();
+            DB.config.bg = bg; saveConfig();
+            document.getElementById('dynamic-bg').style.backgroundImage = `url('${bg}')`;
         }
-        function clearBackground() { localStorage.removeItem('dba_bg'); location.reload(); }
+        function clearBackground() { DB.config.bg=""; saveConfig(); location.reload(); }
 
-        // GENERIC ADD/DELETE/RENDER (Misma lógica v6)
         async function addSponsor() {
             const name = document.getElementById('avName').value;
             const f = document.getElementById('avFile').files[0];
             if(!name || !f) return alert("Faltan datos");
             DB.avales.push({name, img: await resize(f,300)});
-            localStorage.setItem('dba_avales',JSON.stringify(DB.avales));
+            localStorage.setItem('dba_avales', JSON.stringify(DB.avales));
+            document.getElementById('avName').value=''; document.getElementById('avFile').value='';
             renderAll();
         }
         async function addInstructor() {
@@ -423,23 +396,24 @@
             const f = document.getElementById('inFile').files[0];
             if(!name || !f) return alert("Faltan datos");
             DB.instructores.push({name, role, img: await resize(f,300)});
-            localStorage.setItem('dba_instructors',JSON.stringify(DB.instructores));
+            localStorage.setItem('dba_instructors', JSON.stringify(DB.instructores));
             renderAll();
         }
         async function addGalleryPhoto() {
             const f = document.getElementById('galFile').files[0];
             if(!f) return alert("Falta foto");
             DB.galeria.push({img: await resize(f,500)});
-            localStorage.setItem('dba_gallery',JSON.stringify(DB.galeria));
+            localStorage.setItem('dba_gallery', JSON.stringify(DB.galeria));
             renderAll();
         }
         function addAccom() {
             const name = document.getElementById('acName').value;
             const desc = document.getElementById('acDesc').value;
+            const link = document.getElementById('acLink').value;
             const icon = document.getElementById('acIcon').value;
             if(!name) return alert("Falta nombre");
-            DB.accom.push({name, desc, icon});
-            localStorage.setItem('dba_accom',JSON.stringify(DB.accom));
+            DB.accom.push({name, desc, link, icon});
+            localStorage.setItem('dba_accom', JSON.stringify(DB.accom));
             renderAll();
         }
         async function updateStation() {
@@ -447,57 +421,75 @@
             const f = document.getElementById('stFile').files[0];
             if(!f) return alert("Falta foto");
             DB.stations[idx].img = await resize(f,500);
-            localStorage.setItem('dba_stations',JSON.stringify(DB.stations));
+            localStorage.setItem('dba_stations', JSON.stringify(DB.stations));
             renderAll();
         }
-        function deleteItem(type,idx) {
+        function deleteItem(type, idx) {
             if(!confirm("¿Borrar?")) return;
             DB[type].splice(idx,1);
-            localStorage.setItem(`dba_${type}`,JSON.stringify(DB[type]));
+            localStorage.setItem(`dba_${type}`, JSON.stringify(DB[type]));
             renderAll();
         }
 
+        // --- RENDER ---
         function renderAll() {
-            // Render Avales
-            const avH = DB.avales.map(i=>`<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('');
-            document.getElementById('publicAvales').innerHTML = avH || '<p style="color:#444">Logos aquí</p>';
-            document.getElementById('listAvales').innerHTML = DB.avales.map((i,x)=>mkRow(i.name,'avales',x)).join('');
+            document.getElementById('publicAvales').innerHTML = DB.avales.map(i => `<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('') || '<p style="color:#444">Logos Aquí</p>';
+            document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, 'avales', x)).join('');
             
-            // Render Stations
-            document.getElementById('publicStations').innerHTML = DB.stations.map(s=>`
-                <div class="station-card"><img src="${s.img}" class="station-img">
-                <div class="station-body"><i class="${s.icon} station-icon"></i><div class="station-title">${s.title}</div><p style="color:#ccc">${s.desc}</p></div></div>
-            `).join('');
+            document.getElementById('publicStations').innerHTML = DB.stations.map(s => `<div class="station-card"><img src="${s.img}" class="station-img"><div class="station-body"><i class="${s.icon} station-icon"></i><div class="station-title">${s.title}</div><p style="color:#ccc">${s.desc}</p></div></div>`).join('');
 
-            // Render Inst
-            document.getElementById('publicInstructors').innerHTML = DB.instructores.map(i=>`
-                <div class="inst-card"><div class="inst-img-wrap"><img src="${i.img}" class="inst-img"></div><div class="inst-name">${i.name}</div><div class="inst-role">${i.role}</div></div>
-            `).join('');
-            document.getElementById('listInst').innerHTML = DB.instructores.map((i,x)=>mkRow(i.name,'instructores',x)).join('');
+            document.getElementById('publicInstructors').innerHTML = DB.instructores.map(i => `<div class="inst-card"><div class="inst-img-wrap"><img src="${i.img}" class="inst-img"></div><div class="inst-name">${i.name}</div><div class="inst-role">${i.role}</div></div>`).join('');
+            document.getElementById('listInst').innerHTML = DB.instructores.map((i,x) => mkRow(i.name, 'instructores', x)).join('');
 
-            // Render Gallery & Accom...
-            document.getElementById('publicGallery').innerHTML = DB.galeria.map(i=>`<div class="gallery-item"><img src="${i.img}" class="gallery-img"></div>`).join('');
-            document.getElementById('listGaleria').innerHTML = DB.galeria.map((i,x)=>mkRow('Foto '+x,'galeria',x)).join('');
+            document.getElementById('publicGallery').innerHTML = DB.galeria.map(i => `<div class="gallery-item"><img src="${i.img}" class="gallery-img"></div>`).join('');
+            document.getElementById('listGaleria').innerHTML = DB.galeria.map((i,x) => mkRow('Foto '+x, 'galeria', x)).join('');
             
-            document.getElementById('publicAccom').innerHTML = DB.accom.map(i=>`<div class="accom-card"><i class="${i.icon} accom-icon"></i><h3 style="color:white">${i.name}</h3><p style="color:#aaa">${i.desc}</p></div>`).join('');
-            document.getElementById('listAccom').innerHTML = DB.accom.map((i,x)=>mkRow(i.name,'accom',x)).join('');
+            document.getElementById('publicAccom').innerHTML = DB.accom.map(i => `<div class="accom-card"><i class="${i.icon} accom-icon"></i><h3 style="color:white">${i.name}</h3><p style="color:#aaa">${i.desc}</p></div>`).join('');
+            document.getElementById('listAccom').innerHTML = DB.accom.map((i,x) => mkRow(i.name, 'accom', x)).join('');
+            
+            checkSlots();
+        }
+        function mkRow(txt, type, idx) { return `<div class="preview-item"><span>${txt}</span><button onclick="deleteItem('${type}', ${idx})" style="color:red;border:none;background:none;">X</button></div>`; }
+
+        // --- PAYMENT & MODAL ---
+        function checkSlots() {
+            const sold = parseInt(DB.config.sold) || 0;
+            const remaining = 50 - sold;
+            document.getElementById('slotsText').textContent = `Quedan ${remaining} cupos financiados`;
+            document.getElementById('slotsBar').style.width = `${(remaining/50)*100}%`;
+            if(remaining <= 0) document.getElementById('goCuotasContainer').style.display = 'none';
+        }
+        function openModal() { document.getElementById('paymentModal').style.display='flex'; }
+        function closeModal() { document.getElementById('paymentModal').style.display='none'; }
+
+        function processPayment(type) {
+            const name = document.getElementById('payName').value;
+            const dni = document.getElementById('payDni').value;
+            if(!name || !dni) return alert("Completa tus datos");
+            const link = type === 'MP' ? DB.config.mp : DB.config.go;
+            if(!link) return alert("Link no configurado en Admin");
+            
+            window.open(link, '_blank');
+            document.getElementById('validationStep').style.display = 'block';
+        }
+        function sendProof() {
+            const name = document.getElementById('payName').value;
+            const dni = document.getElementById('payDni').value;
+            const msg = `Hola, ya pagué para DOLORES 2026. Soy ${name} (DNI ${dni}). Adjunto comprobante.`;
+            window.open(`https://wa.me/5491112345678?text=${encodeURIComponent(msg)}`, '_blank'); // CAMBIAR NUMERO
         }
 
-        function mkRow(txt,type,idx) { return `<div class="preview-item"><span>${txt}</span><button onclick="deleteItem('${type}',${idx})" style="color:red;border:none;background:none;">X</button></div>`; }
-
-        // UI
+        // --- UI ---
         function toggleAdmin() {
             const p = document.getElementById('adminPanel');
-            if(p.style.display==='block') { p.style.display='none'; }
-            else { if(prompt("Clave Admin:")==="admin2026") p.style.display='block'; else alert("Error"); }
+            if(p.style.display==='block') p.style.display='none';
+            else if(prompt("Clave Admin:")==="admin2026") p.style.display='block';
         }
         function showTab(id) {
             document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
             document.getElementById(id).classList.add('active'); event.target.classList.add('active');
         }
-        function openModal() { checkSlots(); document.getElementById('paymentModal').style.display='flex'; }
-        function closeModal() { document.getElementById('paymentModal').style.display='none'; }
     </script>
 </body>
 </html>
