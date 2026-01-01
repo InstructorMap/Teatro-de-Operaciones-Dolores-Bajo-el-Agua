@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolores Bajo el Agua - Jornada Intensiva</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Dolores Bajo el Agua - Jornada Intensiva de Rescate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --water: #0a2e38; /* Azul oscuro inundación */
@@ -12,9 +12,10 @@
             --alert: #ff6b00; /* Naranja rescate */
             --light: #e0f7fa;
             --tactical: #2c3e50;
+            --success: #00c853;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         
         body {
             font-family: 'Roboto', sans-serif;
@@ -23,11 +24,11 @@
             line-height: 1.6;
         }
 
-        h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; }
+        h1, h2, h3, h4 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; }
 
         /* --- HEADER & HERO --- */
         header {
-            padding: 20px 5%;
+            padding: 15px 5%;
             position: fixed;
             width: 100%;
             background: rgba(5, 22, 26, 0.95);
@@ -36,26 +37,33 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
+
+        .logo { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: 1px; }
+        .logo span { color: var(--alert); }
 
         .hero {
             height: 100vh;
-            background: linear-gradient(to right, rgba(5, 22, 26, 0.9), rgba(5, 22, 26, 0.6)), url('congreso1.jpg');
+            /* Placeholder de imagen de fondo - CAMBIAR POR TU IMAGEN REAL */
+            background: linear-gradient(to right, rgba(5, 22, 26, 0.95), rgba(5, 22, 26, 0.5)), url('https://images.unsplash.com/photo-1588612509802-273574945d48?q=80&w=1470&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
             padding: 0 10%;
+            position: relative;
         }
 
-        .hero-content { max-width: 800px; }
-        .hero-tag { background: var(--alert); color: #000; padding: 5px 15px; font-weight: bold; display: inline-block; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .hero-content { max-width: 800px; position: relative; z-index: 2; }
+        .hero-tag { background: var(--alert); color: #000; padding: 5px 15px; font-weight: 800; display: inline-block; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
         
         h1 { font-size: 4rem; line-height: 1; margin-bottom: 20px; text-shadow: 0 0 20px rgba(0,0,0,0.8); }
         h1 span { color: var(--alert); }
         
-        .hero-subtitle { font-size: 1.5rem; margin-bottom: 40px; border-left: 5px solid var(--alert); padding-left: 20px; }
+        .hero-subtitle { font-size: 1.4rem; margin-bottom: 40px; border-left: 5px solid var(--alert); padding-left: 20px; color: #cfd8dc; }
 
+        /* --- BOTONES --- */
         .btn {
             display: inline-block;
             padding: 15px 40px;
@@ -68,53 +76,43 @@
             transition: 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border-radius: 2px;
         }
-        .btn:hover { background: #fff; transform: translateY(-3px); }
-
-        /* --- PERFILES (GRID) --- */
-        .profiles { padding: 80px 10%; background: var(--water); }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; }
-        .section-title span { border-bottom: 3px solid var(--alert); }
-
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+        .btn:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--alert);
+            color: var(--alert);
+            margin-left: 10px;
         }
-
-        .profile-card {
-            background: rgba(0,0,0,0.3);
-            padding: 30px;
-            border-top: 4px solid var(--alert);
-            transition: 0.3s;
-        }
-        .profile-card:hover { transform: translateY(-10px); background: rgba(0,0,0,0.5); }
-        .profile-card h3 { color: var(--alert); margin-bottom: 15px; }
-        .profile-card ul { list-style: none; }
-        .profile-card li { margin-bottom: 10px; font-size: 0.9rem; position: relative; padding-left: 20px; }
-        .profile-card li::before { content: '►'; color: var(--alert); position: absolute; left: 0; font-size: 0.8rem; }
+        .btn-outline:hover { background: var(--alert); color: #000; }
 
         /* --- CRONOGRAMA --- */
         .agenda { padding: 80px 10%; background: var(--deep); }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; color: #fff; }
+        .section-title span { border-bottom: 4px solid var(--alert); padding-bottom: 10px; }
+
         .timeline { position: relative; max-width: 800px; margin: 0 auto; }
         .timeline::after { content: ''; position: absolute; width: 4px; background: var(--tactical); top: 0; bottom: 0; left: 20px; }
         .event { position: relative; margin-bottom: 40px; padding-left: 60px; }
         .event::before { content: ''; position: absolute; left: 12px; top: 5px; width: 20px; height: 20px; background: var(--alert); border-radius: 50%; z-index: 1; border: 4px solid var(--deep); }
         .time { font-weight: bold; color: var(--alert); display: block; margin-bottom: 5px; font-family: 'Exo 2'; font-size: 1.2rem; }
-        .event h3 { font-size: 1.4rem; margin-bottom: 10px; }
-        .event p { color: #aaa; font-size: 0.95rem; }
+        .event h3 { font-size: 1.4rem; margin-bottom: 5px; color: #fff; }
+        .event p { color: #90a4ae; font-size: 1rem; }
 
-        /* --- NUEVA GRID DE ESTACIONES --- */
+        /* --- ESTACIONES (SKILLS) --- */
         .stations { 
             padding: 80px 5%; 
-            background: linear-gradient(rgba(5, 22, 26, 0.95), rgba(5, 22, 26, 0.9)), url('congreso2.jpg'); 
+            /* Placeholder fondo - CAMBIAR */
+            background: linear-gradient(rgba(5, 22, 26, 0.95), rgba(5, 22, 26, 0.9)), url('https://images.unsplash.com/photo-1626302599298-2992080769a6?q=80&w=1470&auto=format&fit=crop'); 
             background-size: cover; 
             background-attachment: fixed; 
         }
         
         .station-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Grilla adaptable */
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
             gap: 30px; 
             max-width: 1400px; 
             margin: 0 auto; 
@@ -122,60 +120,133 @@
 
         .station-card {
             background: #0f1f24;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             transition: transform 0.3s ease;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             border: 1px solid #1f3a44;
+            display: flex;
+            flex-direction: column;
         }
 
         .station-card:hover { transform: translateY(-5px); border-color: var(--alert); }
 
-        /* IMAGEN DE LA ESTACION */
         .station-img {
             height: 200px;
             width: 100%;
             object-fit: cover;
             border-bottom: 3px solid var(--alert);
+            filter: grayscale(30%);
         }
 
-        .station-content { padding: 25px; }
-        .station-content h3 { color: #fff; font-size: 1.5rem; margin-bottom: 10px; }
+        .station-content { padding: 25px; flex-grow: 1; }
+        .station-content h3 { color: #fff; font-size: 1.4rem; margin-bottom: 10px; }
         .station-content p { color: #b0bec5; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.5; }
         
         .skills-tag { 
-            font-size: 0.75rem; 
+            font-size: 0.7rem; 
             background: var(--tactical); 
             color: #fff;
-            padding: 4px 10px; 
+            padding: 4px 8px; 
             margin-right: 5px; 
             border-radius: 4px; 
             display: inline-block; 
             margin-bottom: 5px; 
             border: 1px solid #455a64;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
-        footer { text-align: center; padding: 50px; background: #000; border-top: 1px solid #333; }
+        /* --- PRECIOS E INSCRIPCIÓN (CIERRE DE VENTA) --- */
+        .pricing {
+            padding: 80px 10%;
+            background: #0a1114;
+            text-align: center;
+        }
 
+        .pricing-card {
+            background: #fff;
+            color: #333;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: 'CUPOS LIMITADOS';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #d32f2f;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .price { font-size: 3.5rem; font-weight: 900; color: #000; font-family: 'Exo 2'; margin: 20px 0; }
+        .price small { font-size: 1rem; color: #555; font-weight: normal; }
+        
+        .benefits-list { list-style: none; text-align: left; margin: 30px 0; }
+        .benefits-list li { margin-bottom: 15px; padding-left: 30px; position: relative; font-size: 1.1rem; }
+        .benefits-list li::before { content: '✔'; color: var(--success); position: absolute; left: 0; font-weight: bold; }
+
+        /* --- CTA FLOTANTE --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            z-index: 2000;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.05); background-color: #20b85a; }
+
+        footer { text-align: center; padding: 30px; background: #000; color: #555; font-size: 0.8rem; margin-top: auto; }
+
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .station-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2.8rem; }
+            .hero-content { text-align: center; }
+            .hero-subtitle { border-left: none; padding-left: 0; }
+            .btn-outline { display: block; margin: 15px auto 0; width: 100%; }
+            .btn { width: 100%; text-align: center; }
+            .timeline::after { left: 10px; }
+            .event { padding-left: 35px; }
+            .event::before { left: 2px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h3>Jornada Intensiva 2025</h3>
-        <a href="#registro" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">Inscribirse</a>
+        <div class="logo">OPERACIONES <span>DOLORES</span></div>
+        <a href="#registro" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">Inscribirse Ahora</a>
     </header>
 
     <section class="hero">
         <div class="hero-content">
             <div class="hero-tag">Teatro de Operaciones Interdisciplinario</div>
             <h1>Dolores <br><span>Bajo el Agua</span></h1>
-            <p class="hero-subtitle">Entrenamiento intensivo de respuesta ante inundaciones súbitas, colapso estructural y entornos hostiles.</p>
-            <a href="#agenda" class="btn">Ver Cronograma del Día</a>
+            <p class="hero-subtitle">Entrenamiento intensivo de respuesta ante inundaciones súbitas, colapso estructural y entornos hostiles. Certificación oficial.</p>
+            <div>
+                <a href="#registro" class="btn">Asegurar mi Lugar</a>
+                <a href="#agenda" class="btn btn-outline">Ver Cronograma</a>
+            </div>
         </div>
     </section>
 
@@ -195,7 +266,7 @@
             <div class="event">
                 <span class="time">10:30 - 15:30</span>
                 <h3>Fase 2: Circuito de Estaciones (Skills)</h3>
-                <p>Rotación intensiva por las 6 estaciones de habilidades críticas.</p>
+                <p>Rotación intensiva por las 6 estaciones de habilidades críticas (Ver detalle abajo).</p>
             </div>
             <div class="event">
                 <span class="time">16:00 - 18:00</span>
@@ -206,48 +277,100 @@
     </section>
 
     <section class="stations">
-        <h2 class="section-title" style="color:white; text-shadow: 0 2px 10px #000;">Circuito de Entrenamiento</h2>
+        <h2 class="section-title" style="color:white; text-shadow: 0 2px 10px #000;"><span>Circuito de Entrenamiento</span></h2>
         <div class="station-grid">
             
             <div class="station-card">
-                <img src="estacion_acuatica.jpg" alt="Rescate Acuatico" class="station-img">
+                <img src="https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=1470&auto=format&fit=crop" alt="Rescate Acuatico" class="station-img">
                 <div class="station-content">
-                    <h3>Rescate Acuático por Inundación</h3>
-                    <p>Manejo de víctimas en correntada y orilla. Técnicas de natación defensiva, uso de bolsas de rescate y extracción segura del agua.</p>
-                    <span class="skills-tag">Seguridad en el Agua</span>
-                    <span class="skills-tag">Hipotermia</span>
+                    <h3>Rescate Acuático</h3>
+                    <p>Manejo de víctimas en correntada y orilla. Técnicas de natación defensiva, uso de bolsas de rescate y extracción.</p>
+                    <span class="skills-tag">Seguridad Acuática</span>
+                    <span class="skills-tag">Correntada</span>
                 </div>
             </div>
 
             <div class="station-card">
-                <img src="estacion_altura.jpg" alt="Rescate en Altura" class="station-img">
+                <img src="https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=1470&auto=format&fit=crop" alt="Rescate en Altura" class="station-img">
                 <div class="station-content">
-                    <h3>Rescate en Altura y Descenso</h3>
-                    <p>Operaciones verticales en estructuras inestables. Sistemas de anclaje, descenso controlado con víctima (Rappel) y empaquetado vertical.</p>
+                    <h3>Rescate en Altura</h3>
+                    <p>Operaciones verticales. Sistemas de anclaje, descenso controlado (Rappel) y empaquetado vertical de víctimas.</p>
                     <span class="skills-tag">Cuerdas</span>
-                    <span class="skills-tag">Evacuación Vertical</span>
+                    <span class="skills-tag">Rappel Táctico</span>
                 </div>
             </div>
 
             <div class="station-card">
-                <img src="estacion_confinados.jpg" alt="Espacios Confinados" class="station-img">
+                <img src="https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=1470&auto=format&fit=crop" alt="Espacios Confinados" class="station-img">
                 <div class="station-content">
                     <h3>Espacios Confinados (BREC)</h3>
-                    <p>Búsqueda y extracción en estructuras colapsadas o de difícil acceso. Atmósferas peligrosas y extracción tipo "gusano".</p>
+                    <p>Búsqueda y extracción en estructuras colapsadas. Atmósferas peligrosas y extracción tipo "gusano".</p>
                     <span class="skills-tag">BREC</span>
-                    <span class="skills-tag">Extracción Restringida</span>
+                    <span class="skills-tag">Estructuras Colapsadas</span>
                 </div>
             </div>
 
             <div class="station-card">
-                <img src="estacion_tactica.jpg" alt="Medicina Tactica" class="station-img">
+                <img src="https://images.unsplash.com/photo-1599467657930-b3b3cb913d78?q=80&w=1470&auto=format&fit=crop" alt="Medicina Tactica" class="station-img">
                 <div class="station-content">
-                    <h3>Medicina Táctica (Zona Roja)</h3>
-                    <p>Atención bajo amenaza activa. Control de hemorragias masivas y protocolo MARCH en entorno hostil.</p>
+                    <h3>Medicina Táctica</h3>
+                    <p>Atención bajo amenaza activa (Zona Roja). Control de hemorragias masivas, torniquetes y protocolo MARCH.</p>
                     <span class="skills-tag">MARCH</span>
                     <span class="skills-tag">Stop The Bleed</span>
                 </div>
             </div>
 
             <div class="station-card">
-                <img src="estacion_comando.jpg"
+                <img src="https://images.unsplash.com/photo-1595232777477-d3da77093223?q=80&w=1470&auto=format&fit=crop" alt="Comando Incidentes" class="station-img">
+                <div class="station-content">
+                    <h3>Comando de Incidentes</h3>
+                    <p>Organización de la escena, comunicaciones y triaje START en incidentes con víctimas múltiples.</p>
+                    <span class="skills-tag">SCI</span>
+                    <span class="skills-tag">Comunicaciones</span>
+                </div>
+            </div>
+
+            <div class="station-card">
+                <img src="https://images.unsplash.com/photo-1517462964319-33ca74a4df9d?q=80&w=1466&auto=format&fit=crop" alt="Psicologia" class="station-img">
+                <div class="station-content">
+                    <h3>Psicología de la Emergencia</h3>
+                    <p>Primeros auxilios psicológicos para víctimas y control del estrés operativo en rescatistas.</p>
+                    <span class="skills-tag">PAP</span>
+                    <span class="skills-tag">Manejo de Estrés</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="pricing" id="registro">
+        <h2 class="section-title"><span>Inscripción</span></h2>
+        
+        <div class="pricing-card">
+            <h3>Pase Operativo Full</h3>
+            <div class="price">$50.000 <small>ARS</small></div>
+            <p style="color:#666;">Jornada Completa + Certificación</p>
+            
+            <ul class="benefits-list">
+                <li>Acceso a las 6 estaciones</li>
+                <li>Certificado Oficial Digital</li>
+                <li>Hidratación y Almuerzo de campaña</li>
+                <li>Parche conmemorativo del evento</li>
+                <li>Seguro de accidentes personales</li>
+            </ul>
+
+            <a href="#" class="btn" style="width: 100%; text-align: center;">QUIERO INSCRIBIRME</a>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #888;">*Cupos limitados por seguridad operativa.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Dolores Bajo el Agua - Entrenamiento de Alto Rendimiento.</p>
+    </footer>
+
+    <a href="https://wa.me/+542213642475" class="whatsapp-float" target="_blank">
+        <span> Consultas</span>
+    </a>
+
+</body>
+</html>
