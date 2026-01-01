@@ -20,23 +20,10 @@
         }
         body { font-family: 'Roboto', sans-serif; background: #f0f2f5; }
 
-        /* PANTALLA DE LOGIN (NUEVO) */
-        #access-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #020405; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%);
-        }
-        .login-card {
-            background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333;
-            text-align: center; max-width: 400px; width: 90%;
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
-        }
-        .login-input {
-            width: 100%; padding: 15px; background: #05080a; border: 1px solid #333;
-            color: white; margin-bottom: 15px; border-radius: 5px; text-align: center;
-            font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;
-        }
+        /* PANTALLA LOGIN */
+        #access-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020405; z-index: 9999; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%); }
+        .login-card { background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); }
+        .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--accent-color); outline: none; }
 
         /* CARNET PREVIEW */
@@ -67,13 +54,10 @@
         <div class="login-card">
             <h2 class="text-white text-2xl font-black mb-2 uppercase">Área Restringida</h2>
             <p class="text-gray-500 text-sm mb-6">Ingrese sus credenciales de pago</p>
-            
             <form onsubmit="validateAccess(event)">
                 <input type="text" id="loginDNI" class="login-input" placeholder="SU DNI" required>
                 <input type="text" id="loginCode" class="login-input" placeholder="CÓDIGO ÚNICO" required>
-                <button type="submit" class="w-full bg-orange-600 text-white font-bold py-3 rounded hover:bg-orange-700 transition">
-                    VERIFICAR Y ENTRAR
-                </button>
+                <button type="submit" class="w-full bg-orange-600 text-white font-bold py-3 rounded hover:bg-orange-700 transition">ENTRAR</button>
             </form>
             <p id="errorMsg" class="text-red-500 text-sm mt-4 hidden font-bold">⛔ CÓDIGO INCORRECTO</p>
             <a href="index.html" class="block mt-4 text-gray-600 text-xs hover:text-white">Volver al Inicio</a>
@@ -86,9 +70,7 @@
                 <a href="index.html" class="text-gray-500 hover:text-black"><i class="fas fa-arrow-left"></i> Salir</a>
                 <h1 class="text-2xl font-black text-slate-800 uppercase">ACREDITACIÓN <span style="color:var(--accent-color)">DOLORES 2026</span></h1>
             </div>
-            <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-xs">
-                <i class="fas fa-lock"></i> USUARIO VERIFICADO
-            </div>
+            <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-xs"><i class="fas fa-lock"></i> VERIFICADO</div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -104,7 +86,6 @@
                             <input type="text" id="nombre" class="w-full p-3 bg-slate-50 rounded-lg font-bold uppercase border border-slate-200" placeholder="Nombre completo">
                         </div>
                     </div>
-
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Rol</label>
                         <select id="rol-select" class="w-full p-3 bg-white border border-slate-200 rounded-lg font-bold">
@@ -113,56 +94,33 @@
                             <option value="PRENSA">PRENSA</option>
                         </select>
                     </div>
-
                     <div class="p-4 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 text-center hover:bg-white transition cursor-pointer relative">
                         <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                        <div class="text-slate-500">
-                            <i class="fas fa-camera text-2xl mb-2"></i>
-                            <p class="text-xs font-bold uppercase">Subir Foto de Perfil</p>
-                        </div>
+                        <div class="text-slate-500"><i class="fas fa-camera text-2xl mb-2"></i><p class="text-xs font-bold uppercase">Subir Foto de Perfil</p></div>
                     </div>
-
-                    <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-lg hover:bg-black transition-all shadow-lg uppercase tracking-widest mt-4">
-                        GENERAR CREDENCIAL
-                    </button>
+                    <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-lg hover:bg-black transition-all shadow-lg uppercase tracking-widest mt-4">GENERAR CREDENCIAL</button>
                 </form>
             </section>
 
             <section class="flex flex-col items-center sticky top-8">
                 <div id="download-area">
                     <div id="preview-container" class="carnet-preview">
-                        <div class="header-bar">
-                            <span class="font-black text-xl uppercase tracking-tighter">CONGRESO INTERDISCIPLINARIO</span>
-                            <span class="text-[10px] font-black opacity-80 uppercase tracking-widest">PASE OFICIAL</span>
-                        </div>
-                        <div class="event-logo-container">
-                            <div class="event-logo-text">DOLORES<br>2026</div>
-                        </div>
-                        <div class="footer-bar">
-                            <span class="text-[10px] font-black opacity-90 uppercase tracking-wide">SISTEMA NACIONAL DE ACREDITACIÓN</span>
-                            <span class="text-[10px] font-black uppercase">VÁLIDO 27-28 FEB 2026</span>
-                        </div>
-                        <div class="event-info">
-                            <div class="event-title">DOLORES BAJO EL AGUA</div>
-                            <div class="event-date">27-28 FEBRERO 2026</div>
-                        </div>
+                        <div class="header-bar"><span class="font-black text-xl uppercase tracking-tighter">CONGRESO INTERDISCIPLINARIO</span><span class="text-[10px] font-black opacity-80 uppercase tracking-widest">PASE OFICIAL</span></div>
+                        <div class="event-logo-container"><div class="event-logo-text">DOLORES<br>2026</div></div>
+                        <div class="footer-bar"><span class="text-[10px] font-black opacity-90 uppercase tracking-wide">SISTEMA NACIONAL DE ACREDITACIÓN</span><span class="text-[10px] font-black uppercase">VÁLIDO 27-28 FEB 2026</span></div>
+                        <div class="event-info"><div class="event-title">DOLORES BAJO EL AGUA</div><div class="event-date">27-28 FEBRERO 2026</div></div>
                         <img id="photo-preview" src="https://placehold.co/260x320/e2e8f0/94a3b8?text=FOTO" alt="Foto">
                         <img id="watermark" src="https://via.placeholder.com/350x350/000000/ffffff?text=DOLORES" alt="">
-                        <div id="nombre-preview">NOMBRE ALUMNO</div>
-                        <div id="dni-container">DNI: 00.000.000</div>
-                        <div id="role-container">ASISTENTE</div>
+                        <div id="nombre-preview">NOMBRE ALUMNO</div><div id="dni-container">DNI: 00.000.000</div><div id="role-container">ASISTENTE</div>
                         <div class="qr-box"><canvas id="qr-code-preview"></canvas></div>
                     </div>
                 </div>
-                <div id="actions" class="mt-8 hidden">
-                    <button onclick="downloadImage('jpeg')" class="bg-blue-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">DESCARGAR IMAGEN</button>
-                </div>
+                <div id="actions" class="mt-8 hidden"><button onclick="downloadImage('jpeg')" class="bg-blue-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">DESCARGAR IMAGEN</button></div>
             </section>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN SUPABASE ---
         const CONFIG = {
             supabaseUrl: 'https://fuxnsebrhxxbalqfmtzs.supabase.co',
             supabaseKey: 'sb_publishable_brWrs7Bn3vGFS7H2mEHkKQ_hcK1a8WV', 
@@ -170,60 +128,50 @@
         };
         const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
 
-        // --- 1. LÓGICA DE LOGIN ---
+        // --- LÓGICA LOGIN/AUTOLOGIN ---
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const urlDni = params.get('dni');
             const urlName = params.get('name');
+            const urlAuth = params.get('auth');
 
-            // Si vienen datos de la URL (del pago), autocompletar el login
-            if(urlDni) {
-                document.getElementById('loginDNI').value = urlDni;
-                // Si viene nombre, guardarlo para usarlo post-login
-                if(urlName) localStorage.setItem('tempName', decodeURIComponent(urlName));
+            // Autologin desde Landing
+            if(urlDni && urlAuth) {
+                if(isValidCode(urlDni, urlAuth)) { grantAccess(urlDni, urlName); return; }
             }
+            // Pre-llenar DNI si viene
+            if(urlDni) document.getElementById('loginDNI').value = urlDni;
         });
 
         function validateAccess(e) {
             e.preventDefault();
             const dni = document.getElementById('loginDNI').value;
             const code = document.getElementById('loginCode').value;
-            const errorMsg = document.getElementById('errorMsg');
-
-            if (isValidCode(dni, code)) {
-                // ACCESO CONCEDIDO
-                document.getElementById('access-screen').style.display = 'none';
-                document.getElementById('main-content').classList.remove('hidden');
-                
-                // Cargar datos en el formulario real
-                document.getElementById('dni').value = dni;
-                
-                // Recuperar nombre si existía
-                const tempName = localStorage.getItem('tempName');
-                if(tempName) {
-                    document.getElementById('nombre').value = tempName;
-                    updatePreview();
-                    localStorage.removeItem('tempName');
-                }
-                updatePreview();
-            } else {
-                // ACCESO DENEGADO
-                errorMsg.classList.remove('hidden');
-                setTimeout(() => errorMsg.classList.add('hidden'), 3000);
+            if (isValidCode(dni, code)) grantAccess(dni, null);
+            else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+                setTimeout(() => document.getElementById('errorMsg').classList.add('hidden'), 3000);
             }
         }
 
-        // ALGORITMO DE VERIFICACIÓN (Debe coincidir con index.html)
         function isValidCode(dniInput, codeInput) {
             if(!dniInput || !codeInput) return false;
-            const cleanDni = dniInput.toString().trim();
-            const cleanCode = codeInput.toString().trim().toUpperCase();
             const salt = "DOLORES26"; 
-            const expected = btoa(cleanDni + salt).substring(0, 8).toUpperCase();
-            return cleanCode === expected;
+            const expected = btoa(dniInput.toString().trim() + salt).substring(0, 8).toUpperCase();
+            return codeInput.toString().trim().toUpperCase() === expected;
         }
 
-        // --- 2. LÓGICA DEL GENERADOR ---
+        function grantAccess(dni, name) {
+            document.getElementById('access-screen').style.display = 'none';
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('dni').value = dni;
+            if(name) {
+                document.getElementById('nombre').value = decodeURIComponent(name);
+                updatePreview();
+            }
+        }
+
+        // --- GENERADOR ---
         document.getElementById('photo-upload').onchange = (e) => {
             const file = e.target.files[0];
             if(file) {
@@ -253,16 +201,13 @@
             const photoInput = document.getElementById('photo-upload');
 
             if(photoInput.files.length === 0) return alert("Falta la foto");
-
             btn.disabled = true; btn.textContent = "PROCESANDO...";
 
             try {
-                // Subir Foto
                 const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
                 await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
                 const { data: imgData } = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
 
-                // Guardar Datos
                 const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
                 await sb.from('alumnos').upsert({
                     dni: dni,
@@ -271,7 +216,6 @@
                     foto_url: imgData.publicUrl
                 });
 
-                // QR
                 new QRious({
                     element: document.getElementById('qr-code-preview'),
                     value: `${CONFIG.repoUrl}?id=${matricula}`,
@@ -281,7 +225,6 @@
                 document.getElementById('actions').classList.remove('hidden');
                 btn.textContent = "¡CREDENCIAL GENERADA!";
                 btn.style.background = "#00c853";
-
             } catch (err) {
                 console.error(err);
                 alert("Error de conexión");
