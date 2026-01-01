@@ -3,493 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolores Bajo el Agua 2026 | Congreso Hidro-Táctico</title>
+    <title>Generador Oficial - Dolores 2026</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;500;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --bg-deep: #020405; --bg-panel: #0d1114; --rescue-orange: #ff4500; 
-            --hydro-cyan: #00e5ff; --text-main: #f0f0f0; --glass: rgba(13, 17, 20, 0.95);
+        :root { 
+            --primary-color: #0a2e38;
+            --accent-color: #ff6b00;
+            --text-dark: #020b0e;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        
-        body { 
-            font-family: 'Roboto', sans-serif; background-color: var(--bg-deep); color: var(--text-main); 
-            line-height: 1.6; overflow-x: hidden; position: relative; min-height: 100vh;
+        body { font-family: 'Roboto', sans-serif; background: #f0f2f5; }
+
+        /* PANTALLA DE LOGIN (NUEVO) */
+        #access-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #020405; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%);
         }
-
-        /* FONDO DINÁMICO */
-        #dynamic-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-size: cover; background-position: center; opacity: 0.15;
-            filter: grayscale(80%) contrast(120%); pointer-events: none;
-            background-image: url('https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=1470&auto=format&fit=crop');
+        .login-card {
+            background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333;
+            text-align: center; max-width: 400px; width: 90%;
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
         }
+        .login-input {
+            width: 100%; padding: 15px; background: #05080a; border: 1px solid #333;
+            color: white; margin-bottom: 15px; border-radius: 5px; text-align: center;
+            font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .login-input:focus { border-color: var(--accent-color); outline: none; }
 
-        h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* UI */
-        .btn { display: inline-block; padding: 14px 35px; background: linear-gradient(135deg, var(--rescue-orange), #d50000); color: #fff; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase; font-family: 'Exo 2'; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(255, 69, 0, 0.6); }
-        .btn-hydro { background: rgba(0, 229, 255, 0.05); border: 1px solid var(--hydro-cyan); color: var(--hydro-cyan); padding: 12px 30px; font-weight: 700; text-transform: uppercase; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; display: inline-block; text-decoration: none; }
-        .btn-hydro:hover { background: rgba(0, 229, 255, 0.15); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
-
-        /* HEADER & HERO */
-        header { padding: 15px 5%; position: fixed; width: 100%; top: 0; background: var(--glass); z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Black Ops One'; font-size: 1.5rem; color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.5); } .logo span { color: var(--rescue-orange); }
-        .hero { min-height: 100vh; display: flex; align-items: center; padding: 140px 10% 80px; position: relative; }
-        .hero-content { position: relative; z-index: 2; border-left: 4px solid var(--hydro-cyan); padding-left: 30px; max-width: 800px; background: linear-gradient(90deg, rgba(0,0,0,0.8), transparent); padding: 40px; border-radius: 0 10px 10px 0; }
-        .hero-badge { background: rgba(0, 229, 255, 0.1); color: var(--hydro-cyan); padding: 6px 15px; font-weight: bold; border: 1px solid var(--hydro-cyan); display: inline-block; margin-bottom: 20px; font-size: 0.85rem; letter-spacing: 2px; }
-        h1 { font-size: 4rem; line-height: 0.95; margin-bottom: 25px; color: white; } h1 span { color: var(--rescue-orange); font-style: italic; }
-        .hero-p { font-size: 1.2rem; color: #b0bec5; margin-bottom: 35px; max-width: 600px; }
-
-        /* SECTIONS */
-        section { padding: 90px 10%; position: relative; z-index: 2; }
-        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 10px; color: white; }
-        .section-sub { text-align: center; color: var(--hydro-cyan); font-weight: 700; margin-bottom: 60px; letter-spacing: 3px; font-size: 0.9rem; }
-
-        /* AVALES */
-        .avales-section { background: rgba(10, 14, 17, 0.9); padding: 40px 10%; text-align: center; border-bottom: 1px solid #222; position: relative; z-index: 2; }
-        .avales-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 25px; }
-        .aval-item { background: #ffffff; padding: 10px 20px; border-radius: 8px; transition: 0.3s; height: 80px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .aval-item:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--hydro-cyan); } 
-        .aval-img { max-height: 100%; max-width: 180px; object-fit: contain; }
-
-        /* CARDS */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .station-card { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; transition: 0.3s; border-radius: 4px; }
-        .station-card:hover { transform: translateY(-5px); border-color: var(--rescue-orange); }
-        .station-img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.7) grayscale(30%); transition: 0.4s; }
-        .station-card:hover .station-img { filter: brightness(1.1) grayscale(0%); }
-        .station-body { padding: 25px; } .station-title { font-size: 1.4rem; color: white; margin-bottom: 10px; font-weight: 700; }
+        /* CARNET PREVIEW */
+        #download-area { width: 856px; padding: 20px; background: #cbd5e1; border-radius: 20px; margin: 0 auto; transform: scale(0.9); transform-origin: top center; }
+        .carnet-preview { width: 856px; height: 540px; position: relative; overflow: hidden; background: #ffffff; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .header-bar { position: absolute; top: 0; left: 0; width: 100%; height: 85px; background: var(--primary-color); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 50; color: white; border-bottom: 4px solid var(--accent-color); }
+        .event-logo-container { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 70px; width: 70px; background: white; border-radius: 50%; padding: 2px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 60; }
+        .event-logo-text { font-family: 'Exo 2', sans-serif; font-weight: 800; color: var(--primary-color); font-size: 10px; text-align: center; line-height: 1; }
+        .footer-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: var(--primary-color); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 50; color: white; }
+        #photo-preview { position: absolute; top: 110px; left: 40px; width: 260px; height: 320px; object-fit: cover; z-index: 10; border: 2px solid var(--primary-color); box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
+        .event-info { position: absolute; top: 100px; left: 330px; right: 40px; text-align: right; }
+        .event-title { font-family: 'Exo 2', sans-serif; font-size: 28px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; margin-bottom: 5px; }
+        .event-date { font-size: 14px; font-weight: 700; color: var(--accent-color); background: #000; padding: 2px 10px; display: inline-block; }
+        #nombre-preview { position: absolute; bottom: 150px; left: 330px; right: 40px; font-size: 38px; font-weight: 900; color: var(--text-dark); text-transform: uppercase; z-index: 30; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #dni-container { position: absolute; bottom: 120px; left: 330px; font-size: 20px; font-weight: 700; color: #555; z-index: 30; text-transform: uppercase; }
+        #role-container { position: absolute; bottom: 80px; left: 330px; font-size: 24px; font-weight: 900; color: var(--accent-color); z-index: 30; background: rgba(255, 107, 0, 0.1); padding: 5px 15px; border-radius: 4px; }
+        .qr-box { position: absolute; bottom: 70px; left: 40px; width: 100px; height: 100px; background: white; padding: 5px; z-index: 110; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #ccc; }
+        #watermark { position: absolute; top: 50%; right: 50px; transform: translateY(-50%); width: 350px; height: 350px; opacity: 0.05; z-index: 1; object-fit: contain; }
         
-        .inst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; text-align: center; }
-        .inst-card { padding: 20px; background: rgba(255,255,255,0.02); border-radius: 10px; transition: 0.3s; }
-        .inst-card:hover { background: rgba(255,255,255,0.05); transform: scale(1.05); }
-        .inst-img-wrap { width: 170px; height: 170px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid var(--rescue-orange); box-shadow: 0 0 25px rgba(255, 69, 0, 0.15); }
-        .inst-img { width: 100%; height: 100%; object-fit: cover; }
-        .inst-name { color: white; font-weight: 800; font-size: 1.3rem; } .inst-role { color: #888; font-size: 0.9rem; font-weight: 600; }
-
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .gallery-item { height: 220px; overflow: hidden; border-radius: 4px; cursor: pointer; border: 1px solid #333; }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; } .gallery-item:hover .gallery-img { transform: scale(1.1); }
-
-        .accom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .accom-card { background: #111; padding: 25px; border-left: 3px solid var(--hydro-cyan); border-radius: 0 8px 8px 0; transition: 0.3s; }
-        .accom-card:hover { background: #161616; padding-left: 30px; }
-
-        /* PRICING */
-        .pricing-section { background: linear-gradient(to top, black, #080c0f); padding-top: 50px; }
-        .price-box { background: linear-gradient(145deg, #111, #0a0a0a); border: 1px solid var(--hydro-cyan); max-width: 500px; margin: 0 auto; padding: 60px 40px; text-align: center; position: relative; box-shadow: 0 0 60px rgba(0, 229, 255, 0.1); }
-        .price-val { font-size: 4rem; color: white; font-weight: 900; margin: 20px 0; line-height: 1; }
-
-        /* ADMIN PANEL */
-        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
-        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
-        .tab-btn { padding: 8px 15px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; font-weight: bold; border-radius: 4px; }
-        .tab-btn.active { background: var(--rescue-orange); color: white; }
-        .admin-section { display: none; animation: fadeIn 0.3s; } .admin-section.active { display: block; }
-        .input-dark { width: 100%; padding: 12px; background: #080c0f; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 4px; }
-        .preview-list { margin-top: 15px; display: grid; gap: 10px; }
-        .preview-item { display: flex; align-items: center; background: #222; padding: 10px; justify-content: space-between; border-radius: 4px; }
-        .preview-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; background: white; }
-
-        /* MODAL PAGO */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 500px; text-align: center; border-radius: 8px; position: relative; }
-        
-        .gocuotas-box { border: 1px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.05); padding: 15px; border-radius: 8px; margin-top: 15px; position: relative; overflow: hidden; }
-        .gocuotas-badge { position: absolute; top: 10px; right: -30px; background: var(--rescue-orange); color: white; font-size: 0.6rem; padding: 2px 30px; transform: rotate(45deg); font-weight: bold; }
-        .counter-bar { height: 6px; background: #333; border-radius: 3px; margin: 10px 0; overflow: hidden; }
-        .counter-fill { height: 100%; background: var(--hydro-cyan); width: 100%; transition: width 1s; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { h1 { font-size: 3rem; } .hero { padding-top: 120px; } }
+        .notification { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 15px 25px; border-radius: 8px; font-weight: bold; color: white; animation: slideIn 0.5s; }
+        .success { background: #00c853; } .error { background: #d50000; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
     </style>
 </head>
-<body>
+<body class="p-4 lg:p-8 min-h-screen">
 
-    <div id="dynamic-bg"></div>
-
-    <header>
-        <div class="logo">DBA <span>2026</span></div>
-        <button onclick="openModal()" class="btn" style="font-size:0.8rem; padding: 10px 20px;">INSCRIBIRSE</button>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <span class="hero-badge">CONGRESO INTERDISCIPLINARIO</span>
-            <h1>DOLORES <br><span>BAJO EL AGUA</span></h1>
-            <p class="hero-p">Entrenamiento operativo de alto rendimiento en inundaciones, altura y medicina táctica. 6 Estaciones. Simulacro final.</p>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <button onclick="openModal()" class="btn">RESERVAR LUGAR</button>
-                <a href="#estaciones" class="btn-hydro">VER CIRCUITO</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="avales-section">
-        <p style="color:#666; font-size:0.8rem; letter-spacing:2px; margin-bottom: 20px;">ORGANIZA & AVALA</p>
-        <div class="avales-grid" id="publicAvales"><p style="color:#444;">Cargando...</p></div>
-    </div>
-
-    <section id="estaciones">
-        <p class="section-sub">CIRCUITO DE HABILIDADES</p>
-        <h2 class="section-title">6 ESTACIONES OPERATIVAS</h2>
-        <div class="grid-cards" id="publicStations"></div>
-    </section>
-
-    <section id="instructores" style="background: rgba(8, 12, 15, 0.9);">
-        <p class="section-sub">CUERPO DOCENTE</p>
-        <h2 class="section-title">STAFF PROFESIONAL</h2>
-        <div class="inst-grid" id="publicInstructors"></div>
-    </section>
-
-    <section id="galeria">
-        <p class="section-sub">EXPERIENCIA VISUAL</p>
-        <h2 class="section-title">GALERÍA OPERATIVA</h2>
-        <div class="gallery-grid" id="publicGallery"></div>
-    </section>
-
-    <section id="alojamiento" style="background: rgba(8, 12, 15, 0.9);">
-        <h2 class="section-title">LOGÍSTICA & ALOJAMIENTO</h2>
-        <div class="accom-grid" id="publicAccom"></div>
-    </section>
-
-    <section class="pricing-section" id="inscripcion">
-        <div class="price-box">
-            <div class="price-badge">CUPOS LIMITADOS</div>
-            <h3 style="color:var(--hydro-cyan); margin-bottom:10px;">PASE FULL 2026</h3>
-            <div class="price-val">$100.000</div>
-            <p style="color:#ccc; margin-bottom:30px; font-size: 1.1rem;">Acceso Virtual + Presencial + Kit + Certificación.</p>
-            <button onclick="openModal()" class="btn" style="width:100%;">INICIAR INSCRIPCIÓN</button>
-        </div>
-    </section>
-
-    <footer style="background: black; padding: 40px; text-align: center; border-top: 1px solid #222;">
-        <p style="color: #555;">© 2026 Dolores Bajo el Agua.</p>
-        <button onclick="toggleAdmin()" style="background:none; border:none; color:#333; font-size:0.8rem; margin-top:20px; cursor:pointer;">Admin Login</button>
-    </footer>
-
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-content">
-            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">&times;</span>
-            <h3 style="color:white; font-size:1.5rem; margin-bottom:5px;">ELIGE TU PASE</h3>
-            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Asegura tu lugar hoy mismo.</p>
+    <div id="access-screen">
+        <div class="login-card">
+            <h2 class="text-white text-2xl font-black mb-2 uppercase">Área Restringida</h2>
+            <p class="text-gray-500 text-sm mb-6">Ingrese sus credenciales de pago</p>
             
-            <div style="text-align:left; margin-bottom:20px;">
-                <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
-                <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
-            </div>
-
-            <div style="display:flex; gap:10px; flex-direction:column;">
-                <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
-                    <span>PAGO TOTAL ($100k)</span> <i class="fas fa-credit-card"></i>
+            <form onsubmit="validateAccess(event)">
+                <input type="text" id="loginDNI" class="login-input" placeholder="SU DNI" required>
+                <input type="text" id="loginCode" class="login-input" placeholder="CÓDIGO ÚNICO" required>
+                <button type="submit" class="w-full bg-orange-600 text-white font-bold py-3 rounded hover:bg-orange-700 transition">
+                    VERIFICAR Y ENTRAR
                 </button>
-                
-                <div id="goCuotasContainer" class="gocuotas-box">
-                    <div class="gocuotas-badge">PROMO</div>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div style="text-align:left;">
-                            <span style="display:block; color:white; font-weight:bold;">3 x $33.333</span>
-                            <span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span>
-                        </div>
-                        <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.8rem; padding:8px 15px;">ELEGIR CUOTAS</button>
-                    </div>
-                    <div class="counter-bar"><div id="slotsBar" class="counter-fill"></div></div>
-                    <p id="slotsText" style="text-align:right; font-size:0.7rem; color:var(--hydro-cyan);">Quedan cupos</p>
-                </div>
-            </div>
-
-            <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                <p style="color:#00e5ff; font-weight:bold; margin-bottom:10px;">¡CASI LISTO!</p>
-                <p style="color:#ccc; font-size:0.9rem; margin-bottom:15px;">Para activar tu inscripción y recibir tu <strong>CÓDIGO DE ACCESO ÚNICO</strong>, envía el comprobante de pago ahora.</p>
-                <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%;">
-                    <i class="fab fa-whatsapp"></i> ENVIAR COMPROBANTE
-                </button>
-            </div>
+            </form>
+            <p id="errorMsg" class="text-red-500 text-sm mt-4 hidden font-bold">⛔ CÓDIGO INCORRECTO</p>
+            <a href="index.html" class="block mt-4 text-gray-600 text-xs hover:text-white">Volver al Inicio</a>
         </div>
     </div>
 
-    <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:10px;">
-            <h3>PANEL DE CONTROL</h3>
-            <button onclick="toggleAdmin()" style="color:red; background:none; border:none; cursor:pointer;">CERRAR</button>
-        </div>
-        
-        <div class="admin-nav">
-            <button class="tab-btn active" onclick="showTab('tabKeys')">🔑 CLAVES</button>
-            <button class="tab-btn" onclick="showTab('tabConfig')">CONFIG</button>
-            <button class="tab-btn" onclick="showTab('tabSponsors')">AVALES</button>
-            <button class="tab-btn" onclick="showTab('tabStations')">ESTACIONES</button>
-            <button class="tab-btn" onclick="showTab('tabInst')">INSTRUCTORES</button>
-            <button class="tab-btn" onclick="showTab('tabGal')">GALERÍA</button>
-            <button class="tab-btn" onclick="showTab('tabAcc')">ALOJAMIENTO</button>
-        </div>
-
-        <div id="tabKeys" class="admin-section active">
-            <div style="background:#222; padding:20px; border-radius:8px; text-align:center;">
-                <h4 style="color:var(--rescue-orange); margin-bottom:10px;">GENERADOR DE ACCESO</h4>
-                <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">Ingresa el DNI del alumno que pagó para crear su código.</p>
-                <input type="number" id="keyDNI" class="input-dark" placeholder="DNI Alumno" style="text-align:center; font-size:1.2rem;">
-                <button onclick="generateUniqueKey()" class="btn" style="width:100%; padding:15px; background:white; color:black; margin-top:10px;">GENERAR CÓDIGO</button>
-                <div id="keyResult" style="margin-top:20px; padding:15px; border:2px dashed var(--hydro-cyan); display:none;">
-                    <p style="color:#888; font-size:0.7rem;">CÓDIGO PARA EL ALUMNO:</p>
-                    <h2 id="finalKey" style="color:var(--hydro-cyan); font-size:2rem; font-family:'Black Ops One'; margin:10px 0; user-select:all; cursor:pointer;" onclick="copyKey()"></h2>
-                    <p id="copyMsg" style="color:#00c853; font-size:0.8rem; display:none;">¡Copiado!</p>
-                </div>
+    <div id="main-content" class="max-w-7xl mx-auto hidden">
+        <header class="bg-white p-6 rounded-2xl shadow-lg mb-8 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-gray-500 hover:text-black"><i class="fas fa-arrow-left"></i> Salir</a>
+                <h1 class="text-2xl font-black text-slate-800 uppercase">ACREDITACIÓN <span style="color:var(--accent-color)">DOLORES 2026</span></h1>
             </div>
-        </div>
+            <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-xs">
+                <i class="fas fa-lock"></i> USUARIO VERIFICADO
+            </div>
+        </header>
 
-        <div id="tabConfig" class="admin-section">
-            <h4 style="color:var(--hydro-cyan);">FONDO & PAGOS</h4>
-            <input type="file" id="bgFile" class="input-dark" accept="image/*">
-            <button onclick="updateBackground()" class="btn" style="padding:10px; width:100%;">CAMBIAR FONDO</button>
-            <button onclick="clearBackground()" style="color:red; background:none; border:none; margin-top:5px;">Restaurar</button>
-            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
-            <label style="font-size:0.8rem; color:#888;">Link Mercado Pago:</label>
-            <input type="text" id="linkMP" class="input-dark">
-            <label style="font-size:0.8rem; color:#888;">Link GoCuotas:</label>
-            <input type="text" id="linkGO" class="input-dark">
-            <label style="font-size:0.8rem; color:#888;">Cupos Vendidos:</label>
-            <input type="number" id="soldSlots" class="input-dark" value="0">
-            <button onclick="saveConfig()" class="btn" style="padding:10px; width:100%;">GUARDAR</button>
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <section class="bg-white p-8 rounded-2xl shadow-xl h-fit">
+                <form id="carnet-form" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">DNI</label>
+                            <input type="text" id="dni" class="w-full p-3 bg-slate-50 rounded-lg font-bold border border-slate-200" readonly>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Nombre</label>
+                            <input type="text" id="nombre" class="w-full p-3 bg-slate-50 rounded-lg font-bold uppercase border border-slate-200" placeholder="Nombre completo">
+                        </div>
+                    </div>
 
-        <div id="tabSponsors" class="admin-section">
-            <input type="text" id="avName" class="input-dark" placeholder="Nombre Institución">
-            <input type="file" id="avFile" class="input-dark" accept="image/*">
-            <button onclick="addSponsor()" class="btn" style="padding:10px; width:100%;">SUBIR SPONSOR</button>
-            <div id="listAvales" class="preview-list"></div>
-        </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Rol</label>
+                        <select id="rol-select" class="w-full p-3 bg-white border border-slate-200 rounded-lg font-bold">
+                            <option value="ASISTENTE">ASISTENTE</option>
+                            <option value="DISERTANTE">DISERTANTE</option>
+                            <option value="PRENSA">PRENSA</option>
+                        </select>
+                    </div>
 
-        <div id="tabStations" class="admin-section">
-            <select id="stSelect" class="input-dark">
-                <option value="0">1. Rescate Acuático</option>
-                <option value="1">2. Rescate en Altura</option>
-                <option value="2">3. Espacios Confinados</option>
-                <option value="3">4. Medicina Táctica</option>
-                <option value="4">5. Comunicaciones</option>
-                <option value="5">6. Psicología (PAP)</option>
-            </select>
-            <input type="file" id="stFile" class="input-dark" accept="image/*">
-            <button onclick="updateStation()" class="btn" style="padding:10px; width:100%;">ACTUALIZAR FOTO</button>
-        </div>
+                    <div class="p-4 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 text-center hover:bg-white transition cursor-pointer relative">
+                        <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
+                        <div class="text-slate-500">
+                            <i class="fas fa-camera text-2xl mb-2"></i>
+                            <p class="text-xs font-bold uppercase">Subir Foto de Perfil</p>
+                        </div>
+                    </div>
 
-        <div id="tabInst" class="admin-section">
-            <input type="text" id="inName" class="input-dark" placeholder="Nombre">
-            <input type="text" id="inRole" class="input-dark" placeholder="Cargo">
-            <input type="file" id="inFile" class="input-dark" accept="image/*">
-            <button onclick="addInstructor()" class="btn" style="padding:10px; width:100%;">AGREGAR</button>
-            <div id="listInst" class="preview-list"></div>
-        </div>
+                    <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-lg hover:bg-black transition-all shadow-lg uppercase tracking-widest mt-4">
+                        GENERAR CREDENCIAL
+                    </button>
+                </form>
+            </section>
 
-        <div id="tabGal" class="admin-section">
-            <input type="file" id="galFile" class="input-dark" accept="image/*">
-            <button onclick="addGalleryPhoto()" class="btn" style="padding:10px; width:100%;">AGREGAR FOTO</button>
-            <div id="listGaleria" class="preview-list"></div>
-        </div>
-
-        <div id="tabAcc" class="admin-section">
-            <input type="text" id="acName" class="input-dark" placeholder="Lugar">
-            <input type="text" id="acDesc" class="input-dark" placeholder="Descripción">
-            <input type="text" id="acLink" class="input-dark" placeholder="Link Mapa">
-            <select id="acIcon" class="input-dark"><option value="fas fa-hotel">Hotel</option><option value="fas fa-campground">Camping</option><option value="fas fa-bed">Albergue</option></select>
-            <button onclick="addAccom()" class="btn" style="padding:10px; width:100%;">AGREGAR</button>
-            <div id="listAccom" class="preview-list"></div>
+            <section class="flex flex-col items-center sticky top-8">
+                <div id="download-area">
+                    <div id="preview-container" class="carnet-preview">
+                        <div class="header-bar">
+                            <span class="font-black text-xl uppercase tracking-tighter">CONGRESO INTERDISCIPLINARIO</span>
+                            <span class="text-[10px] font-black opacity-80 uppercase tracking-widest">PASE OFICIAL</span>
+                        </div>
+                        <div class="event-logo-container">
+                            <div class="event-logo-text">DOLORES<br>2026</div>
+                        </div>
+                        <div class="footer-bar">
+                            <span class="text-[10px] font-black opacity-90 uppercase tracking-wide">SISTEMA NACIONAL DE ACREDITACIÓN</span>
+                            <span class="text-[10px] font-black uppercase">VÁLIDO 27-28 FEB 2026</span>
+                        </div>
+                        <div class="event-info">
+                            <div class="event-title">DOLORES BAJO EL AGUA</div>
+                            <div class="event-date">27-28 FEBRERO 2026</div>
+                        </div>
+                        <img id="photo-preview" src="https://placehold.co/260x320/e2e8f0/94a3b8?text=FOTO" alt="Foto">
+                        <img id="watermark" src="https://via.placeholder.com/350x350/000000/ffffff?text=DOLORES" alt="">
+                        <div id="nombre-preview">NOMBRE ALUMNO</div>
+                        <div id="dni-container">DNI: 00.000.000</div>
+                        <div id="role-container">ASISTENTE</div>
+                        <div class="qr-box"><canvas id="qr-code-preview"></canvas></div>
+                    </div>
+                </div>
+                <div id="actions" class="mt-8 hidden">
+                    <button onclick="downloadImage('jpeg')" class="bg-blue-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">DESCARGAR IMAGEN</button>
+                </div>
+            </section>
         </div>
     </div>
 
     <script>
-        // CONFIG INICIAL
-        const DB = { 
-            avales:[], stations:[], instructores:[], galeria:[], accom:[], 
-            config:{ mp:"", go:"", sold:0, bg:"" } 
+        // --- CONFIGURACIÓN SUPABASE ---
+        const CONFIG = {
+            supabaseUrl: 'https://fuxnsebrhxxbalqfmtzs.supabase.co',
+            supabaseKey: 'sb_publishable_brWrs7Bn3vGFS7H2mEHkKQ_hcK1a8WV', 
+            repoUrl: 'https://instructormap.github.io/verificador-Carnet-Oficial/' 
         };
-        const DEFAULT_STATIONS = [
-            {title:"Acuático",desc:"Técnicas en correntada",icon:"fas fa-water",img:"https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=400"},
-            {title:"Altura",desc:"Rappel táctico",icon:"fas fa-mountain",img:"https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=400"},
-            {title:"Confinados",desc:"Búsqueda BREC",icon:"fas fa-dungeon",img:"https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=400"},
-            {title:"Táctica",desc:"Protocolo MARCH",icon:"fas fa-briefcase-medical",img:"https://images.unsplash.com/photo-1599467657930-b3b3cb913d78?q=80&w=400"},
-            {title:"Radio",desc:"Puesto de Comando",icon:"fas fa-headset",img:"https://images.unsplash.com/photo-1587823207416-64151c8e1d96?q=80&w=400"},
-            {title:"PAP",desc:"Psicología",icon:"fas fa-brain",img:"https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400"}
-        ];
+        const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
 
-        document.addEventListener('DOMContentLoaded', () => { loadData(); renderAll(); });
+        // --- 1. LÓGICA DE LOGIN ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlDni = params.get('dni');
+            const urlName = params.get('name');
 
-        function loadData() {
-            DB.avales = JSON.parse(localStorage.getItem('dba_avales') || '[]');
-            DB.instructores = JSON.parse(localStorage.getItem('dba_instructors') || '[]');
-            DB.galeria = JSON.parse(localStorage.getItem('dba_gallery') || '[]');
-            DB.accom = JSON.parse(localStorage.getItem('dba_accom') || '[]');
-            DB.stations = JSON.parse(localStorage.getItem('dba_stations') || JSON.stringify(DEFAULT_STATIONS));
-            DB.config = JSON.parse(localStorage.getItem('dba_config') || '{"mp":"","go":"","sold":0,"bg":""}');
-            
-            // Cargar Config
-            document.getElementById('linkMP').value = DB.config.mp;
-            document.getElementById('linkGO').value = DB.config.go;
-            document.getElementById('soldSlots').value = DB.config.sold;
-            if(DB.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
-        }
-
-        // --- SISTEMA DE CLAVES ---
-        function generateUniqueKey() {
-            const dni = document.getElementById('keyDNI').value.trim();
-            if(!dni || dni.length < 6) return alert("DNI inválido");
-            const salt = "DOLORES26"; 
-            const code = btoa(dni + salt).substring(0, 8).toUpperCase(); 
-            document.getElementById('finalKey').innerText = code;
-            document.getElementById('keyResult').style.display = 'block';
-        }
-        function copyKey() {
-            const key = document.getElementById('finalKey').innerText;
-            navigator.clipboard.writeText(key);
-            document.getElementById('copyMsg').style.display = 'block';
-            setTimeout(() => document.getElementById('copyMsg').style.display='none', 2000);
-        }
-
-        // --- COMPRESOR IMAGENES ---
-        const resize = (file, w=400) => new Promise(res => {
-            const r = new FileReader();
-            r.onload = e => {
-                const i = new Image();
-                i.onload = () => {
-                    const c = document.createElement('canvas');
-                    const rat = w/i.width; c.width = w; c.height = i.height*rat;
-                    c.getContext('2d').drawImage(i,0,0,c.width,c.height);
-                    res(c.toDataURL('image/jpeg', 0.6));
-                }; i.src = e.target.result;
-            }; r.readAsDataURL(file);
+            // Si vienen datos de la URL (del pago), autocompletar el login
+            if(urlDni) {
+                document.getElementById('loginDNI').value = urlDni;
+                // Si viene nombre, guardarlo para usarlo post-login
+                if(urlName) localStorage.setItem('tempName', decodeURIComponent(urlName));
+            }
         });
 
-        // --- ADMIN FUNCTIONS ---
-        function saveConfig() {
-            DB.config.mp = document.getElementById('linkMP').value;
-            DB.config.go = document.getElementById('linkGO').value;
-            DB.config.sold = document.getElementById('soldSlots').value;
-            localStorage.setItem('dba_config', JSON.stringify(DB.config));
-            alert("Guardado"); checkSlots();
-        }
-        async function updateBackground() {
-            const f = document.getElementById('bgFile').files[0];
-            if(!f) return alert("Elige imagen");
-            const bg = await resize(f, 1024);
-            DB.config.bg = bg; saveConfig();
-            document.getElementById('dynamic-bg').style.backgroundImage = `url('${bg}')`;
-        }
-        function clearBackground() { DB.config.bg=""; saveConfig(); location.reload(); }
+        function validateAccess(e) {
+            e.preventDefault();
+            const dni = document.getElementById('loginDNI').value;
+            const code = document.getElementById('loginCode').value;
+            const errorMsg = document.getElementById('errorMsg');
 
-        async function addSponsor() {
-            const name = document.getElementById('avName').value;
-            const f = document.getElementById('avFile').files[0];
-            if(!name || !f) return alert("Faltan datos");
-            DB.avales.push({name, img: await resize(f,300)});
-            localStorage.setItem('dba_avales', JSON.stringify(DB.avales));
-            document.getElementById('avName').value=''; document.getElementById('avFile').value='';
-            renderAll();
-        }
-        async function addInstructor() {
-            const name = document.getElementById('inName').value;
-            const role = document.getElementById('inRole').value;
-            const f = document.getElementById('inFile').files[0];
-            if(!name || !f) return alert("Faltan datos");
-            DB.instructores.push({name, role, img: await resize(f,300)});
-            localStorage.setItem('dba_instructors', JSON.stringify(DB.instructores));
-            renderAll();
-        }
-        async function addGalleryPhoto() {
-            const f = document.getElementById('galFile').files[0];
-            if(!f) return alert("Falta foto");
-            DB.galeria.push({img: await resize(f,500)});
-            localStorage.setItem('dba_gallery', JSON.stringify(DB.galeria));
-            renderAll();
-        }
-        function addAccom() {
-            const name = document.getElementById('acName').value;
-            const desc = document.getElementById('acDesc').value;
-            const link = document.getElementById('acLink').value;
-            const icon = document.getElementById('acIcon').value;
-            if(!name) return alert("Falta nombre");
-            DB.accom.push({name, desc, link, icon});
-            localStorage.setItem('dba_accom', JSON.stringify(DB.accom));
-            renderAll();
-        }
-        async function updateStation() {
-            const idx = document.getElementById('stSelect').value;
-            const f = document.getElementById('stFile').files[0];
-            if(!f) return alert("Falta foto");
-            DB.stations[idx].img = await resize(f,500);
-            localStorage.setItem('dba_stations', JSON.stringify(DB.stations));
-            renderAll();
-        }
-        function deleteItem(type, idx) {
-            if(!confirm("¿Borrar?")) return;
-            DB[type].splice(idx,1);
-            localStorage.setItem(`dba_${type}`, JSON.stringify(DB[type]));
-            renderAll();
+            if (isValidCode(dni, code)) {
+                // ACCESO CONCEDIDO
+                document.getElementById('access-screen').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+                
+                // Cargar datos en el formulario real
+                document.getElementById('dni').value = dni;
+                
+                // Recuperar nombre si existía
+                const tempName = localStorage.getItem('tempName');
+                if(tempName) {
+                    document.getElementById('nombre').value = tempName;
+                    updatePreview();
+                    localStorage.removeItem('tempName');
+                }
+                updatePreview();
+            } else {
+                // ACCESO DENEGADO
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => errorMsg.classList.add('hidden'), 3000);
+            }
         }
 
-        // --- RENDER ---
-        function renderAll() {
-            document.getElementById('publicAvales').innerHTML = DB.avales.map(i => `<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('') || '<p style="color:#444">Logos Aquí</p>';
-            document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, 'avales', x)).join('');
-            
-            document.getElementById('publicStations').innerHTML = DB.stations.map(s => `<div class="station-card"><img src="${s.img}" class="station-img"><div class="station-body"><i class="${s.icon} station-icon"></i><div class="station-title">${s.title}</div><p style="color:#ccc">${s.desc}</p></div></div>`).join('');
-
-            document.getElementById('publicInstructors').innerHTML = DB.instructores.map(i => `<div class="inst-card"><div class="inst-img-wrap"><img src="${i.img}" class="inst-img"></div><div class="inst-name">${i.name}</div><div class="inst-role">${i.role}</div></div>`).join('');
-            document.getElementById('listInst').innerHTML = DB.instructores.map((i,x) => mkRow(i.name, 'instructores', x)).join('');
-
-            document.getElementById('publicGallery').innerHTML = DB.galeria.map(i => `<div class="gallery-item"><img src="${i.img}" class="gallery-img"></div>`).join('');
-            document.getElementById('listGaleria').innerHTML = DB.galeria.map((i,x) => mkRow('Foto '+x, 'galeria', x)).join('');
-            
-            document.getElementById('publicAccom').innerHTML = DB.accom.map(i => `<div class="accom-card"><i class="${i.icon} accom-icon"></i><h3 style="color:white">${i.name}</h3><p style="color:#aaa">${i.desc}</p></div>`).join('');
-            document.getElementById('listAccom').innerHTML = DB.accom.map((i,x) => mkRow(i.name, 'accom', x)).join('');
-            
-            checkSlots();
-        }
-        function mkRow(txt, type, idx) { return `<div class="preview-item"><span>${txt}</span><button onclick="deleteItem('${type}', ${idx})" style="color:red;border:none;background:none;">X</button></div>`; }
-
-        // --- PAYMENT & MODAL ---
-        function checkSlots() {
-            const sold = parseInt(DB.config.sold) || 0;
-            const remaining = 50 - sold;
-            document.getElementById('slotsText').textContent = `Quedan ${remaining} cupos financiados`;
-            document.getElementById('slotsBar').style.width = `${(remaining/50)*100}%`;
-            if(remaining <= 0) document.getElementById('goCuotasContainer').style.display = 'none';
-        }
-        function openModal() { document.getElementById('paymentModal').style.display='flex'; }
-        function closeModal() { document.getElementById('paymentModal').style.display='none'; }
-
-        function processPayment(type) {
-            const name = document.getElementById('payName').value;
-            const dni = document.getElementById('payDni').value;
-            if(!name || !dni) return alert("Completa tus datos");
-            const link = type === 'MP' ? DB.config.mp : DB.config.go;
-            if(!link) return alert("Link no configurado en Admin");
-            
-            window.open(link, '_blank');
-            document.getElementById('validationStep').style.display = 'block';
-        }
-        function sendProof() {
-            const name = document.getElementById('payName').value;
-            const dni = document.getElementById('payDni').value;
-            const msg = `Hola, ya pagué para DOLORES 2026. Soy ${name} (DNI ${dni}). Adjunto comprobante.`;
-            window.open(`https://wa.me/5491112345678?text=${encodeURIComponent(msg)}`, '_blank'); // CAMBIAR NUMERO
+        // ALGORITMO DE VERIFICACIÓN (Debe coincidir con index.html)
+        function isValidCode(dniInput, codeInput) {
+            if(!dniInput || !codeInput) return false;
+            const cleanDni = dniInput.toString().trim();
+            const cleanCode = codeInput.toString().trim().toUpperCase();
+            const salt = "DOLORES26"; 
+            const expected = btoa(cleanDni + salt).substring(0, 8).toUpperCase();
+            return cleanCode === expected;
         }
 
-        // --- UI ---
-        function toggleAdmin() {
-            const p = document.getElementById('adminPanel');
-            if(p.style.display==='block') p.style.display='none';
-            else if(prompt("Clave Admin:")==="admin2026") p.style.display='block';
+        // --- 2. LÓGICA DEL GENERADOR ---
+        document.getElementById('photo-upload').onchange = (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => document.getElementById('photo-preview').src = ev.target.result;
+                reader.readAsDataURL(file);
+            }
+        };
+        
+        document.getElementById('nombre').addEventListener('input', updatePreview);
+        document.getElementById('rol-select').addEventListener('change', updatePreview);
+
+        function updatePreview() {
+            const name = document.getElementById('nombre').value;
+            const dni = document.getElementById('dni').value;
+            const role = document.getElementById('rol-select').value;
+            if(name) document.getElementById('nombre-preview').textContent = name;
+            if(dni) document.getElementById('dni-container').textContent = `DNI: ${dni}`;
+            document.getElementById('role-container').textContent = role;
         }
-        function showTab(id) {
-            document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-            document.getElementById(id).classList.add('active'); event.target.classList.add('active');
-        }
+
+        document.getElementById('carnet-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const dni = document.getElementById('dni').value;
+            const name = document.getElementById('nombre').value;
+            const photoInput = document.getElementById('photo-upload');
+
+            if(photoInput.files.length === 0) return alert("Falta la foto");
+
+            btn.disabled = true; btn.textContent = "PROCESANDO...";
+
+            try {
+                // Subir Foto
+                const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
+                await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
+                const { data: imgData } = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
+
+                // Guardar Datos
+                const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
+                await sb.from('alumnos').upsert({
+                    dni: dni,
+                    nombre_completo: name,
+                    matricula_arg: matricula,
+                    foto_url: imgData.publicUrl
+                });
+
+                // QR
+                new QRious({
+                    element: document.getElementById('qr-code-preview'),
+                    value: `${CONFIG.repoUrl}?id=${matricula}`,
+                    size: 100, level: 'H'
+                });
+
+                document.getElementById('actions').classList.remove('hidden');
+                btn.textContent = "¡CREDENCIAL GENERADA!";
+                btn.style.background = "#00c853";
+
+            } catch (err) {
+                console.error(err);
+                alert("Error de conexión");
+                btn.disabled = false; btn.textContent = "REINTENTAR";
+            }
+        };
+
+        window.downloadImage = (fmt) => {
+            html2canvas(document.getElementById('preview-container'), { scale:3, useCORS:true }).then(c => {
+                const a = document.createElement('a');
+                a.download = `Credencial_Dolores_${document.getElementById('dni').value}.jpg`;
+                a.href = c.toDataURL('image/jpeg', 1.0); a.click();
+            });
+        };
     </script>
 </body>
 </html>
