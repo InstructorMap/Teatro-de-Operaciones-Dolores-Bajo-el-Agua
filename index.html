@@ -10,13 +10,14 @@
     
     <style>
         :root {
-            /* PALETA HYDRO-TACTICAL */
-            --bg-deep: #05080a;
-            --bg-panel: #0b1216;
-            --rescue-orange: #ff4500; /* Naranja Seguridad */
-            --hydro-cyan: #00bcd4;    /* Cian Agua */
-            --text-main: #e0e0e0;
-            --glass: rgba(11, 18, 22, 0.9);
+            /* PALETA HYDRO-TACTICAL v2 */
+            --bg-deep: #020405;
+            --bg-panel: #0d1114;
+            --rescue-orange: #ff4500; 
+            --hydro-cyan: #00e5ff;    
+            --text-main: #f0f0f0;
+            --glass: rgba(13, 17, 20, 0.85);
+            --border: 1px solid rgba(255,255,255,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -27,126 +28,157 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
-            /* Trama sutil de lluvia/ruido */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 69, 0, 0.03) 0%, transparent 20%);
         }
 
         h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
-        .font-ops { font-family: 'Black Ops One', cursive; }
-
-        /* --- BOTONES --- */
+        
+        /* --- UI COMPONENTS --- */
         .btn {
             display: inline-block; padding: 14px 35px;
-            background: linear-gradient(45deg, var(--rescue-orange), #ff6d00);
+            background: linear-gradient(135deg, var(--rescue-orange), #d50000);
             color: #fff; font-weight: 800; border: none; cursor: pointer;
             text-transform: uppercase; font-family: 'Exo 2'; letter-spacing: 1px;
             clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+            transition: 0.3s; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 69, 0, 0.5); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(255, 69, 0, 0.6); }
 
         .btn-hydro {
-            background: transparent; border: 2px solid var(--hydro-cyan); color: var(--hydro-cyan);
+            background: rgba(0, 229, 255, 0.05); border: 1px solid var(--hydro-cyan); color: var(--hydro-cyan);
             padding: 12px 30px; font-weight: 700; text-transform: uppercase; text-decoration: none;
             clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
             transition: 0.3s; display: inline-block;
         }
-        .btn-hydro:hover { background: rgba(0, 188, 212, 0.1); text-shadow: 0 0 10px var(--hydro-cyan); }
+        .btn-hydro:hover { background: rgba(0, 229, 255, 0.15); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
 
         /* --- HEADER --- */
         header {
             padding: 15px 5%; position: fixed; width: 100%; top: 0;
             background: var(--glass); z-index: 1000;
-            border-bottom: 1px solid rgba(0, 188, 212, 0.2);
-            backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center;
         }
-        .logo { font-family: 'Black Ops One'; font-size: 1.4rem; color: #fff; }
+        .logo { font-family: 'Black Ops One'; font-size: 1.5rem; color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
         .logo span { color: var(--rescue-orange); }
 
         /* --- HERO --- */
         .hero {
             min-height: 100vh; position: relative;
-            background: linear-gradient(180deg, rgba(5,8,10,0.6) 0%, rgba(5,8,10,1) 100%), 
+            /* Se recomienda cambiar esta URL por una imagen local desde el Admin Panel si fuera posible, o mantener Unsplash */
+            background: linear-gradient(180deg, rgba(2,4,5,0.7) 0%, #020405 100%), 
                         url('https://images.unsplash.com/photo-1599999039645-3c480436d2c4?q=80&w=1470&auto=format&fit=crop'); 
             background-size: cover; background-position: center;
-            display: flex; align-items: center; padding: 120px 10% 80px;
+            display: flex; align-items: center; padding: 140px 10% 80px;
         }
         .hero-content { position: relative; z-index: 2; border-left: 4px solid var(--hydro-cyan); padding-left: 30px; max-width: 800px; }
-        .hero-badge { background: rgba(0, 188, 212, 0.2); color: var(--hydro-cyan); padding: 5px 12px; font-weight: bold; border: 1px solid var(--hydro-cyan); display: inline-block; margin-bottom: 15px; font-size: 0.8rem; }
-        
-        h1 { font-size: 4rem; line-height: 0.95; margin-bottom: 20px; color: white; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 span { color: var(--rescue-orange); font-style: italic; }
-        .hero-p { font-size: 1.2rem; color: #ccc; margin-bottom: 30px; max-width: 600px; }
-
-        /* --- AVALES BAR --- */
-        .avales-section { background: #080c0f; padding: 30px 10%; text-align: center; border-bottom: 1px solid #222; }
-        .avales-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; align-items: center; }
-        .aval-img { height: 60px; filter: grayscale(100%); opacity: 0.6; transition: 0.3s; object-fit: contain; }
-        .aval-img:hover { filter: grayscale(0%); opacity: 1; }
-
-        /* --- ESTACIONES (Tarjetas) --- */
-        section { padding: 80px 10%; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 10px; color: white; }
-        .section-sub { text-align: center; color: var(--hydro-cyan); font-weight: 700; margin-bottom: 50px; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; }
-
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .station-card {
-            background: var(--bg-panel); border: 1px solid #222; overflow: hidden;
-            position: relative; transition: 0.3s; border-bottom: 3px solid transparent;
+        .hero-badge { 
+            background: rgba(0, 229, 255, 0.1); color: var(--hydro-cyan); 
+            padding: 6px 15px; font-weight: bold; border: 1px solid var(--hydro-cyan); 
+            display: inline-block; margin-bottom: 20px; font-size: 0.85rem; letter-spacing: 2px;
         }
-        .station-card:hover { transform: translateY(-5px); border-bottom-color: var(--rescue-orange); }
-        .station-img { width: 100%; height: 200px; object-fit: cover; filter: brightness(0.8); transition: 0.3s; }
-        .station-card:hover .station-img { filter: brightness(1.1); }
-        .station-body { padding: 25px; }
-        .station-icon { color: var(--hydro-cyan); font-size: 1.5rem; margin-bottom: 10px; }
-        .station-title { font-size: 1.4rem; color: white; margin-bottom: 8px; }
+        
+        h1 { font-size: 4rem; line-height: 0.95; margin-bottom: 25px; color: white; }
+        h1 span { color: var(--rescue-orange); font-style: italic; }
+        .hero-p { font-size: 1.2rem; color: #b0bec5; margin-bottom: 35px; max-width: 600px; }
 
-        /* --- INSTRUCTORES (Circular) --- */
-        .inst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
-        .inst-card { transition: 0.3s; }
-        .inst-card:hover { transform: scale(1.05); }
+        /* --- AVALES BAR (SPONSORS) --- */
+        .avales-section { background: #0a0e11; padding: 40px 10%; text-align: center; border-bottom: 1px solid #222; }
+        .avales-grid { 
+            display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; 
+            margin-top: 25px; align-items: center; 
+        }
+        /* Contenedor blanco para respetar colores originales */
+        .aval-item {
+            background: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+            height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .aval-item:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--hydro-cyan); }
+        .aval-img { max-height: 100%; max-width: 180px; object-fit: contain; }
+
+        /* --- SECCIONES GENERALES --- */
+        section { padding: 90px 10%; }
+        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 10px; color: white; }
+        .section-sub { text-align: center; color: var(--hydro-cyan); font-weight: 700; margin-bottom: 60px; letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* --- ESTACIONES --- */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .station-card {
+            background: var(--bg-panel); border: var(--border); overflow: hidden;
+            position: relative; transition: 0.3s; border-radius: 4px;
+        }
+        .station-card:hover { transform: translateY(-5px); border-color: var(--rescue-orange); }
+        .station-img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.7) grayscale(30%); transition: 0.4s; }
+        .station-card:hover .station-img { filter: brightness(1.1) grayscale(0%); }
+        .station-body { padding: 25px; position: relative; }
+        .station-icon { color: var(--hydro-cyan); font-size: 1.8rem; margin-bottom: 15px; background: rgba(0, 229, 255, 0.1); padding: 10px; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .station-title { font-size: 1.4rem; color: white; margin-bottom: 10px; font-weight: 700; }
+
+        /* --- INSTRUCTORES (Círculo) --- */
+        .inst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; text-align: center; }
+        .inst-card { transition: 0.3s; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 10px; }
+        .inst-card:hover { background: rgba(255,255,255,0.05); }
         .inst-img-wrap {
-            width: 160px; height: 160px; margin: 0 auto 20px;
+            width: 170px; height: 170px; margin: 0 auto 20px;
             border-radius: 50%; overflow: hidden;
             border: 3px solid var(--rescue-orange);
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2);
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.15);
             position: relative;
         }
-        .inst-img { width: 100%; height: 100%; object-fit: cover; }
-        .inst-name { color: white; font-weight: 800; font-size: 1.2rem; }
-        .inst-role { color: #888; font-size: 0.9rem; text-transform: uppercase; font-weight: 600; }
+        .inst-img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .inst-card:hover .inst-img { transform: scale(1.1); }
+        .inst-name { color: white; font-weight: 800; font-size: 1.3rem; margin-bottom: 5px; }
+        .inst-role { color: #888; font-size: 0.9rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
 
-        /* --- GALERÍA (Masonry Style simple) --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
-        .gallery-item { height: 200px; overflow: hidden; border-radius: 4px; position: relative; cursor: pointer; }
+        /* --- GALERÍA --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .gallery-item { height: 220px; overflow: hidden; border-radius: 4px; position: relative; cursor: pointer; border: 1px solid #333; }
         .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .gallery-item:hover .gallery-img { transform: scale(1.1); }
 
-        /* --- PRICING & ALOJAMIENTO --- */
+        /* --- ALOJAMIENTO --- */
+        .accom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .accom-card { 
+            background: #111; padding: 25px; border-left: 3px solid var(--hydro-cyan); 
+            border-radius: 0 8px 8px 0; transition: 0.3s;
+        }
+        .accom-card:hover { background: #161616; padding-left: 30px; }
+        .accom-icon { color: var(--hydro-cyan); font-size: 1.5rem; margin-bottom: 10px; display:block;}
+
+        /* --- PRICING --- */
+        .pricing-section { background: linear-gradient(to top, black, #080c0f); padding-top: 50px; }
         .price-box {
             background: linear-gradient(145deg, #111, #0a0a0a); border: 1px solid var(--hydro-cyan);
-            max-width: 500px; margin: 0 auto; padding: 50px; text-align: center; position: relative;
+            max-width: 500px; margin: 0 auto; padding: 60px 40px; text-align: center; position: relative;
+            box-shadow: 0 0 60px rgba(0, 229, 255, 0.1);
         }
-        .price-val { font-size: 3.5rem; color: white; font-weight: 900; margin: 20px 0; }
-        .accom-row { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px; }
-        .accom-badge { background: #1a1a1a; padding: 10px 20px; border-left: 3px solid var(--gold); color: #ccc; font-size: 0.9rem; }
-
+        .price-badge { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background: var(--rescue-orange); color: white; padding: 5px 20px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+        .price-val { font-size: 4rem; color: white; font-weight: 900; margin: 20px 0; line-height: 1; }
+        
         /* --- ADMIN PANEL --- */
-        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 50px black; }
+        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #444; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
         .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
-        .tab-btn { padding: 8px 15px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; }
+        .tab-btn { padding: 10px 20px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; font-weight: bold; border-radius: 4px; }
         .tab-btn.active { background: var(--rescue-orange); color: white; }
-        .admin-section { display: none; }
+        .admin-section { display: none; animation: fadeIn 0.3s; }
         .admin-section.active { display: block; }
-        .input-dark { width: 100%; padding: 12px; background: #080c0f; border: 1px solid #333; color: white; margin-bottom: 10px; }
+        .input-dark { width: 100%; padding: 12px; background: #080c0f; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 4px; }
         .preview-list { margin-top: 15px; display: grid; gap: 10px; }
-        .preview-item { display: flex; align-items: center; background: #222; padding: 10px; justify-content: space-between; }
-        .preview-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; }
+        .preview-item { display: flex; align-items: center; background: #222; padding: 10px; justify-content: space-between; border-radius: 4px; }
+        .preview-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; background: white; }
 
         /* --- MODAL PAGO --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a1a; padding: 40px; border: 1px solid var(--hydro-cyan); width: 90%; max-width: 450px; text-align: center; }
+        .modal-content { background: #1a1a1a; padding: 40px; border: 1px solid var(--hydro-cyan); width: 90%; max-width: 450px; text-align: center; border-radius: 8px; }
 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) { h1 { font-size: 3rem; } .hero { padding-top: 120px; } }
     </style>
 </head>
@@ -170,9 +202,9 @@
     </section>
 
     <div class="avales-section">
-        <p style="color:#666; font-size:0.8rem; letter-spacing:2px;">AVALADO POR</p>
+        <p style="color:#666; font-size:0.8rem; letter-spacing:2px; margin-bottom: 20px;">ORGANIZA & AVALA</p>
         <div class="avales-grid" id="publicAvales">
-            <p style="color:#444;">Cargando alianzas...</p>
+            <p style="color:#444;">Cargando...</p>
         </div>
     </div>
 
@@ -199,15 +231,16 @@
 
     <section id="alojamiento" style="background: #080c0f;">
         <h2 class="section-title">LOGÍSTICA & ALOJAMIENTO</h2>
-        <div class="accom-row" id="publicAccom">
+        <div class="accom-grid" id="publicAccom">
             </div>
     </section>
 
-    <section id="inscripcion">
+    <section class="pricing-section" id="inscripcion">
         <div class="price-box">
+            <div class="price-badge">CUPOS LIMITADOS</div>
             <h3 style="color:var(--hydro-cyan); margin-bottom:10px;">PASE FULL 2026</h3>
             <div class="price-val">$100.000</div>
-            <p style="color:#ccc; margin-bottom:30px;">Acceso Virtual (27 Feb) + Presencial (28 Feb) + Kit + Certificación.</p>
+            <p style="color:#ccc; margin-bottom:30px; font-size: 1.1rem;">Acceso Virtual (27 Feb) + Presencial (28 Feb) + Kit Operativo + Certificación.</p>
             <button onclick="openModal()" class="btn" style="width:100%;">INICIAR INSCRIPCIÓN</button>
         </div>
     </section>
@@ -236,7 +269,7 @@
         </div>
         
         <div class="admin-nav">
-            <button class="tab-btn active" onclick="showTab('admAvales')">AVALES</button>
+            <button class="tab-btn active" onclick="showTab('admAvales')">SPONSORS</button>
             <button class="tab-btn" onclick="showTab('admEstaciones')">ESTACIONES</button>
             <button class="tab-btn" onclick="showTab('admInst')">INSTRUCTORES</button>
             <button class="tab-btn" onclick="showTab('admGaleria')">GALERÍA</button>
@@ -244,15 +277,16 @@
         </div>
 
         <div id="admAvales" class="admin-section active">
+            <p style="color:#aaa; font-size:0.9rem; margin-bottom:10px;">Sube logos de instituciones. Se verán en color original sobre fondo blanco.</p>
             <input type="text" id="avName" class="input-dark" placeholder="Nombre Institución">
-            <label style="font-size:0.8rem; color:#888;">Logo:</label>
+            <label style="font-size:0.8rem; color:#888;">Logo (JPG/PNG):</label>
             <input type="file" id="avFile" class="input-dark" accept="image/*">
-            <button onclick="addItem('avales', 'avName', 'avFile')" class="btn" style="padding:10px; width:100%;">SUBIR LOGO</button>
+            <button onclick="addSponsor()" class="btn" style="padding:10px; width:100%;">SUBIR SPONSOR</button>
             <div id="listAvales" class="preview-list"></div>
         </div>
 
         <div id="admEstaciones" class="admin-section">
-            <p style="color:#aaa; font-size:0.9rem; margin-bottom:10px;">Edita las imágenes de las 6 estaciones predefinidas.</p>
+            <p style="color:#aaa; font-size:0.9rem; margin-bottom:10px;">Actualiza las fotos de las 6 estaciones.</p>
             <select id="stSelect" class="input-dark">
                 <option value="0">1. Rescate Acuático</option>
                 <option value="1">2. Rescate en Altura</option>
@@ -284,8 +318,15 @@
 
         <div id="admAccom" class="admin-section">
             <input type="text" id="acName" class="input-dark" placeholder="Nombre Lugar">
-            <input type="text" id="acDesc" class="input-dark" placeholder="Descripción breve">
-            <button onclick="addItem('accom', 'acName', null, 'acDesc')" class="btn" style="padding:10px; width:100%;">AGREGAR LUGAR</button>
+            <input type="text" id="acDesc" class="input-dark" placeholder="Descripción breve (ej: Descuento evento)">
+            <input type="text" id="acLink" class="input-dark" placeholder="Link (Opcional)">
+            <label style="font-size:0.8rem; color:#888;">Icono:</label>
+            <select id="acIcon" class="input-dark">
+                <option value="fas fa-hotel">Hotel</option>
+                <option value="fas fa-campground">Camping</option>
+                <option value="fas fa-bed">Albergue</option>
+            </select>
+            <button onclick="addAccom()" class="btn" style="padding:10px; width:100%;">AGREGAR ALOJAMIENTO</button>
             <div id="listAccom" class="preview-list"></div>
         </div>
     </div>
@@ -294,7 +335,7 @@
         /* --- CORE LOGIC --- */
         const DB = {
             avales: [],
-            stations: [ // Default data
+            stations: [ 
                 {title: "Rescate Acuático", desc: "Técnicas en correntada", icon: "fas fa-water", img: "https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=400"},
                 {title: "Altura", desc: "Rappel táctico y evacuación", icon: "fas fa-mountain", img: "https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=400"},
                 {title: "Espacios Confinados", desc: "Búsqueda BREC", icon: "fas fa-dungeon", img: "https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=400"},
@@ -333,21 +374,51 @@
                     const rat = w/i.width;
                     c.width = w; c.height = i.height*rat;
                     c.getContext('2d').drawImage(i,0,0,c.width,c.height);
-                    res(c.toDataURL('image/jpeg', 0.8));
+                    res(c.toDataURL('image/jpeg', 0.7)); // Compress to 70% quality
                 }; i.src = e.target.result;
             }; r.readAsDataURL(file);
         });
 
-        /* --- ACTIONS --- */
+        /* --- SPECIFIC ADD FUNCTIONS --- */
+        
+        // 1. SPONSORS (AVALES)
+        async function addSponsor() {
+            const name = document.getElementById('avName').value;
+            const f = document.getElementById('avFile').files[0];
+            if(!name || !f) return alert("Faltan datos");
+            const img = await resize(f, 300);
+            DB.avales.push({name, img});
+            localStorage.setItem('dba_avales', JSON.stringify(DB.avales));
+            document.getElementById('avName').value = '';
+            document.getElementById('avFile').value = '';
+            renderAll();
+        }
+
+        // 2. ACCOMMODATION
+        function addAccom() {
+            const name = document.getElementById('acName').value;
+            const desc = document.getElementById('acDesc').value;
+            const link = document.getElementById('acLink').value;
+            const icon = document.getElementById('acIcon').value;
+            if(!name || !desc) return alert("Faltan datos");
+            DB.accom.push({name, desc, link, icon});
+            localStorage.setItem('dba_accom', JSON.stringify(DB.accom));
+            document.getElementById('acName').value = '';
+            document.getElementById('acDesc').value = '';
+            document.getElementById('acLink').value = '';
+            renderAll();
+        }
+
+        // 3. GENERIC ITEM ADD (Instructors, Gallery)
         async function addItem(type, nameId, fileId, extraId) {
             let obj = {};
             if(nameId) obj.name = document.getElementById(nameId).value;
-            if(extraId) obj.extra = document.getElementById(extraId).value; // Role or Desc
+            if(extraId) obj.extra = document.getElementById(extraId).value; 
             
             if(fileId) {
                 const f = document.getElementById(fileId).files[0];
                 if(!f && type !== 'galeria') return alert("Falta imagen");
-                if(f) obj.img = await resize(f, (type==='avales'?200:400));
+                if(f) obj.img = await resize(f, 400);
             }
 
             if(type === 'galeria' && !obj.img) return alert("Sube una foto");
@@ -355,7 +426,6 @@
             DB[type].push(obj);
             localStorage.setItem(`dba_${type}`, JSON.stringify(DB[type]));
             
-            // Clear inputs
             if(nameId) document.getElementById(nameId).value = '';
             if(extraId) document.getElementById(extraId).value = '';
             if(fileId) document.getElementById(fileId).value = '';
@@ -367,7 +437,6 @@
             const idx = document.getElementById('stSelect').value;
             const f = document.getElementById('stFile').files[0];
             if(!f) return alert("Elige una imagen");
-            
             DB.stations[idx].img = await resize(f, 500);
             localStorage.setItem('dba_stations', JSON.stringify(DB.stations));
             document.getElementById('stFile').value = '';
@@ -384,7 +453,10 @@
         /* --- RENDERERS --- */
         function renderAll() {
             // AVALES
-            const avHTML = DB.avales.map(i => `<img src="${i.img}" class="aval-img" title="${i.name}">`).join('');
+            const avHTML = DB.avales.map(i => `
+                <div class="aval-item">
+                    <img src="${i.img}" class="aval-img" title="${i.name}">
+                </div>`).join('');
             document.getElementById('publicAvales').innerHTML = avHTML || '<p style="color:#444">Espacio para Avales</p>';
             document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, i.img, 'avales', x)).join('');
 
@@ -416,7 +488,13 @@
             document.getElementById('listGaleria').innerHTML = DB.galeria.map((i,x) => mkRow('Foto '+x, i.img, 'galeria', x)).join('');
 
             // ACCOM
-            const acHTML = DB.accom.map(i => `<div class="accom-badge"><strong>${i.name}</strong><br>${i.extra}</div>`).join('');
+            const acHTML = DB.accom.map(i => `
+                <div class="accom-card">
+                    <i class="${i.icon} accom-icon"></i>
+                    <h3 style="color:white; margin-bottom:5px;">${i.name}</h3>
+                    <p style="color:#aaa; font-size:0.9rem;">${i.desc}</p>
+                    ${i.link ? `<a href="${i.link}" target="_blank" style="color:var(--hydro-cyan); font-size:0.8rem; font-weight:bold;">VER MAPA ></a>` : ''}
+                </div>`).join('');
             document.getElementById('publicAccom').innerHTML = acHTML || '<p style="color:#666">Cargando...</p>';
             document.getElementById('listAccom').innerHTML = DB.accom.map((i,x) => mkRow(i.name, null, 'accom', x)).join('');
         }
@@ -442,7 +520,7 @@
             const p = document.getElementById('adminPanel');
             const pass = p.style.display === 'block' ? null : prompt("Clave Admin:");
             if(p.style.display === 'block') p.style.display = 'none';
-            else if(pass === 'adminMap3939') p.style.display = 'block';
+            else if(pass === 'admin2026') p.style.display = 'block';
             else if(pass) alert("Clave incorrecta");
         }
 
