@@ -8,101 +8,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* --- ESTILOS IGUALES A LA VERSIÓN ANTERIOR (Base) --- */
         :root {
-            --water: #0a2e38;
-            --deep: #020b0e;
-            --alert: #ff6b00; /* Naranja Rescate */
-            --light: #e0f7fa;
-            --tactical: #37474f;
-            --gold: #d4af37;
-            --success: #00c853;
+            --water: #0a2e38; --deep: #020b0e; --alert: #ff6b00;
+            --light: #e0f7fa; --tactical: #37474f; --gold: #d4af37; --success: #00c853;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--deep);
-            color: var(--light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Roboto', sans-serif; background-color: var(--deep); color: var(--light); line-height: 1.6; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- BOTONES Y UI --- */
-        .btn {
-            display: inline-block; padding: 15px 35px;
-            background: var(--alert); color: #000; font-weight: 800;
-            text-decoration: none; border: none; cursor: pointer;
-            transition: 0.3s; text-transform: uppercase;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-        }
+        /* UI */
+        .btn { display: inline-block; padding: 15px 35px; background: var(--alert); color: #000; font-weight: 800; text-decoration: none; border: none; cursor: pointer; transition: 0.3s; text-transform: uppercase; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); }
         .btn:hover { background: #fff; transform: scale(1.05); }
-        
-        .btn-outline {
-            background: transparent; border: 2px solid var(--alert); color: var(--alert);
-            padding: 12px 30px; border-radius: 4px; text-decoration: none; font-weight: 700;
-            display: inline-block;
-        }
+        .btn-outline { background: transparent; border: 2px solid var(--alert); color: var(--alert); padding: 12px 30px; border-radius: 4px; text-decoration: none; font-weight: 700; display: inline-block; }
         .btn-outline:hover { background: var(--alert); color: #000; }
+        .tag { background: var(--tactical); padding: 5px 10px; font-size: 0.75rem; border-left: 3px solid var(--alert); margin-right: 5px; display: inline-block; margin-bottom: 5px; }
 
-        .tag {
-            background: var(--tactical); padding: 5px 10px; font-size: 0.75rem;
-            border-left: 3px solid var(--alert); margin-right: 5px; display: inline-block; margin-bottom: 5px;
-        }
-
-        /* --- HEADER & HERO --- */
-        header {
-            padding: 15px 5%; position: fixed; width: 100%;
-            background: rgba(2, 11, 14, 0.95); z-index: 1000;
-            border-bottom: 1px solid var(--alert);
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(10px);
-        }
+        /* HEADER & HERO */
+        header { padding: 15px 5%; position: fixed; width: 100%; background: rgba(2, 11, 14, 0.95); z-index: 1000; border-bottom: 1px solid var(--alert); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
         .logo { font-weight: 800; font-size: 1.2rem; color: #fff; }
         .logo span { color: var(--alert); }
-
-        .hero {
-            min-height: 100vh;
-            /* Placeholder - Reemplaza la URL con tu imagen real de fondo */
-            background: linear-gradient(to right, rgba(2, 11, 14, 0.9), rgba(2, 11, 14, 0.4)), url('https://images.unsplash.com/photo-1455731976212-d17e742d9972?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover; background-position: center;
-            display: flex; align-items: center; padding: 140px 10% 80px;
-        }
+        .hero { min-height: 100vh; background: linear-gradient(to right, rgba(2, 11, 14, 0.9), rgba(2, 11, 14, 0.4)), url('https://images.unsplash.com/photo-1455731976212-d17e742d9972?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; display: flex; align-items: center; padding: 140px 10% 80px; }
         .hero-content { max-width: 900px; z-index: 2; animation: fadeIn 1s ease-out; }
-        .hero-date { color: var(--alert); font-weight: 900; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 15px; display: block; border: 1px solid var(--alert); display: inline-block; padding: 5px 15px; }
-        
+        .hero-date { color: var(--alert); font-weight: 900; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 15px; display: inline-block; border: 1px solid var(--alert); padding: 5px 15px; }
         h1 { font-size: 4rem; line-height: 0.95; margin-bottom: 25px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         h1 span { color: var(--alert); display: block; font-size: 2.5rem; margin-top: 5px; }
         .hero-p { font-size: 1.2rem; margin-bottom: 40px; max-width: 700px; border-left: 4px solid var(--alert); padding-left: 20px; color: #cfd8dc; }
 
-        /* --- SECCIONES GENERALES --- */
+        /* SECCIONES */
         section { padding: 80px 10%; }
         .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; color: white; }
         .section-title span { border-bottom: 3px solid var(--alert); padding-bottom: 10px; }
 
-        /* --- PERFILES --- */
+        /* PERFILES */
         .profiles { background: #051014; }
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
         .profile-card { background: rgba(255,255,255,0.05); padding: 25px; border: 1px solid #1f2933; text-align: center; transition: 0.3s; }
         .profile-card:hover { border-color: var(--alert); transform: translateY(-5px); }
         .profile-icon { font-size: 2rem; color: var(--alert); margin-bottom: 15px; }
 
-        /* --- AGENDA (Timeline) --- */
+        /* CRONOGRAMA */
         .agenda { background: #020b0e; }
         .timeline-container { max-width: 800px; margin: 0 auto; border-left: 2px solid var(--tactical); padding-left: 30px; }
         .day-block { margin-bottom: 50px; position: relative; }
-        .day-badge { 
-            position: absolute; left: -46px; top: 0; background: var(--alert); color: #000; 
-            font-weight: 800; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;
-        }
+        .day-badge { position: absolute; left: -46px; top: 0; background: var(--alert); color: #000; font-weight: 800; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; }
         .timeline-item { margin-bottom: 30px; }
         .t-time { color: var(--gold); font-weight: bold; font-size: 0.9rem; }
         .t-title { font-size: 1.3rem; margin: 5px 0; color: #fff; }
         .t-desc { color: #b0bec5; font-size: 0.95rem; }
 
-        /* --- ESTACIONES --- */
+        /* ESTACIONES */
         .stations { background: var(--water); }
         .stations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .station-card { background: rgba(0,0,0,0.4); padding: 25px; border-left: 4px solid var(--alert); transition: 0.3s; }
@@ -110,70 +65,53 @@
         .station-card h3 { color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .station-card p { font-size: 0.9rem; color: #ccc; }
 
-        /* --- INSTRUCTORES (Dinámico) --- */
+        /* INSTRUCTORES (Dynamic) */
         .instructors-bg { background: #081a20; }
         .instructor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
         .instructor-card { background: #0f171a; text-align: center; padding-bottom: 15px; border: 1px solid #333; }
-        .inst-img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(100%); border-bottom: 2px solid var(--alert); transition: 0.3s; }
+        .inst-img { width: 100%; height: 250px; object-fit: cover; filter: grayscale(20%); border-bottom: 2px solid var(--alert); transition: 0.3s; }
         .instructor-card:hover .inst-img { filter: grayscale(0%); }
         .inst-name { font-size: 1.1rem; color: #fff; margin: 15px 0 5px; font-weight: 700; }
         .inst-role { color: var(--alert); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
 
-        /* --- ALOJAMIENTOS --- */
+        /* ALOJAMIENTOS (Dynamic) */
         .accom-bg { background: #020b0e; }
         .accom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .accom-card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 8px; border-top: 3px solid var(--gold); text-align: center; }
         .accom-card h3 { color: #fff; margin-bottom: 10px; font-size: 1.2rem; }
         .accom-icon { font-size: 1.5rem; color: var(--gold); margin-bottom: 10px; display: block; }
+        .accom-link { color: var(--alert); font-size: 0.8rem; text-decoration: none; font-weight: bold; margin-top: 10px; display: block;}
 
-        /* --- PRECIOS & VENTA --- */
+        /* PRECIOS */
         .pricing { background: radial-gradient(circle at center, #1a262b 0%, #000 100%); text-align: center; }
-        .price-card {
-            background: rgba(255,255,255,0.05); max-width: 500px; margin: 0 auto;
-            padding: 50px 30px; border: 1px solid var(--gold); position: relative;
-        }
+        .price-card { background: rgba(255,255,255,0.05); max-width: 500px; margin: 0 auto; padding: 50px 30px; border: 1px solid var(--gold); position: relative; }
         .price-tag { font-size: 3.5rem; font-weight: 900; color: #fff; margin: 20px 0; }
-        .includes { text-align: left; margin: 30px 0; list-style: none; }
-        .includes li { margin-bottom: 12px; padding-left: 25px; position: relative; color: #ccc; }
+        .includes li { margin-bottom: 12px; padding-left: 25px; position: relative; color: #ccc; list-style: none; text-align: left;}
         .includes li::before { content: '✓'; color: var(--success); position: absolute; left: 0; font-weight: bold; }
 
-        /* --- SPONSORS (Dinámico) --- */
+        /* SPONSORS */
         .sponsors-section { background: #fff; color: #111; text-align: center; padding: 60px 10%; }
         .sponsor-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 30px; align-items: center; }
-        .sponsor-logo { height: 60px; filter: grayscale(100%); opacity: 0.7; transition: 0.3s; }
-        .sponsor-logo:hover { filter: grayscale(0%); opacity: 1; }
+        .sponsor-logo { height: 70px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.7; transition: 0.3s; }
+        .sponsor-logo:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
 
-        /* --- MODAL PAGO --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
-        }
-        .payment-modal {
-            background: #fff; color: #000; padding: 30px; border-radius: 8px;
-            width: 90%; max-width: 400px; position: relative; text-align: center;
-        }
+        /* MODAL PAGO */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
+        .payment-modal { background: #fff; color: #000; padding: 30px; border-radius: 8px; width: 90%; max-width: 400px; position: relative; text-align: center; }
         .payment-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
         .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
 
-        /* --- ADMIN PANEL --- */
-        #adminPanel {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #fff; color: #000; padding: 20px; z-index: 9999; width: 90%; max-width: 500px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 8px; max-height: 80vh; overflow-y: auto;
-        }
-        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .admin-tab { padding: 8px 15px; cursor: pointer; background: #eee; border: none; font-weight: bold; font-size: 0.8rem; }
+        /* ADMIN PANEL */
+        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #000; padding: 20px; z-index: 9999; width: 95%; max-width: 650px; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 8px; max-height: 90vh; overflow-y: auto; }
+        .admin-nav { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; flex-wrap: wrap; }
+        .admin-tab { padding: 8px 15px; cursor: pointer; background: #f0f0f0; border: none; font-weight: bold; font-size: 0.8rem; border-radius: 4px; }
         .admin-tab.active { background: var(--alert); color: white; }
         .admin-content { display: none; }
         .admin-content.active { display: block; }
+        .admin-list-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
+        .preview-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 10px; border: 1px solid #ccc; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .hero { padding-top: 140px; text-align: center; }
-            .hero-content { margin: 0 auto; }
-            .hero-date { display: inline-block; }
-        }
+        @media (max-width: 768px) { h1 { font-size: 3rem; } .hero { padding-top: 140px; text-align: center; } .hero-content { margin: 0 auto; } .hero-date { display: inline-block; } }
     </style>
 </head>
 <body>
@@ -187,10 +125,7 @@
         <div class="hero-content">
             <div class="hero-date"><i class="far fa-calendar-alt"></i> 27 (Virtual) y 28 (Presencial) FEB 2026</div>
             <h1>DOLORES <br><span>BAJO EL AGUA</span></h1>
-            <p class="hero-p">
-                Entrenamiento intensivo en inundaciones, altura y estructuras colapsadas. 
-                <strong>Abierto a todo público</strong> con vocación de servicio.
-            </p>
+            <p class="hero-p">Entrenamiento intensivo en inundaciones, altura y estructuras colapsadas. <strong>Abierto a todo público</strong>.</p>
             <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; md:justify-content: flex-start;">
                 <button onclick="openPaymentModal()" class="btn">Quiero mi Lugar</button>
                 <a href="#estaciones" class="btn-outline">Ver Estaciones</a>
@@ -201,56 +136,24 @@
     <section class="profiles">
         <h2 class="section-title"><span>Dirigido A</span></h2>
         <div class="grid-4">
-            <div class="profile-card">
-                <i class="fas fa-user-nurse profile-icon"></i>
-                <h3>Paramédicos</h3>
-                <p style="font-size:0.9rem; color:#aaa;">Triage y soporte vital en entorno hostil.</p>
-            </div>
-            <div class="profile-card">
-                <i class="fas fa-person-military-rifle profile-icon"></i>
-                <h3>Rescatistas</h3>
-                <p style="font-size:0.9rem; color:#aaa;">Operaciones tácticas y verticales.</p>
-            </div>
-            <div class="profile-card">
-                <i class="fas fa-headset profile-icon"></i>
-                <h3>Radioperadores</h3>
-                <p style="font-size:0.9rem; color:#aaa;">Coordinación de Puesto de Comando.</p>
-            </div>
-            <div class="profile-card">
-                <i class="fas fa-user-shield profile-icon"></i>
-                <h3>Civiles / Seguridad</h3>
-                <p style="font-size:0.9rem; color:#aaa;">Primer respuesta y organización comunitaria.</p>
-            </div>
+            <div class="profile-card"><i class="fas fa-user-nurse profile-icon"></i><h3>Paramédicos</h3><p style="font-size:0.9rem; color:#aaa;">Triage y soporte vital.</p></div>
+            <div class="profile-card"><i class="fas fa-person-military-rifle profile-icon"></i><h3>Rescatistas</h3><p style="font-size:0.9rem; color:#aaa;">Operaciones tácticas.</p></div>
+            <div class="profile-card"><i class="fas fa-headset profile-icon"></i><h3>Radioperadores</h3><p style="font-size:0.9rem; color:#aaa;">Comunicaciones.</p></div>
+            <div class="profile-card"><i class="fas fa-user-shield profile-icon"></i><h3>Civiles</h3><p style="font-size:0.9rem; color:#aaa;">Primer respuesta.</p></div>
         </div>
     </section>
 
     <section class="agenda">
-        <h2 class="section-title"><span>Cronograma Operativo</span></h2>
+        <h2 class="section-title"><span>Cronograma</span></h2>
         <div class="timeline-container">
             <div class="day-block">
-                <div class="day-badge">VIERNES 27 FEB (VIRTUAL)</div>
-                <div class="timeline-item">
-                    <span class="t-time">18:00 - 21:00 hs</span>
-                    <h4 class="t-title">Módulo Teórico Intensivo</h4>
-                    <p class="t-desc">Protocolos de activación, seguridad en escena y coordinación teórica.</p>
-                </div>
+                <div class="day-badge">VIERNES 27 FEB</div>
+                <div class="timeline-item"><span class="t-time">18:00 hs</span><h4 class="t-title">Módulo Teórico Virtual</h4></div>
             </div>
             <div class="day-block">
-                <div class="day-badge">SÁBADO 28 FEB (PRESENCIAL)</div>
-                <div class="timeline-item">
-                    <span class="t-time">08:00 - 09:00</span>
-                    <h4 class="t-title">Acreditación y Equipamiento</h4>
-                </div>
-                <div class="timeline-item">
-                    <span class="t-time">09:00 - 13:00</span>
-                    <h4 class="t-title">Circuito de 6 Estaciones (Skills)</h4>
-                    <p class="t-desc">Rotación práctica por todas las estaciones operativas.</p>
-                </div>
-                <div class="timeline-item">
-                    <span class="t-time">14:00 - 17:00</span>
-                    <h4 class="t-title">Simulacro Integrador Final</h4>
-                    <p class="t-desc">Escenario de catástrofe en tiempo real.</p>
-                </div>
+                <div class="day-badge">SÁBADO 28 FEB</div>
+                <div class="timeline-item"><span class="t-time">09:00 hs</span><h4 class="t-title">Circuito de 6 Estaciones</h4></div>
+                <div class="timeline-item"><span class="t-time">14:00 hs</span><h4 class="t-title">Simulacro Integrador</h4></div>
             </div>
         </div>
     </section>
@@ -263,53 +166,21 @@
     </section>
 
     <section id="estaciones" class="stations">
-        <h2 class="section-title"><span>6 Estaciones Operativas</span></h2>
+        <h2 class="section-title"><span>6 Estaciones</span></h2>
         <div class="stations-grid">
-            <div class="station-card">
-                <h3><i class="fas fa-water"></i> Rescate Acuático</h3>
-                <p>Técnicas en correntada y extracción segura.</p>
-            </div>
-            <div class="station-card">
-                <h3><i class="fas fa-mountain"></i> Rescate en Altura</h3>
-                <p>Rappel táctico y evacuación vertical.</p>
-            </div>
-            <div class="station-card">
-                <h3><i class="fas fa-dungeon"></i> Espacios Confinados</h3>
-                <p>Búsqueda en estructuras colapsadas (BREC).</p>
-            </div>
-            <div class="station-card">
-                <h3><i class="fas fa-briefcase-medical"></i> Medicina Táctica</h3>
-                <p>Control de hemorragias en zona roja (MARCH).</p>
-            </div>
-            <div class="station-card">
-                <h3><i class="fas fa-headset"></i> Comunicaciones</h3>
-                <p>Gestión de redes y Puesto de Comando.</p>
-            </div>
-            <div class="station-card">
-                <h3><i class="fas fa-brain"></i> Psicología (PAP)</h3>
-                <p>Contención emocional y manejo de estrés.</p>
-            </div>
+            <div class="station-card"><h3><i class="fas fa-water"></i> Acuático</h3><p>Correntada y extracción.</p></div>
+            <div class="station-card"><h3><i class="fas fa-mountain"></i> Altura</h3><p>Rappel y evacuación.</p></div>
+            <div class="station-card"><h3><i class="fas fa-dungeon"></i> Confinados</h3><p>BREC y colapso.</p></div>
+            <div class="station-card"><h3><i class="fas fa-briefcase-medical"></i> Táctica</h3><p>Control hemorragias.</p></div>
+            <div class="station-card"><h3><i class="fas fa-headset"></i> Radio</h3><p>Puesto de Comando.</p></div>
+            <div class="station-card"><h3><i class="fas fa-brain"></i> PAP</h3><p>Psicología emergencia.</p></div>
         </div>
     </section>
 
-    <section class="accom-bg">
-        <h2 class="section-title"><span>Alojamiento Sugerido</span></h2>
-        <div class="accom-grid">
-            <div class="accom-card">
-                <i class="fas fa-hotel accom-icon"></i>
-                <h3>Hotel Plaza</h3>
-                <p>Opción céntrica y cómoda. Descuento evento.</p>
-            </div>
-            <div class="accom-card">
-                <i class="fas fa-campground accom-icon"></i>
-                <h3>Camping Municipal</h3>
-                <p>Opción económica con servicios completos.</p>
-            </div>
-            <div class="accom-card">
-                <i class="fas fa-bed accom-icon"></i>
-                <h3>Albergue Deportivo</h3>
-                <p>Cupos limitados (Dormis). Reservar.</p>
-            </div>
+    <section class="accom-bg" id="alojamiento">
+        <h2 class="section-title"><span>Alojamientos Sugeridos</span></h2>
+        <div class="accom-grid" id="accomGrid">
+            <p style="text-align:center; color:#666; width:100%;">Cargando lugares...</p>
         </div>
     </section>
 
@@ -325,17 +196,13 @@
         <div class="price-card">
             <h3 style="color: var(--alert);">PASE FULL 2026</h3>
             <div class="price-tag">$100.000 <small>ARS</small></div>
-            <p style="color: #fff; margin-bottom: 20px;">Virtual + Presencial</p>
-            
             <ul class="includes">
-                <li>Acceso a Jornadas Virtual y Presencial</li>
+                <li>Jornada Virtual + Presencial</li>
                 <li><strong>Kit Operativo:</strong> Remera, Parche, Hidratación</li>
-                <li>Almuerzo de campaña incluido</li>
-                <li>Certificación Oficial Digital</li>
+                <li>Almuerzo incluido</li>
+                <li>Certificación Oficial</li>
             </ul>
-
             <button onclick="openPaymentModal()" class="btn" style="width: 100%; margin-top: 20px;">PAGAR INSCRIPCIÓN</button>
-            <p style="margin-top: 15px; font-size: 0.8rem; color: #888;">*Acceso inmediato al generador de credencial.</p>
         </div>
     </section>
 
@@ -348,7 +215,6 @@
         <div class="payment-modal">
             <span class="close-modal" onclick="closePaymentModal()">&times;</span>
             <h3>Inscripción 2026</h3>
-            <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Ingrese sus datos para generar la credencial.</p>
             <form onsubmit="processPayment(event)">
                 <input type="text" id="payName" class="payment-input" placeholder="Nombre Completo" required>
                 <input type="text" id="payDni" class="payment-input" placeholder="DNI" required>
@@ -366,42 +232,118 @@
         <div class="admin-nav">
             <button onclick="showTab('sponsors')" class="admin-tab active" id="btnSponsors">Sponsors</button>
             <button onclick="showTab('instructors')" class="admin-tab" id="btnInstructors">Instructores</button>
+            <button onclick="showTab('accom')" class="admin-tab" id="btnAccom">Alojamientos</button>
         </div>
 
         <div id="tabSponsors" class="admin-content active">
-            <input type="text" id="sName" placeholder="Nombre" class="payment-input">
-            <input type="text" id="sUrl" placeholder="URL Logo" class="payment-input">
-            <button onclick="addSponsor()" class="btn" style="width:100%; padding:10px;">Agregar</button>
-            <div id="admSponsorList" style="margin-top:15px;"></div>
+            <div style="background:#f9f9f9; padding:10px; border-radius:5px; margin-bottom:10px;">
+                <input type="text" id="sName" placeholder="Nombre Sponsor" class="payment-input">
+                <label style="font-size:0.8rem; font-weight:bold;">Logo (Imagen):</label>
+                <input type="file" id="sFile" accept="image/*" class="payment-input">
+                <button onclick="handleAddSponsor()" class="btn" style="width:100%; padding:10px; margin-top:5px;">Agregar Sponsor</button>
+            </div>
+            <div id="admSponsorList"></div>
         </div>
 
         <div id="tabInstructors" class="admin-content">
-            <input type="text" id="iName" placeholder="Nombre" class="payment-input">
-            <input type="text" id="iRole" placeholder="Rol" class="payment-input">
-            <input type="text" id="iImg" placeholder="URL Foto" class="payment-input">
-            <button onclick="addInstructor()" class="btn" style="width:100%; padding:10px;">Agregar</button>
-            <div id="admInstList" style="margin-top:15px;"></div>
+            <div style="background:#f9f9f9; padding:10px; border-radius:5px; margin-bottom:10px;">
+                <input type="text" id="iName" placeholder="Nombre" class="payment-input">
+                <input type="text" id="iRole" placeholder="Rol / Especialidad" class="payment-input">
+                <label style="font-size:0.8rem; font-weight:bold;">Foto Instructor:</label>
+                <input type="file" id="iFile" accept="image/*" class="payment-input">
+                <button onclick="handleAddInstructor()" class="btn" style="width:100%; padding:10px; margin-top:5px;">Agregar Instructor</button>
+            </div>
+            <div id="admInstList"></div>
+        </div>
+
+        <div id="tabAccom" class="admin-content">
+            <div style="background:#f9f9f9; padding:10px; border-radius:5px; margin-bottom:10px;">
+                <input type="text" id="aName" placeholder="Nombre Lugar" class="payment-input">
+                <input type="text" id="aDesc" placeholder="Descripción breve" class="payment-input">
+                <input type="text" id="aLink" placeholder="Link (opcional)" class="payment-input">
+                <label style="font-size:0.8rem; font-weight:bold;">Icono:</label>
+                <select id="aIcon" class="payment-input">
+                    <option value="fas fa-hotel">Hotel</option>
+                    <option value="fas fa-campground">Camping</option>
+                    <option value="fas fa-bed">Albergue</option>
+                </select>
+                <button onclick="handleAddAccom()" class="btn" style="width:100%; padding:10px; margin-top:5px;">Agregar Alojamiento</button>
+            </div>
+            <div id="admAccomList"></div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => { loadSponsors(); loadInstructors(); });
+        // --- INICIALIZACIÓN ---
+        document.addEventListener('DOMContentLoaded', () => { 
+            loadSponsors(); 
+            loadInstructors(); 
+            loadAccom();
+        });
 
-        // --- DATA LOADERS ---
+        /* --- UTILIDAD: COMPRIMIR IMAGEN A BASE64 (Crucial para localStorage) --- */
+        function resizeImage(file, maxWidth = 400) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const scaleSize = maxWidth / img.width;
+                        canvas.width = maxWidth;
+                        canvas.height = img.height * scaleSize;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compresión JPG 70%
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /* --- 1. SPONSORS LOGIC --- */
         function loadSponsors() {
             const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
             const grid = document.getElementById('sponsorGrid');
             const admList = document.getElementById('admSponsorList');
             
-            grid.innerHTML = data.length ? '' : '<p>Espacio Disponible</p>';
+            grid.innerHTML = data.length ? '' : '<p style="color:#888;">Espacio Disponible</p>';
             admList.innerHTML = '';
 
             data.forEach((item, i) => {
-                grid.innerHTML += `<img src="${item.url}" class="sponsor-logo" title="${item.name}">`;
-                admList.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>${item.name}</span><button onclick="delSponsor(${i})" style="color:red; border:none;">X</button></div>`;
+                // Public View
+                grid.innerHTML += `<img src="${item.img}" class="sponsor-logo" title="${item.name}">`;
+                // Admin View
+                admList.innerHTML += `
+                    <div class="admin-list-item">
+                        <div style="display:flex; align-items:center;">
+                            <img src="${item.img}" class="preview-thumb">
+                            <span>${item.name}</span>
+                        </div>
+                        <button onclick="deleteItem('dba_sponsors', ${i})" style="color:red; border:none; font-weight:bold;">Borrar</button>
+                    </div>`;
             });
         }
 
+        async function handleAddSponsor() {
+            const name = document.getElementById('sName').value;
+            const fileInput = document.getElementById('sFile');
+            
+            if(!name || fileInput.files.length === 0) return alert("Falta nombre o imagen");
+            
+            const base64Img = await resizeImage(fileInput.files[0], 300); // Resize logo to 300px width
+            const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
+            
+            data.push({ name: name, img: base64Img });
+            localStorage.setItem('dba_sponsors', JSON.stringify(data));
+            
+            document.getElementById('sName').value = '';
+            fileInput.value = '';
+            loadSponsors();
+        }
+
+        /* --- 2. INSTRUCTORS LOGIC --- */
         function loadInstructors() {
             const data = JSON.parse(localStorage.getItem('dba_instructors')) || [];
             const grid = document.getElementById('instructorGrid');
@@ -411,62 +353,112 @@
             admList.innerHTML = '';
 
             data.forEach((item, i) => {
+                // Public
                 grid.innerHTML += `
                     <div class="instructor-card">
                         <img src="${item.img}" class="inst-img">
                         <div class="inst-name">${item.name}</div>
                         <div class="inst-role">${item.role}</div>
                     </div>`;
-                admList.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;"><span>${item.name}</span><button onclick="delInstructor(${i})" style="color:red; border:none;">X</button></div>`;
+                // Admin
+                admList.innerHTML += `
+                    <div class="admin-list-item">
+                        <div style="display:flex; align-items:center;">
+                            <img src="${item.img}" class="preview-thumb">
+                            <div><strong>${item.name}</strong><br><small>${item.role}</small></div>
+                        </div>
+                        <button onclick="deleteItem('dba_instructors', ${i})" style="color:red; border:none; font-weight:bold;">Borrar</button>
+                    </div>`;
             });
         }
 
-        // --- ADMIN FUNCTIONS ---
-        function addSponsor() {
-            const name = document.getElementById('sName').value;
-            const url = document.getElementById('sUrl').value;
-            if(!name || !url) return;
-            const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
-            data.push({name, url});
-            localStorage.setItem('dba_sponsors', JSON.stringify(data));
-            loadSponsors();
-        }
-        function delSponsor(i) {
-            const data = JSON.parse(localStorage.getItem('dba_sponsors')) || [];
-            data.splice(i, 1);
-            localStorage.setItem('dba_sponsors', JSON.stringify(data));
-            loadSponsors();
-        }
-
-        function addInstructor() {
+        async function handleAddInstructor() {
             const name = document.getElementById('iName').value;
             const role = document.getElementById('iRole').value;
-            const img = document.getElementById('iImg').value;
-            if(!name || !role) return;
+            const fileInput = document.getElementById('iFile');
+
+            if(!name || !role || fileInput.files.length === 0) return alert("Completa todos los campos e imagen");
+
+            const base64Img = await resizeImage(fileInput.files[0], 400); // Resize instructor photo
             const data = JSON.parse(localStorage.getItem('dba_instructors')) || [];
-            data.push({name, role, img: img || 'https://placehold.co/300'});
+            
+            data.push({ name, role, img: base64Img });
             localStorage.setItem('dba_instructors', JSON.stringify(data));
-            loadInstructors();
-        }
-        function delInstructor(i) {
-            const data = JSON.parse(localStorage.getItem('dba_instructors')) || [];
-            data.splice(i, 1);
-            localStorage.setItem('dba_instructors', JSON.stringify(data));
+            
+            document.getElementById('iName').value = '';
+            document.getElementById('iRole').value = '';
+            fileInput.value = '';
             loadInstructors();
         }
 
-        // --- UI ---
-        function toggleAdmin() {
-            const panel = document.getElementById('adminPanel');
-            if(panel.style.display === 'block') {
-                panel.style.display = 'none';
-            } else {
-                const pass = prompt("Clave Admin:");
-                if(pass === "admin2026") panel.style.display = 'block';
-                else alert("Incorrecto");
+        /* --- 3. ACCOMMODATIONS LOGIC (NUEVO) --- */
+        function loadAccom() {
+            const data = JSON.parse(localStorage.getItem('dba_accom')) || [];
+            const grid = document.getElementById('accomGrid');
+            const admList = document.getElementById('admAccomList');
+
+            // Cargar datos por defecto si está vacío (para que no se vea feo al inicio)
+            if (data.length === 0 && !localStorage.getItem('dba_accom_init')) {
+                const defaults = [
+                    {name: "Hotel Plaza", desc: "Céntrico. Descuento evento.", icon: "fas fa-hotel", link: "#"},
+                    {name: "Camping Municipal", desc: "Económico. Baños completos.", icon: "fas fa-campground", link: "#"}
+                ];
+                localStorage.setItem('dba_accom', JSON.stringify(defaults));
+                localStorage.setItem('dba_accom_init', 'true');
+                return loadAccom(); // Recargar
             }
+
+            grid.innerHTML = '';
+            admList.innerHTML = '';
+
+            data.forEach((item, i) => {
+                // Public
+                grid.innerHTML += `
+                    <div class="accom-card">
+                        <i class="${item.icon} accom-icon"></i>
+                        <h3>${item.name}</h3>
+                        <p>${item.desc}</p>
+                        ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" class="accom-link">Ver Más ></a>` : ''}
+                    </div>`;
+                // Admin
+                admList.innerHTML += `
+                    <div class="admin-list-item">
+                        <div><strong>${item.name}</strong><br><small>${item.desc}</small></div>
+                        <button onclick="deleteItem('dba_accom', ${i})" style="color:red; border:none; font-weight:bold;">Borrar</button>
+                    </div>`;
+            });
         }
 
+        function handleAddAccom() {
+            const name = document.getElementById('aName').value;
+            const desc = document.getElementById('aDesc').value;
+            const link = document.getElementById('aLink').value;
+            const icon = document.getElementById('aIcon').value;
+
+            if(!name || !desc) return alert("Nombre y descripción obligatorios");
+
+            const data = JSON.parse(localStorage.getItem('dba_accom')) || [];
+            data.push({ name, desc, link, icon });
+            localStorage.setItem('dba_accom', JSON.stringify(data));
+
+            document.getElementById('aName').value = '';
+            document.getElementById('aDesc').value = '';
+            document.getElementById('aLink').value = '';
+            loadAccom();
+        }
+
+        /* --- GENERIC DELETE --- */
+        function deleteItem(key, index) {
+            if(!confirm("¿Borrar elemento?")) return;
+            const data = JSON.parse(localStorage.getItem(key)) || [];
+            data.splice(index, 1);
+            localStorage.setItem(key, JSON.stringify(data));
+            if(key === 'dba_sponsors') loadSponsors();
+            if(key === 'dba_instructors') loadInstructors();
+            if(key === 'dba_accom') loadAccom();
+        }
+
+        /* --- UI PANEL TABS --- */
         function showTab(tab) {
             document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
@@ -474,12 +466,24 @@
             if(tab === 'sponsors') {
                 document.getElementById('tabSponsors').classList.add('active');
                 document.getElementById('btnSponsors').classList.add('active');
-            } else {
+            } else if (tab === 'instructors') {
                 document.getElementById('tabInstructors').classList.add('active');
                 document.getElementById('btnInstructors').classList.add('active');
+            } else {
+                document.getElementById('tabAccom').classList.add('active');
+                document.getElementById('btnAccom').classList.add('active');
             }
         }
 
+        function toggleAdmin() {
+            const p = document.getElementById('adminPanel');
+            const pass = p.style.display === 'block' ? null : prompt("Clave Admin:");
+            if(p.style.display === 'block') p.style.display = 'none';
+            else if(pass === 'admin2026') p.style.display = 'block';
+            else if(pass !== null) alert("Clave incorrecta");
+        }
+
+        /* --- PAGO & REDIRECCIÓN --- */
         function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; }
         function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
 
@@ -493,9 +497,7 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                // Generar Token Único
                 const token = btoa(dni + Date.now());
-                // Redirigir al Generador (panel.html)
                 window.location.href = `panel.html?event=dolores26&paid=true&name=${encodeURIComponent(name)}&dni=${dni}&token=${token}`;
             }, 2000);
         }
