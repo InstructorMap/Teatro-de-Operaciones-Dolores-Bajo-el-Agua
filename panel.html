@@ -3,113 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Credenciales - Dolores 2026</title>
+    <title>Generador Oficial - Dolores 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
-            --primary-color: #0a2e38; /* Azul Profundo (Estilo Dolores) */
+            --primary-color: #0a2e38; /* Azul Profundo */
             --accent-color: #ff6b00;  /* Naranja Rescate */
             --text-dark: #020b0e;
         }
         body { font-family: 'Roboto', sans-serif; background: #f0f2f5; }
 
-        /* --- CONTENEDOR DEL CARNET --- */
+        /* CARNET PREVIEW */
         #download-area { width: 856px; padding: 20px; background: #cbd5e1; border-radius: 20px; margin: 0 auto; }
-        
-        .carnet-preview { 
-            width: 856px; 
-            height: 540px; 
-            position: relative; 
-            overflow: hidden; 
-            background: #ffffff;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
-        }
-        
-        /* BARRA SUPERIOR */
-        .header-bar {
-            position: absolute; top: 0; left: 0; width: 100%; height: 85px;
-            background: var(--primary-color); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 40px; z-index: 50; color: white;
-            border-bottom: 4px solid var(--accent-color);
-        }
-
-        /* LOGO EVENTO EN CABECERA */
-        .event-logo-container {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            height: 70px; width: 70px; background: white; border-radius: 50%;
-            padding: 2px; border: 3px solid var(--accent-color);
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 60;
-        }
+        .carnet-preview { width: 856px; height: 540px; position: relative; overflow: hidden; background: #ffffff; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .header-bar { position: absolute; top: 0; left: 0; width: 100%; height: 85px; background: var(--primary-color); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 50; color: white; border-bottom: 4px solid var(--accent-color); }
+        .event-logo-container { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 70px; width: 70px; background: white; border-radius: 50%; padding: 2px; border: 3px solid var(--accent-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 60; }
         .event-logo-text { font-family: 'Exo 2', sans-serif; font-weight: 800; color: var(--primary-color); font-size: 10px; text-align: center; line-height: 1; }
-
-        /* BARRA INFERIOR */
-        .footer-bar {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
-            background: var(--primary-color);
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 40px; z-index: 50; color: white;
-        }
-
-        /* FOTO */
-        #photo-preview {
-            position: absolute; top: 110px; left: 40px; width: 260px; height: 320px;
-            object-fit: cover; z-index: 10; 
-            border: 2px solid var(--primary-color);
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
-        }
-
-        /* DATOS EVENTO */
+        .footer-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: var(--primary-color); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 50; color: white; }
+        #photo-preview { position: absolute; top: 110px; left: 40px; width: 260px; height: 320px; object-fit: cover; z-index: 10; border: 2px solid var(--primary-color); box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
         .event-info { position: absolute; top: 100px; left: 330px; right: 40px; text-align: right; }
         .event-title { font-family: 'Exo 2', sans-serif; font-size: 28px; font-weight: 800; color: var(--primary-color); text-transform: uppercase; margin-bottom: 5px; }
         .event-date { font-size: 14px; font-weight: 700; color: var(--accent-color); background: #000; padding: 2px 10px; display: inline-block; }
-
-        /* DATOS PERSONALES */
-        #nombre-preview {
-            position: absolute; bottom: 150px; left: 330px; right: 40px;
-            font-size: 38px; font-weight: 900; color: var(--text-dark);
-            text-transform: uppercase; z-index: 30; line-height: 1;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-
-        #dni-container { 
-            position: absolute; bottom: 120px; left: 330px; 
-            font-size: 20px; font-weight: 700; color: #555; z-index: 30; text-transform: uppercase;
-        }
+        #nombre-preview { position: absolute; bottom: 150px; left: 330px; right: 40px; font-size: 38px; font-weight: 900; color: var(--text-dark); text-transform: uppercase; z-index: 30; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #dni-container { position: absolute; bottom: 120px; left: 330px; font-size: 20px; font-weight: 700; color: #555; z-index: 30; text-transform: uppercase; }
+        #role-container { position: absolute; bottom: 80px; left: 330px; font-size: 24px; font-weight: 900; color: var(--accent-color); z-index: 30; background: rgba(255, 107, 0, 0.1); padding: 5px 15px; border-radius: 4px; }
+        .qr-box { position: absolute; bottom: 70px; left: 40px; width: 100px; height: 100px; background: white; padding: 5px; z-index: 110; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #ccc; }
+        #watermark { position: absolute; top: 50%; right: 50px; transform: translateY(-50%); width: 350px; height: 350px; opacity: 0.05; z-index: 1; object-fit: contain; }
         
-        #role-container { 
-            position: absolute; bottom: 80px; left: 330px; 
-            font-size: 24px; font-weight: 900; color: var(--accent-color); z-index: 30; 
-            background: rgba(255, 107, 0, 0.1); padding: 5px 15px; border-radius: 4px;
-        }
-
-        /* QR CODE */
-        .qr-box {
-            position: absolute; bottom: 70px; left: 40px; 
-            width: 100px; height: 100px;
-            background: white; padding: 5px; z-index: 110; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 1px solid #ccc;
-        }
-
-        /* MARCA DE AGUA */
-        #watermark {
-            position: absolute; top: 50%; right: 50px; transform: translateY(-50%);
-            width: 350px; height: 350px; opacity: 0.05; z-index: 1; object-fit: contain;
-        }
-
-        /* UI PANEL */
-        .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--accent-color); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .notification { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 15px 25px; border-radius: 8px; font-weight: bold; color: white; animation: slideIn 0.5s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .notification { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 15px 25px; border-radius: 8px; font-weight: bold; color: white; animation: slideIn 0.5s; }
         .success { background: #00c853; } .error { background: #d50000; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
     </style>
@@ -122,18 +50,13 @@
                 <a href="index.html" class="text-gray-500 hover:text-black"><i class="fas fa-arrow-left"></i> Volver</a>
                 <h1 class="text-2xl font-black text-slate-800 uppercase">ACREDITACIÓN <span style="color:var(--accent-color)">DOLORES 2026</span></h1>
             </div>
-            <div id="status-pay" class="hidden bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-xs">
-                <i class="fas fa-check-circle"></i> PAGO VERIFICADO
+            <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-xs">
+                <i class="fas fa-lock"></i> ACCESO SEGURO
             </div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
             <section class="bg-white p-8 rounded-2xl shadow-xl h-fit">
-                <div id="payment-warning" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 text-red-700 text-sm hidden">
-                    <p class="font-bold">Acceso Restringido</p>
-                    <p>Debe completar la inscripción en la página principal para generar su credencial.</p>
-                </div>
-
                 <form id="carnet-form" class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -141,17 +64,16 @@
                             <input type="text" id="dni" class="w-full p-3 bg-slate-50 rounded-lg font-bold border border-slate-200" readonly>
                         </div>
                         <div>
-                            <label class="text-xs font-bold text-gray-500 uppercase">Nombre Completo</label>
-                            <input type="text" id="nombre" class="w-full p-3 bg-slate-50 rounded-lg font-bold uppercase border border-slate-200" readonly>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Nombre</label>
+                            <input type="text" id="nombre" class="w-full p-3 bg-slate-50 rounded-lg font-bold uppercase border border-slate-200" placeholder="Su Nombre">
                         </div>
                     </div>
 
                     <div>
-                        <label class="text-xs font-bold text-gray-500 uppercase">Rol en el Evento</label>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Rol</label>
                         <select id="rol-select" class="w-full p-3 bg-white border border-slate-200 rounded-lg font-bold">
                             <option value="ASISTENTE">ASISTENTE</option>
                             <option value="DISERTANTE">DISERTANTE</option>
-                            <option value="ORGANIZADOR">ORGANIZADOR</option>
                             <option value="PRENSA">PRENSA</option>
                         </select>
                     </div>
@@ -165,7 +87,7 @@
                     </div>
 
                     <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-lg hover:bg-black transition-all shadow-lg uppercase tracking-widest mt-4">
-                        Generar Credencial Oficial
+                        GENERAR CREDENCIAL
                     </button>
                 </form>
             </section>
@@ -173,91 +95,82 @@
             <section class="flex flex-col items-center sticky top-8">
                 <div id="download-area">
                     <div id="preview-container" class="carnet-preview">
-                        
                         <div class="header-bar">
                             <span class="font-black text-xl uppercase tracking-tighter">CONGRESO INTERDISCIPLINARIO</span>
                             <span class="text-[10px] font-black opacity-80 uppercase tracking-widest">PASE OFICIAL</span>
                         </div>
-
                         <div class="event-logo-container">
                             <div class="event-logo-text">DOLORES<br>2026</div>
                         </div>
-
                         <div class="footer-bar">
                             <span class="text-[10px] font-black opacity-90 uppercase tracking-wide">SISTEMA NACIONAL DE ACREDITACIÓN</span>
                             <span class="text-[10px] font-black uppercase">VÁLIDO 27-28 FEB 2026</span>
                         </div>
-                        
                         <div class="event-info">
                             <div class="event-title">DOLORES BAJO EL AGUA</div>
                             <div class="event-date">27-28 FEBRERO 2026</div>
                         </div>
-
-                        <img id="photo-preview" src="https://placehold.co/260x320/e2e8f0/94a3b8?text=SUBIR+FOTO" alt="Foto">
-                        
-                        <img id="watermark" src="https://via.placeholder.com/350x350/000000/ffffff?text=DOLORES+2026" alt="">
-
+                        <img id="photo-preview" src="https://placehold.co/260x320/e2e8f0/94a3b8?text=FOTO" alt="Foto">
+                        <img id="watermark" src="https://via.placeholder.com/350x350/000000/ffffff?text=DOLORES" alt="">
                         <div id="nombre-preview">NOMBRE ALUMNO</div>
                         <div id="dni-container">DNI: 00.000.000</div>
                         <div id="role-container">ASISTENTE</div>
-
                         <div class="qr-box"><canvas id="qr-code-preview"></canvas></div>
                     </div>
                 </div>
-                
-                <div id="actions" class="mt-8 flex gap-4 hidden">
-                    <button onclick="downloadImage('png')" class="bg-blue-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">Descargar PNG</button>
-                    <button onclick="downloadImage('jpeg')" class="bg-slate-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">Descargar JPG</button>
+                <div id="actions" class="mt-8 hidden">
+                    <button onclick="downloadImage('jpeg')" class="bg-blue-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">DESCARGAR IMAGEN</button>
                 </div>
             </section>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN
+        // --- CONFIGURACIÓN SUPABASE ---
+        // (Asegurate de usar tus claves reales aquí)
         const CONFIG = {
             supabaseUrl: 'https://fuxnsebrhxxbalqfmtzs.supabase.co',
-            supabaseKey: 'sb_publishable_brWrs7Bn3vGFS7H2mEHkKQ_hcK1a8WV',
-            githubRepo: 'https://instructormap.github.io/verificador-Carnet-Oficial/' 
+            supabaseKey: 'sb_publishable_brWrs7Bn3vGFS7H2mEHkKQ_hcK1a8WV', 
+            repoUrl: 'https://instructormap.github.io/verificador-Carnet-Oficial/' 
         };
         const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
 
+        // --- SEGURIDAD MATEMÁTICA ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Leer parámetros de URL
             const params = new URLSearchParams(window.location.search);
-            const token = params.get('token');
+            let dni = params.get('dni');
             const name = params.get('name');
-            const dni = params.get('dni');
 
-            // 2. Validar Acceso
-            if (!token || !name || !dni) {
-                // Modo bloqueado
-                document.getElementById('carnet-form').style.opacity = '0.5';
-                document.getElementById('carnet-form').style.pointerEvents = 'none';
-                document.getElementById('payment-warning').classList.remove('hidden');
-                return;
+            // 1. Pedir DNI si no vino en URL
+            if(!dni) {
+                dni = prompt("🔐 INGRESO AL SISTEMA\n\nPor favor, escriba su DNI:");
+                if(!dni) { window.location.href = "index.html"; return; }
             }
 
-            // 3. Autocompletar
-            document.getElementById('status-pay').classList.remove('hidden');
-            document.getElementById('nombre').value = decodeURIComponent(name);
-            document.getElementById('dni').value = dni;
-            
-            updatePreview();
+            // 2. Pedir Código Único
+            const userCode = prompt(`🔐 VERIFICACIÓN DE SEGURIDAD\n\nUsuario detectado: ${dni}\n\nIngrese su CÓDIGO DE ACCESO (Recibido por WhatsApp):`);
+
+            // 3. Validar
+            if (isValidCode(dni, userCode)) {
+                document.getElementById('dni').value = dni;
+                if(name) {
+                    document.getElementById('nombre').value = decodeURIComponent(name);
+                    updatePreview();
+                }
+            } else {
+                alert("⛔ CÓDIGO INCORRECTO.\nEste código no corresponde al DNI ingresado.");
+                window.location.href = "index.html";
+            }
         });
 
-        // NOTIFICACIONES
-        function notify(msg, type='success') {
-            const d = document.createElement('div');
-            d.className = `notification ${type}`;
-            d.textContent = msg;
-            document.body.appendChild(d);
-            setTimeout(() => d.remove(), 3000);
+        function isValidCode(dniInput, codeInput) {
+            if(!dniInput || !codeInput) return false;
+            const salt = "DOLORES26"; 
+            const expected = btoa(dniInput.toString().trim() + salt).substring(0, 8).toUpperCase();
+            return codeInput.toString().trim().toUpperCase() === expected;
         }
 
-        // PREVIEW LOGIC
-        const form = document.getElementById('carnet-form');
-        
+        // --- PREVIEW ---
         document.getElementById('photo-upload').onchange = (e) => {
             const file = e.target.files[0];
             if(file) {
@@ -266,42 +179,39 @@
                 reader.readAsDataURL(file);
             }
         };
-
-        document.getElementById('rol-select').onchange = updatePreview;
+        
+        document.getElementById('nombre').addEventListener('input', updatePreview);
+        document.getElementById('rol-select').addEventListener('change', updatePreview);
 
         function updatePreview() {
             const name = document.getElementById('nombre').value;
             const dni = document.getElementById('dni').value;
             const role = document.getElementById('rol-select').value;
-
             if(name) document.getElementById('nombre-preview').textContent = name;
             if(dni) document.getElementById('dni-container').textContent = `DNI: ${dni}`;
             document.getElementById('role-container').textContent = role;
         }
 
-        // SUBMIT
-        form.onsubmit = async (e) => {
+        // --- SUBMIT ---
+        document.getElementById('carnet-form').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
             const dni = document.getElementById('dni').value;
             const name = document.getElementById('nombre').value;
             const photoInput = document.getElementById('photo-upload');
 
-            if(photoInput.files.length === 0) return notify("Debes subir tu foto", "error");
+            if(photoInput.files.length === 0) return alert("Falta la foto");
 
             btn.disabled = true; btn.textContent = "PROCESANDO...";
 
             try {
-                // 1. Subir Foto
-                const fileName = `dolores2026_${dni}_${Date.now()}.jpg`;
+                // 1. Foto
+                const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
                 await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
                 const { data: imgData } = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
 
-                // 2. Guardar en BD (Registro del Evento)
-                // Usamos la tabla 'alumnos' existente, o idealmente una tabla 'asistentes_eventos' si la crearas.
-                // Aquí usamos la lógica existente para mantener compatibilidad.
-                const matricula = `EVT-DOL26-${Math.floor(Math.random()*10000)}`;
-                
+                // 2. Datos
+                const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
                 await sb.from('alumnos').upsert({
                     dni: dni,
                     nombre_completo: name,
@@ -309,20 +219,20 @@
                     foto_url: imgData.publicUrl
                 });
 
-                // 3. Generar QR
+                // 3. QR
                 new QRious({
                     element: document.getElementById('qr-code-preview'),
-                    value: `${CONFIG.githubRepo}?id=${matricula}`,
+                    value: `${CONFIG.repoUrl}?id=${matricula}`,
                     size: 100, level: 'H'
                 });
 
-                notify("¡Credencial Generada Exitosamente!");
                 document.getElementById('actions').classList.remove('hidden');
-                btn.textContent = "GENERADO CORRECTAMENTE";
+                btn.textContent = "¡CREDENCIAL LISTA!";
+                btn.style.background = "#00c853";
 
             } catch (err) {
                 console.error(err);
-                notify("Error de conexión", "error");
+                alert("Error de conexión");
                 btn.disabled = false; btn.textContent = "REINTENTAR";
             }
         };
@@ -330,8 +240,8 @@
         window.downloadImage = (fmt) => {
             html2canvas(document.getElementById('preview-container'), { scale:3, useCORS:true }).then(c => {
                 const a = document.createElement('a');
-                a.download = `Credencial_Dolores2026_${document.getElementById('dni').value}.${fmt==='jpeg'?'jpg':'png'}`;
-                a.href = c.toDataURL(`image/${fmt}`, 1.0); a.click();
+                a.download = `Credencial_Dolores_${document.getElementById('dni').value}.jpg`;
+                a.href = c.toDataURL('image/jpeg', 1.0); a.click();
             });
         };
     </script>
