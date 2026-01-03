@@ -37,10 +37,11 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* 1. FONDO (Base64) */
+        /* 1. FONDO OSCURO (Base64) */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
+            /* Gradiente muy oscuro para garantizar contraste con letras blancas */
             background: linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
@@ -54,7 +55,7 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. TÍTULO */
+        /* 2. TÍTULO CENTRADO */
         .c-main-header { 
             position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
@@ -64,7 +65,7 @@
         .c-logo { 
             font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
             text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            margin-top: 5px;
+            margin-top: 5px; /* Ajuste óptico */
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
@@ -82,7 +83,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. NOMBRE */
+        /* 3. NOMBRE (Interlineado corregido) */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -102,7 +103,7 @@
             margin-bottom: 35px; text-shadow: 0 2px 4px black; 
         }
         
-        /* 4. CARTEL */
+        /* 4. CARTEL ASISTENTE (Reducido y centrado) */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
             width: 65%; height: 70px; 
@@ -135,7 +136,7 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* 5. QR */
+        /* 5. QR (Ubicación segura) */
         .c-qr { 
             position: absolute; 
             bottom: 135px; right: 15px;   
@@ -293,7 +294,7 @@
 
         async function loadDynamicAssets() {
             try {
-                // LEER DE LA NUBE (Base64 desde Tabla)
+                // LEER DE LA NUBE (Configuración global)
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 
                 let bg = null;
@@ -323,6 +324,22 @@
             }
         }
 
+        // --- COMPRESOR DE IMÁGENES (Para la Selfie del Alumno) ---
+        const resize = (file, w=400) => new Promise(res => {
+            const r = new FileReader();
+            r.onload = e => { 
+                const i = new Image(); 
+                i.onload = () => { 
+                    const c = document.createElement('canvas'); 
+                    const rat = w/i.width; c.width = w; c.height = i.height*rat; 
+                    c.getContext('2d').drawImage(i,0,0,c.width,c.height); 
+                    res(c.toDataURL('image/jpeg', 0.6)); 
+                }; 
+                i.src = e.target.result; 
+            }; 
+            r.readAsDataURL(file);
+        });
+
         document.getElementById('photo-upload').onchange = (e) => {
             const file = e.target.files[0];
             if(file) {
@@ -343,25 +360,15 @@
             btn.disabled = true; btn.textContent = "GUARDANDO...";
 
             try {
-                // Aquí volvemos a subir la selfie al Storage (única parte que usa Storage, si falla hay que revisar permisos)
-                const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
-                const { data, error } = await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
-                
-                let publicUrl = "";
-                if(error) {
-                    console.error("Fallo subida imagen, usando local como fallback");
-                    // Fallback: Si falla Storage, no guardamos URL, o guardamos un placeholder
-                } else {
-                    const res = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
-                    publicUrl = res.data.publicUrl;
-                }
+                // Convertir Selfie a Base64
+                const photoBase64 = await resize(photoInput.files[0], 400);
 
                 const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
                 await sb.from('alumnos').insert([{
                     dni: dni,
                     nombre_completo: name,
                     matricula_arg: matricula,
-                    foto_url: publicUrl // Puede ir vacío si falló el storage
+                    foto_url: photoBase64 // Guardamos Base64 directo
                 }]);
 
                 new QRious({ element: document.getElementById('qr-code-preview'), value: `${CONFIG.repoUrl}?id=${matricula}`, size: 200, level: 'H' });
@@ -371,7 +378,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert("Error al generar credencial");
+                alert("Error de conexión");
                 btn.disabled = false; btn.textContent = "REINTENTAR";
             }
         };
