@@ -20,106 +20,94 @@
         }
         body { font-family: 'Roboto', sans-serif; background: #020405; color: white; }
 
-        /* LOGIN SCREEN */
+        /* PANTALLA LOGIN */
         #access-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020405; z-index: 9999; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%); }
         .login-card { background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); }
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* --- CARNET 10x15 CM (Ratio 2:3) --- */
-        /* Escalamos la vista previa para que quepa en pantalla */
-        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -120px; }
+        /* --- CARNET 10x15 CM (600x900px) --- */
+        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -130px; }
         
         .carnet-box { 
             width: 600px; height: 900px; 
             position: relative; overflow: hidden; 
-            background-color: #000;
+            background-color: #05080a;
             border: 1px solid #333;
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* CAPA DE FONDO + SOMBREADO (Corrección Visual) */
+        /* FONDO MARCA DE AGUA (SOLUCIÓN DEFINITIVA) */
+        /* Usamos un degradado negro semitransparente ENCIMA de la foto para oscurecerla pero que se vea */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
-            /* Esto crea el oscurecimiento sobre la foto */
-            background: linear-gradient(to bottom, rgba(5,8,10,0.7) 0%, rgba(5,8,10,0.9) 100%), url('inundacion2.jpg');
+            background: linear-gradient(to bottom, rgba(5,8,10,0.7) 0%, rgba(5,8,10,0.85) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
+            opacity: 1; /* Opacidad al 100% porque el degradado ya controla la oscuridad */
         }
         
-        /* HEADER BLANCO (AVALES) */
+        /* HEADER AVALES (Arriba) */
         .c-header-strip { 
             position: absolute; top: 0; left: 0; width: 100%; height: 110px; 
             background: white; display: flex; align-items: center; justify-content: center; gap: 30px; 
-            z-index: 20; padding: 0 20px; 
+            z-index: 20; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
         .c-aval-logo { max-height: 70px; max-width: 140px; object-fit: contain; }
 
-        /* BARRA TÍTULO (NEON) */
+        /* TÍTULO EVENTO */
         .c-main-header { 
             position: absolute; top: 110px; left: 0; width: 100%; height: 80px; 
             background: rgba(0, 229, 255, 0.05); 
             border-bottom: 3px solid var(--hydro-cyan); 
             display: flex; align-items: center; justify-content: center; z-index: 20; 
         }
-        .c-logo { 
-            font-family: 'Black Ops One'; font-size: 3rem; color: white; 
-            text-shadow: 0 0 15px var(--hydro-cyan); letter-spacing: 2px;
-        }
+        .c-logo { font-family: 'Black Ops One'; font-size: 3rem; color: white; text-shadow: 0 0 15px var(--hydro-cyan); letter-spacing: 2px; }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
         /* CUERPO CENTRAL */
         .c-body { 
-            position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
+            position: absolute; top: 210px; width: 100%; text-align: center; z-index: 10; 
             display: flex; flex-direction: column; align-items: center;
         }
         
-        /* FOTO */
         .c-photo-frame { 
             width: 270px; height: 270px; 
             border: 5px solid var(--rescue-orange); border-radius: 25px; 
             overflow: hidden; box-shadow: 0 0 40px rgba(255, 69, 0, 0.4); 
-            background: #000; margin-bottom: 25px;
+            background: #000; margin-bottom: 20px;
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* NOMBRE (CORREGIDO: Evita superposición) */
+        /* CONTENEDOR NOMBRE (Para auto-ajuste) */
+        .c-name-wrapper {
+            width: 90%; height: 70px; /* Altura fija para el nombre */
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 5px;
+        }
         .c-name { 
-            font-family: 'Exo 2'; 
-            font-size: 2.2rem; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            /* Clave para que no se peguen las líneas */
-            line-height: 1.1; 
-            margin-bottom: 10px; 
-            color: white; 
-            text-shadow: 0 4px 4px rgba(0,0,0,0.8); 
-            width: 90%; 
-            word-wrap: break-word;
+            font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
+            line-height: 1.1; color: white; text-shadow: 0 4px 4px rgba(0,0,0,0.9); 
+            white-space: nowrap; /* Empieza en una linea, JS lo cambia si hace falta */
         }
         
         .c-dni { 
-            font-size: 1.5rem; color: #ccc; 
-            letter-spacing: 2px; font-weight: 700; 
-            margin-bottom: 30px; 
-            text-shadow: 0 2px 4px black; 
+            font-size: 1.6rem; color: #ccc; letter-spacing: 3px; font-weight: 700; 
+            margin-bottom: 30px; text-shadow: 0 2px 4px black; 
         }
         
-        /* CARTEL ROL (CORREGIDO: Centrado perfecto) */
+        /* ROL CENTRADO Y ALINEADO */
         .c-role-badge { 
-            background: var(--hydro-cyan); 
-            color: #05080a; 
-            width: 80%; /* Ancho controlado */
-            height: 65px;
-            display: flex; justify-content: center; align-items: center; /* Centrado Flex */
+            background: var(--hydro-cyan); color: #05080a; 
+            width: 75%; height: 65px;
+            display: flex; justify-content: center; align-items: center;
             font-family: 'Black Ops One'; font-size: 2.2rem; 
             transform: skew(-12deg); 
-            box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 2px white; 
+            box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 3px white; 
             margin-bottom: 20px;
         }
-        /* Deshacer inclinación para el texto */
-        .c-role-badge span { transform: skew(12deg); padding-top: 5px; }
+        .c-role-badge span { transform: skew(12deg); padding-top: 6px; }
 
         /* FOOTER (SPONSORS) */
         .c-footer { 
@@ -133,11 +121,11 @@
             flex-wrap: wrap; width: 100%; height: 80px; overflow: hidden; 
         }
         
-        /* QR (CORREGIDO: Posición final) */
+        /* QR (UBICACIÓN CORRECTA) */
         .c-qr { 
             position: absolute; 
-            bottom: 155px; /* Separado del footer */
-            right: 20px;   /* Margen derecho */
+            bottom: 155px; /* Encima del footer */
+            right: 15px;   /* Pegado a la derecha */
             background: white; padding: 6px; border-radius: 4px; 
             width: 120px; height: 120px; 
             z-index: 30; 
@@ -161,6 +149,7 @@
     </div>
 
     <div id="main-content" class="max-w-7xl mx-auto w-full p-4 hidden">
+        
         <header class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
             <div><h1 class="text-2xl font-black text-white italic">DOLORES <span class="text-cyan-400">2026</span></h1><p class="text-gray-500 text-xs">SISTEMA DE ACREDITACIÓN</p></div>
             <div class="flex gap-4">
@@ -174,8 +163,8 @@
                 <h3 class="text-cyan-400 font-bold mb-4 uppercase tracking-widest text-sm border-l-4 border-orange-500 pl-3">Datos del Asistente</h3>
                 <form id="carnet-form" class="space-y-5">
                     <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-xs font-bold text-gray-500 uppercase">DNI</label><input type="text" id="dni" class="w-full p-3 bg-black rounded text-white font-bold border border-gray-700 cursor-not-allowed" readonly></div>
-                        <div><label class="text-xs font-bold text-gray-500 uppercase">Nombre</label><input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly></div>
+                        <div><label class="text-xs font-bold text-gray-500 uppercase">DNI (Fijo)</label><input type="text" id="dni" class="w-full p-3 bg-black rounded text-white font-bold border border-gray-700 cursor-not-allowed" readonly></div>
+                        <div><label class="text-xs font-bold text-gray-500 uppercase">Nombre (Fijo)</label><input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly></div>
                     </div>
                     <div class="p-6 border-2 border-dashed border-gray-700 rounded-xl bg-black text-center hover:border-cyan-400 transition cursor-pointer relative group">
                         <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
@@ -197,9 +186,11 @@
                         <div class="c-body">
                             <div class="c-photo-frame"><img id="photo-preview" class="c-photo" src="https://placehold.co/400x400/111/333?text=FOTO" alt="Foto"></div>
                             
-                            <div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div>
-                            <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
+                            <div class="c-name-wrapper">
+                                <div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div>
+                            </div>
                             
+                            <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
                             <div class="c-role-badge"><span>ASISTENTE</span></div>
                         </div>
 
@@ -237,6 +228,7 @@
             if(urlDni) document.getElementById('loginDNI').value = urlDni;
         });
 
+        // VALIDACIÓN
         async function validateAccess(e) {
             e.preventDefault();
             const dni = document.getElementById('loginDNI').value;
@@ -248,8 +240,8 @@
                     grantAccess(dni, null);
                 } catch(err) { console.error(err); alert("Error conexión DB"); }
             } else {
-                document.getElementById('errorMsg').classList.remove('hidden');
-                setTimeout(() => document.getElementById('errorMsg').classList.add('hidden'), 3000);
+                const err = document.getElementById('errorMsg');
+                err.classList.remove('hidden'); setTimeout(() => err.classList.add('hidden'), 3000);
             }
         }
 
@@ -269,15 +261,34 @@
                 const decoded = decodeURIComponent(name);
                 document.getElementById('nombre').value = decoded;
                 document.getElementById('nombre-preview').textContent = decoded;
+                
+                // Ejecutar ajuste de texto después de un pequeño delay para asegurar renderizado
+                setTimeout(() => {
+                    fitText(document.getElementById('nombre-preview'), document.querySelector('.c-name-wrapper'));
+                }, 100);
             }
             loadDynamicAssets();
         }
 
+        // --- FUNCIÓN AUTO-AJUSTE DE TEXTO (NUEVO) ---
+        function fitText(el, container) {
+            let size = 2.4; // Tamaño inicial (rem)
+            el.style.fontSize = size + 'rem';
+            
+            // Reducir mientras se salga del contenedor
+            while (el.scrollWidth > container.clientWidth && size > 1.0) {
+                size -= 0.1;
+                el.style.fontSize = size + 'rem';
+            }
+        }
+
         function loadDynamicAssets() {
-            // Fondo Marca de Agua (Desde index localstorage o fallback CSS)
+            // Fondo Marca de Agua
             const bg = localStorage.getItem('dba_bg');
-            // Si el admin subió foto, usa esa. Si no, usa la del CSS (inundacion2.jpg)
-            if(bg) document.getElementById('bg-watermark').style.backgroundImage = `url('${bg}')`;
+            if(bg) {
+                // Aplicar gradiente oscuro sobre la imagen personalizada
+                document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(2,4,5,0.85) 0%, rgba(2,4,5,0.95) 100%), url('${bg}')`;
+            }
 
             const avales = JSON.parse(localStorage.getItem('dba_avales') || '[]');
             const headerCont = document.getElementById('header-avales-container');
