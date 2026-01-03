@@ -37,7 +37,7 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* DISEÑO */
+        /* DISEÑO HYDRO-TACTICAL */
         .c-header {
             height: 110px; background: rgba(0, 229, 255, 0.05);
             border-bottom: 2px solid var(--hydro-cyan);
@@ -75,7 +75,7 @@
         /* FOOTER & LOGOS */
         .c-footer {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 150px;
-            background: rgba(255,255,255,0.95); /* Blanco sólido para resaltar logos */
+            background: rgba(255,255,255,0.95); /* Blanco para que se vean los logos originales */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 10px 20px; z-index: 20;
         }
@@ -85,9 +85,9 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 120px; object-fit: contain; filter: grayscale(0%); }
         
-        /* QR Flotante (CORREGIDO: MÁS ARRIBA) */
+        /* QR Flotante (Correctamente posicionado) */
         .c-qr {
-            position: absolute; bottom: 180px; right: 30px; /* Subido para no cortar */
+            position: absolute; bottom: 180px; right: 30px;
             background: white; padding: 5px; border-radius: 5px;
             width: 110px; height: 110px; z-index: 30;
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
@@ -128,7 +128,7 @@
             </div>
             <div class="flex gap-4">
                 <button onclick="exportDB()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded text-gray-300 border border-gray-600">
-                    <i class="fas fa-file-excel"></i> LISTA ADMIN
+                    <i class="fas fa-file-excel"></i> LISTA ALUMNOS
                 </button>
                 <a href="index.html" class="text-xs bg-red-900 hover:bg-red-800 px-3 py-2 rounded text-white font-bold">SALIR</a>
             </div>
@@ -138,6 +138,7 @@
             
             <section class="bg-gray-900 p-8 rounded-xl border border-gray-800">
                 <h3 class="text-cyan-400 font-bold mb-4 uppercase tracking-widest text-sm border-l-4 border-orange-500 pl-3">Datos del Asistente</h3>
+                
                 <form id="carnet-form" class="space-y-5">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -149,15 +150,19 @@
                             <input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly>
                         </div>
                     </div>
+
                     <div class="p-6 border-2 border-dashed border-gray-700 rounded-xl bg-black text-center hover:border-cyan-400 transition cursor-pointer relative group">
                         <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
                         <div class="text-gray-400 group-hover:text-cyan-400 transition">
                             <i class="fas fa-camera text-3xl mb-2"></i>
                             <p class="text-xs font-bold uppercase">Click para subir Selfie</p>
-                            <p class="text-[10px] text-gray-600">Formato JPG/PNG</p>
+                            <p class="text-[10px] text-gray-600">Fondo liso preferentemente</p>
                         </div>
                     </div>
-                    <button type="submit" id="submit-btn" class="w-full bg-cyan-600 text-black py-4 rounded font-black text-lg hover:bg-cyan-500 transition shadow-[0_0_20px_rgba(0,229,255,0.4)] uppercase">CONFIRMAR Y GENERAR</button>
+
+                    <button type="submit" id="submit-btn" class="w-full bg-cyan-600 text-black py-4 rounded font-black text-lg hover:bg-cyan-500 transition shadow-[0_0_20px_rgba(0,229,255,0.4)] uppercase">
+                        CONFIRMAR Y GENERAR
+                    </button>
                 </form>
             </section>
 
@@ -175,15 +180,19 @@
                             <div class="c-photo-frame">
                                 <img id="photo-preview" class="c-photo" src="https://placehold.co/400x400/111/333?text=FOTO" alt="Foto">
                             </div>
+                            
                             <div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div>
                             <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
+                            
                             <div class="c-role-badge">ASISTENTE</div>
                         </div>
 
-                        <div class="c-qr"><canvas id="qr-code-preview" style="width:100%; height:100%;"></canvas></div>
+                        <div class="c-qr">
+                            <canvas id="qr-code-preview" style="width:100%; height:100%;"></canvas>
+                        </div>
 
                         <div class="c-footer">
-                            <p style="color:#333; font-size:10px; font-weight:bold; margin-bottom:5px; text-transform:uppercase;">Avalado Por:</p>
+                            <p style="color:#333; font-size:10px; font-weight:bold; margin-bottom:5px; text-transform:uppercase;">ORGANIZA & AVALA:</p>
                             <div class="c-logos-row" id="carnet-logos-container">
                                 </div>
                         </div>
@@ -191,14 +200,17 @@
                 </div>
                 
                 <div id="actions" class="mt-4 hidden text-center">
-                    <button onclick="downloadImage()" class="bg-orange-600 text-white px-10 py-3 rounded font-bold shadow-lg hover:bg-orange-500 transition"><i class="fas fa-download"></i> DESCARGAR CREDENCIAL</button>
-                    <p class="text-xs text-gray-500 mt-2">Guarda la imagen en tu celular.</p>
+                    <button onclick="downloadImage()" class="bg-orange-600 text-white px-10 py-3 rounded font-bold shadow-lg hover:bg-orange-500 transition">
+                        <i class="fas fa-download"></i> DESCARGAR CREDENCIAL
+                    </button>
+                    <p class="text-xs text-gray-500 mt-2">Guarda la imagen en tu dispositivo.</p>
                 </div>
             </section>
         </div>
     </div>
 
     <script>
+        // --- CONFIG ---
         const CONFIG = {
             supabaseUrl: 'https://fuxnsebrhxxbalqfmtzs.supabase.co',
             supabaseKey: 'sb_publishable_brWrs7Bn3vGFS7H2mEHkKQ_hcK1a8WV', 
@@ -206,14 +218,14 @@
         };
         const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
 
-        // --- 1. INICIO & SEGURIDAD ---
+        // --- 1. LOGIN & SEGURIDAD ---
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const urlDni = params.get('dni');
             const urlName = params.get('name');
             const urlAuth = params.get('auth');
 
-            // Autologin
+            // Autologin desde Index
             if(urlDni && urlAuth) {
                 if(isValidCode(urlDni, urlAuth)) { grantAccess(urlDni, urlName); return; }
             }
@@ -246,26 +258,26 @@
             document.getElementById('dni-container').textContent = `DNI: ${dni}`;
             
             if(name) {
-                const decoded = decodeURIComponent(name);
-                document.getElementById('nombre').value = decoded;
-                document.getElementById('nombre-preview').textContent = decoded;
+                const decodedName = decodeURIComponent(name);
+                document.getElementById('nombre').value = decodedName;
+                document.getElementById('nombre-preview').textContent = decodedName;
             }
 
-            loadDynamicAssets(); // Carga logos y fondo
+            loadDynamicAssets(); // CARGA FONDOS Y LOGOS
         }
 
-        // --- 2. CARGAR RECURSOS (FONDO & LOGOS) ---
+        // --- 2. CARGAR RECURSOS DEL ADMIN (FONDO & LOGOS) ---
         function loadDynamicAssets() {
             // Fondo Marca de Agua
             const bg = localStorage.getItem('dba_bg');
             if(bg) document.getElementById('bg-watermark').style.backgroundImage = `url('${bg}')`;
 
-            // Logos Sponsors
+            // Logos Sponsors (Desde el Index)
             const avales = JSON.parse(localStorage.getItem('dba_avales') || '[]');
             const container = document.getElementById('carnet-logos-container');
             
             if(avales.length === 0) {
-                container.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN LOGOS</span>';
+                container.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN LOGOS CARGADOS</span>';
             } else {
                 container.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
             }
@@ -288,8 +300,8 @@
             const name = document.getElementById('nombre').value;
             const photoInput = document.getElementById('photo-upload');
 
-            if(photoInput.files.length === 0) return alert("Sube la foto");
-            btn.disabled = true; btn.textContent = "GUARDANDO...";
+            if(photoInput.files.length === 0) return alert("Sube tu foto para el carnet");
+            btn.disabled = true; btn.textContent = "GUARDANDO EN BASE DE DATOS...";
 
             try {
                 // Foto a Supabase
@@ -319,14 +331,14 @@
 
             } catch (err) {
                 console.error(err);
-                alert("Error de red. Intenta de nuevo.");
+                alert("Error de conexión. Intente de nuevo.");
                 btn.disabled = false; btn.textContent = "REINTENTAR";
             }
         };
 
         window.downloadImage = () => {
             const node = document.getElementById('preview-container');
-            html2canvas(node, { scale: 4, useCORS: true }).then(canvas => {
+            html2canvas(node, { scale: 3, useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `Credencial_Dolores_${document.getElementById('dni').value}.jpg`;
                 link.href = canvas.toDataURL("image/jpeg", 0.9);
@@ -339,7 +351,7 @@
             const pass = prompt("🔐 CLAVE DE ADMINISTRADOR:");
             if(pass !== "admin2026") return alert("Acceso Denegado");
 
-            alert("Descargando base de datos...");
+            alert("Descargando lista completa...");
             
             try {
                 const { data, error } = await sb.from('alumnos').select('*');
@@ -353,13 +365,13 @@
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
-                link.setAttribute("download", "inscriptos_dolores2026.csv");
+                link.setAttribute("download", "lista_inscriptos_dolores2026.csv");
                 document.body.appendChild(link);
                 link.click();
                 
             } catch(e) {
                 console.error(e);
-                alert("Error al exportar.");
+                alert("Error al exportar. Verifica tu conexión.");
             }
         }
     </script>
