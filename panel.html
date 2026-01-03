@@ -26,8 +26,8 @@
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* CARNET 10x15 CM (Escala para visualización) */
-        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -120px; }
+        /* CARNET 10x15 CM */
+        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
         
         .carnet-box { 
             width: 600px; height: 900px; 
@@ -37,41 +37,52 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* FONDO (CORREGIDO: MÁS OSCURO) */
+        /* FONDO */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
-            /* Degradado muy oscuro (90% a 98% negro) sobre la foto */
-            background: linear-gradient(to bottom, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.98) 100%), url('inundacion2.jpg');
+            background: linear-gradient(to bottom, rgba(5,8,10,0.6) 0%, rgba(5,8,10,0.8) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
         }
         
-        /* HEADER AVALES (Reducido para dar espacio al título) */
+        /* HEADER AVALES (Blanco) */
         .c-header-strip { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 90px; /* Reducido de 110px */
+            position: absolute; top: 0; left: 0; width: 100%; height: 90px; 
             background: white; display: flex; align-items: center; justify-content: center; gap: 30px; 
             z-index: 20; padding: 0 20px; 
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* TÍTULO DBA (Subido y centrado) */
+        /* HEADER DBA (CORREGIDO: Altura y Padding para no tocar la línea) */
         .c-main-header { 
-            position: absolute; top: 90px; left: 0; width: 100%; height: 100px; /* Más alto para centrar mejor */
+            position: absolute; 
+            top: 90px; 
+            left: 0; 
+            width: 100%; 
+            height: 110px; /* Aumentado para dar espacio */
             background: rgba(0, 229, 255, 0.05); 
             border-bottom: 2px solid var(--hydro-cyan); 
-            display: flex; align-items: center; justify-content: center; z-index: 20; 
+            
+            /* Alineación al fondo pero con empuje hacia arriba */
+            display: flex; 
+            align-items: flex-end; /* Alinea texto abajo */
+            justify-content: center; 
+            z-index: 20; 
+            
+            /* CLAVE: Esto levanta el texto de la línea azul */
+            padding-bottom: 15px; 
         }
         .c-logo { 
             font-family: 'Black Ops One'; font-size: 3.5rem; color: white; 
             text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            margin-top: 10px; /* Ajuste fino para no tocar la línea de arriba */
+            line-height: 1; /* Evita espacios extra fantasma */
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
         /* CUERPO */
         .c-body { 
-            position: absolute; top: 210px; width: 100%; text-align: center; z-index: 10; 
+            position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
             display: flex; flex-direction: column; align-items: center;
         }
         
@@ -83,7 +94,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* NOMBRE (CORREGIDO: Interlineado mayor) */
+        /* NOMBRE */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -91,7 +102,8 @@
         }
         .c-name { 
             font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
-            line-height: 1.3; /* Aumentado para que no se peguen las líneas */
+            line-height: 1.2; 
+            font-size: 2rem;
             color: white; text-shadow: 0 4px 4px rgba(0,0,0,0.9); 
             text-align: center;
             word-wrap: break-word;
@@ -99,22 +111,23 @@
         
         .c-dni { 
             font-size: 1.6rem; color: #ccc; letter-spacing: 3px; font-weight: 700; 
-            margin-bottom: 25px; text-shadow: 0 2px 4px black; 
+            margin-bottom: 30px; text-shadow: 0 2px 4px black; 
         }
         
-        /* ROL (CORREGIDO: Centrado y separado del QR) */
+        /* CARTEL ASISTENTE */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
-            width: 75%; height: 70px;
+            width: 80%; height: 75px; 
             display: flex; justify-content: center; align-items: center;
             font-family: 'Black Ops One'; font-size: 2.4rem; 
             transform: skew(-12deg); 
             box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 3px white; 
-            margin-bottom: 10px; /* Margen inferior para alejar del QR */
+            margin-bottom: 10px;
+            padding-top: 0; padding-bottom: 0;
         }
-        .c-role-badge span { transform: skew(12deg); margin-top: 5px; }
+        .c-role-badge span { transform: skew(12deg); margin-top: 3px; }
 
-        /* FOOTER (SPONSORS) */
+        /* FOOTER */
         .c-footer { 
             position: absolute; bottom: 0; left: 0; width: 100%; height: 130px; 
             background: white; 
@@ -130,13 +143,13 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* QR (CORREGIDO: Más abajo y a la derecha) */
+        /* QR */
         .c-qr { 
             position: absolute; 
-            bottom: 140px; /* Bajado para liberar el cartel azul */
-            right: 15px;   /* Pegado a la derecha */
+            bottom: 140px; 
+            right: 15px;   
             background: white; padding: 5px; border-radius: 4px; 
-            width: 110px; height: 110px; /* Reducido levemente */
+            width: 110px; height: 110px; 
             z-index: 30; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
         }
@@ -199,6 +212,7 @@
                             </div>
                             
                             <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
+                            
                             <div class="c-role-badge"><span>ASISTENTE</span></div>
                         </div>
 
@@ -277,7 +291,7 @@
         }
 
         function fitText(el, container) {
-            let size = 2.4; 
+            let size = 2.0; 
             el.style.fontSize = size + 'rem';
             while (el.scrollHeight > container.clientHeight || el.scrollWidth > container.clientWidth) {
                 size -= 0.1;
@@ -289,7 +303,7 @@
         function loadDynamicAssets() {
             const bg = localStorage.getItem('dba_bg');
             if(bg) {
-                document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.98) 100%), url('${bg}')`;
+                document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.6) 0%, rgba(5,8,10,0.8) 100%), url('${bg}')`;
             }
 
             const avales = JSON.parse(localStorage.getItem('dba_avales') || '[]');
