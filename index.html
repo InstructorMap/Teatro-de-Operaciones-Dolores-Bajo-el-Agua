@@ -60,12 +60,46 @@
         .aval-item:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--hydro-cyan); } 
         .aval-img { max-height: 100%; max-width: 180px; object-fit: contain; }
 
-        /* SPONSORS DISPLAY (COMERCIAL - BOTTOM) */
-        .sponsors-section { background: #000; padding: 40px 10%; text-align: center; border-top: 1px solid #333; }
-        .sponsors-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; opacity: 0.7; filter: grayscale(100%); transition:0.3s; }
-        .sponsors-grid:hover { filter: grayscale(0%); opacity: 1; }
-        .sponsor-img-footer { max-height: 50px; object-fit: contain; }
-
+      /* SPONSORS DISPLAY (COMERCIAL - BOTTOM) - CORREGIDO */
+        .sponsors-section { 
+            background: #000; 
+            padding: 40px 10%; 
+            text-align: center; 
+            border-top: 1px solid #333; 
+        }
+        
+        .sponsors-grid { 
+            display: flex; 
+            justify-content: center; 
+            gap: 40px; /* Espacio entre logos */
+            flex-wrap: wrap; 
+            margin-top: 30px; 
+            align-items: center;
+            /* CAMBIOS: Opacidad al 100% y filtro B/N eliminado */
+            opacity: 1; 
+            filter: grayscale(0%); 
+        }
+        
+        /* Eliminamos el hover que cambiaba el color, ya que ahora siempre tienen color */
+        
+        .sponsor-img-footer { 
+            /* CAMBIOS: Tamaño aumentado */
+            max-height: 100px; /* Antes era 50px */
+            max-width: 250px;  /* Ancho máximo generoso */
+            object-fit: contain; 
+            transition: 0.3s;
+            
+            /* OPCIONAL: Fondo blanco suave por si subes logos oscuros */
+            background: rgba(255,255,255,0.9); 
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .sponsor-img-footer:hover { 
+            transform: scale(1.1); 
+            background: #fff;
+            box-shadow: 0 0 15px var(--hydro-cyan);
+        }
         /* ESTACIONES & CARDS */
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .station-card { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; transition: 0.3s; border-radius: 4px; }
@@ -167,10 +201,10 @@
         <div class="tiers-grid">
             <div class="tier-card tier-titanio">
                 <div class="tier-name" style="color:var(--hydro-cyan)">TITANIO</div>
-                <div class="tier-price">$500.000 <small>ARS</small></div>
+                <div class="tier-price">$1.000.000 <small>ARS</small></div>
                 <ul class="tier-list">
                     <li>Stand Físico Exclusivo (3x3m)</li>
-                    <li>Logo Principal en Remera Oficial</li>
+                    <li>Logo Principal en Evento y Kits Oficial</li>
                     <li>Mención por Locutor c/hora</li>
                     <li>Video Institucional en Pantalla</li>
                     <li>10 Pases de Cortesía</li>
@@ -180,10 +214,10 @@
 
             <div class="tier-card tier-platino">
                 <div class="tier-name" style="color:#e5e4e2">PLATINO</div>
-                <div class="tier-price">$300.000 <small>ARS</small></div>
+                <div class="tier-price">$500.000 <small>ARS</small></div>
                 <ul class="tier-list">
                     <li>Banner en Zona de Estaciones</li>
-                    <li>Logo Secundario en Remera</li>
+                    <li>Logo Secundario en Evento y Kits Oficial</li>
                     <li>Presencia en Redes Sociales (3 Posts)</li>
                     <li>5 Pases de Cortesía</li>
                 </ul>
@@ -192,7 +226,7 @@
 
             <div class="tier-card tier-oro">
                 <div class="tier-name" style="color:var(--gold)">ORO</div>
-                <div class="tier-price">$150.000 <small>ARS</small></div>
+                <div class="tier-price">$200.000 <small>ARS</small></div>
                 <ul class="tier-list">
                     <li>Logo en Web y Mailing</li>
                     <li>Entrega de Folletería en Kit</li>
@@ -204,7 +238,7 @@
 
             <div class="tier-card tier-plata">
                 <div class="tier-name" style="color:var(--silver)">PLATA</div>
-                <div class="tier-price">$75.000 <small>ARS</small></div>
+                <div class="tier-price">$100.000 <small>ARS</small></div>
                 <ul class="tier-list">
                     <li>Presencia Digital Web</li>
                     <li>Mención en Agradecimientos</li>
