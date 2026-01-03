@@ -20,79 +20,128 @@
         }
         body { font-family: 'Roboto', sans-serif; background: #020405; color: white; }
 
-        /* LOGIN */
+        /* LOGIN SCREEN */
         #access-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020405; z-index: 9999; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%); }
         .login-card { background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); }
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* CARNET 10x15 */
-        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -100px; }
+        /* --- CARNET 10x15 CM (Ratio 2:3) --- */
+        /* Escalamos la vista previa para que quepa en pantalla */
+        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -120px; }
+        
         .carnet-box { 
             width: 600px; height: 900px; 
             position: relative; overflow: hidden; 
-            background: linear-gradient(180deg, #0b1216 0%, #020405 100%);
+            background-color: #000;
             border: 1px solid #333;
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* MARCA DE AGUA (CORREGIDA: URL LOCAL) */
+        /* CAPA DE FONDO + SOMBREADO (Corrección Visual) */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
-            opacity: 0.6; /* Alta visibilidad */
-            pointer-events: none;
+            /* Esto crea el oscurecimiento sobre la foto */
+            background: linear-gradient(to bottom, rgba(5,8,10,0.7) 0%, rgba(5,8,10,0.9) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
-            /* SE USA LA IMAGEN LOCAL DEL REPO */
-            background-image: url('inundacion2.jpg'); 
-            mix-blend-mode: overlay; /* Mejor integración */
-            filter: grayscale(100%) contrast(120%);
         }
         
-        /* HEADER */
-        .c-header-strip { position: absolute; top: 0; left: 0; width: 100%; height: 100px; background: white; display: flex; align-items: center; justify-content: center; gap: 20px; z-index: 20; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-        .c-aval-logo { max-height: 70px; max-width: 120px; object-fit: contain; }
-        
-        .c-main-header { position: absolute; top: 100px; left: 0; width: 100%; height: 90px; background: rgba(0, 229, 255, 0.1); border-bottom: 2px solid var(--hydro-cyan); display: flex; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(5px); }
-        .c-logo { font-family: 'Black Ops One'; font-size: 2.8rem; color: white; text-shadow: 0 0 15px var(--hydro-cyan); }
-        .c-logo span { color: var(--rescue-orange); }
+        /* HEADER BLANCO (AVALES) */
+        .c-header-strip { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 110px; 
+            background: white; display: flex; align-items: center; justify-content: center; gap: 30px; 
+            z-index: 20; padding: 0 20px; 
+        }
+        .c-aval-logo { max-height: 70px; max-width: 140px; object-fit: contain; }
 
-        /* BODY */
-        .c-body { position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; padding: 0 20px; }
+        /* BARRA TÍTULO (NEON) */
+        .c-main-header { 
+            position: absolute; top: 110px; left: 0; width: 100%; height: 80px; 
+            background: rgba(0, 229, 255, 0.05); 
+            border-bottom: 3px solid var(--hydro-cyan); 
+            display: flex; align-items: center; justify-content: center; z-index: 20; 
+        }
+        .c-logo { 
+            font-family: 'Black Ops One'; font-size: 3rem; color: white; 
+            text-shadow: 0 0 15px var(--hydro-cyan); letter-spacing: 2px;
+        }
+        .c-logo span { color: var(--rescue-orange); text-shadow: none; }
+
+        /* CUERPO CENTRAL */
+        .c-body { 
+            position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
+            display: flex; flex-direction: column; align-items: center;
+        }
         
-        .c-photo-frame { width: 280px; height: 280px; margin: 0 auto 25px; border: 4px solid var(--rescue-orange); border-radius: 20px; overflow: hidden; box-shadow: 0 0 50px rgba(255, 69, 0, 0.3); background: #000; }
+        /* FOTO */
+        .c-photo-frame { 
+            width: 270px; height: 270px; 
+            border: 5px solid var(--rescue-orange); border-radius: 25px; 
+            overflow: hidden; box-shadow: 0 0 40px rgba(255, 69, 0, 0.4); 
+            background: #000; margin-bottom: 25px;
+        }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        .c-name { font-family: 'Exo 2'; font-size: 1.9rem; font-weight: 900; text-transform: uppercase; line-height: 1.1; margin-bottom: 10px; color: white; text-shadow: 0 2px 5px black; max-width: 90%; word-wrap: break-word; margin-left: auto; margin-right: auto; }
-        .c-dni { font-size: 1.6rem; color: #ddd; letter-spacing: 3px; font-weight: 600; margin-bottom: 25px; text-shadow: 0 2px 5px black; }
-        
-        .c-role-badge { 
-            background: var(--hydro-cyan); color: #000; 
-            display: inline-flex; justify-content: center; align-items: center;
-            height: 60px; padding: 0 50px; 
-            font-family: 'Black Ops One'; font-size: 2.2rem; 
-            transform: skew(-10deg); 
-            box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 10px rgba(255,255,255,0.5); 
-            border: 3px solid white;
-            /* Ajuste de margen para separar del QR */
-            margin-bottom: 20px; 
+        /* NOMBRE (CORREGIDO: Evita superposición) */
+        .c-name { 
+            font-family: 'Exo 2'; 
+            font-size: 2.2rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            /* Clave para que no se peguen las líneas */
+            line-height: 1.1; 
+            margin-bottom: 10px; 
+            color: white; 
+            text-shadow: 0 4px 4px rgba(0,0,0,0.8); 
+            width: 90%; 
+            word-wrap: break-word;
         }
-        .c-role-badge span { transform: skew(10deg); margin-top: 4px; }
-
-        /* FOOTER */
-        .c-footer { position: absolute; bottom: 0; left: 0; width: 100%; height: 140px; background: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px; z-index: 20; }
-        .c-logos-row { display: flex; gap: 30px; justify-content: center; align-items: center; flex-wrap: wrap; width: 100%; height: 90px; overflow: hidden; }
         
-        /* QR (CORREGIDO: Desplazado y achicado) */
+        .c-dni { 
+            font-size: 1.5rem; color: #ccc; 
+            letter-spacing: 2px; font-weight: 700; 
+            margin-bottom: 30px; 
+            text-shadow: 0 2px 4px black; 
+        }
+        
+        /* CARTEL ROL (CORREGIDO: Centrado perfecto) */
+        .c-role-badge { 
+            background: var(--hydro-cyan); 
+            color: #05080a; 
+            width: 80%; /* Ancho controlado */
+            height: 65px;
+            display: flex; justify-content: center; align-items: center; /* Centrado Flex */
+            font-family: 'Black Ops One'; font-size: 2.2rem; 
+            transform: skew(-12deg); 
+            box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 2px white; 
+            margin-bottom: 20px;
+        }
+        /* Deshacer inclinación para el texto */
+        .c-role-badge span { transform: skew(12deg); padding-top: 5px; }
+
+        /* FOOTER (SPONSORS) */
+        .c-footer { 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 140px; 
+            background: white; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 20; 
+        }
+        .c-logos-row { 
+            display: flex; gap: 30px; justify-content: center; align-items: center; 
+            flex-wrap: wrap; width: 100%; height: 80px; overflow: hidden; 
+        }
+        
+        /* QR (CORREGIDO: Posición final) */
         .c-qr { 
             position: absolute; 
-            bottom: 135px; /* Un poco más abajo */
-            right: 10px;   /* Pegado al borde derecho para liberar el centro */
-            background: white; padding: 5px; border-radius: 5px; 
-            width: 110px; height: 110px; /* Reducido de 130px */
+            bottom: 155px; /* Separado del footer */
+            right: 20px;   /* Margen derecho */
+            background: white; padding: 6px; border-radius: 4px; 
+            width: 120px; height: 120px; 
             z-index: 30; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.8); border: 1px solid #ccc;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
     </style>
 </head>
@@ -125,8 +174,8 @@
                 <h3 class="text-cyan-400 font-bold mb-4 uppercase tracking-widest text-sm border-l-4 border-orange-500 pl-3">Datos del Asistente</h3>
                 <form id="carnet-form" class="space-y-5">
                     <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-xs font-bold text-gray-500 uppercase">DNI (Fijo)</label><input type="text" id="dni" class="w-full p-3 bg-black rounded text-white font-bold border border-gray-700 cursor-not-allowed" readonly></div>
-                        <div><label class="text-xs font-bold text-gray-500 uppercase">Nombre (Fijo)</label><input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly></div>
+                        <div><label class="text-xs font-bold text-gray-500 uppercase">DNI</label><input type="text" id="dni" class="w-full p-3 bg-black rounded text-white font-bold border border-gray-700 cursor-not-allowed" readonly></div>
+                        <div><label class="text-xs font-bold text-gray-500 uppercase">Nombre</label><input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly></div>
                     </div>
                     <div class="p-6 border-2 border-dashed border-gray-700 rounded-xl bg-black text-center hover:border-cyan-400 transition cursor-pointer relative group">
                         <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
@@ -139,15 +188,18 @@
             <section class="flex flex-col items-center">
                 <div id="download-area">
                     <div id="preview-container" class="carnet-box">
-                        <div class="c-watermark-layer"></div>
+                        <div id="bg-watermark" class="c-watermark-layer"></div>
                         
                         <div class="c-header-strip" id="header-avales-container"></div>
+
                         <div class="c-main-header"><div class="c-logo">DBA <span>2026</span></div></div>
 
                         <div class="c-body">
                             <div class="c-photo-frame"><img id="photo-preview" class="c-photo" src="https://placehold.co/400x400/111/333?text=FOTO" alt="Foto"></div>
+                            
                             <div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div>
                             <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
+                            
                             <div class="c-role-badge"><span>ASISTENTE</span></div>
                         </div>
 
@@ -196,8 +248,8 @@
                     grantAccess(dni, null);
                 } catch(err) { console.error(err); alert("Error conexión DB"); }
             } else {
-                const err = document.getElementById('errorMsg');
-                err.classList.remove('hidden'); setTimeout(() => err.classList.add('hidden'), 3000);
+                document.getElementById('errorMsg').classList.remove('hidden');
+                setTimeout(() => document.getElementById('errorMsg').classList.add('hidden'), 3000);
             }
         }
 
@@ -222,19 +274,18 @@
         }
 
         function loadDynamicAssets() {
-            // Fondo Marca de Agua (Si el admin subió uno nuevo, se usa ese, sino el default del CSS)
+            // Fondo Marca de Agua (Desde index localstorage o fallback CSS)
             const bg = localStorage.getItem('dba_bg');
-            if(bg) document.querySelector('.c-watermark-layer').style.backgroundImage = `url('${bg}')`;
+            // Si el admin subió foto, usa esa. Si no, usa la del CSS (inundacion2.jpg)
+            if(bg) document.getElementById('bg-watermark').style.backgroundImage = `url('${bg}')`;
 
             const avales = JSON.parse(localStorage.getItem('dba_avales') || '[]');
             const headerCont = document.getElementById('header-avales-container');
             if(avales.length) headerCont.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
-            else headerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN AVALES</span>';
-
+            
             const sponsors = JSON.parse(localStorage.getItem('dba_sponsors') || '[]');
             const footerCont = document.getElementById('footer-sponsors-container');
             if(sponsors.length) footerCont.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
-            else footerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN SPONSORS</span>';
         }
 
         document.getElementById('photo-upload').onchange = (e) => {
