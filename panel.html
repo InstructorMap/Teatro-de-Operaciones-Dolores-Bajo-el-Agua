@@ -26,7 +26,7 @@
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* CARNET 10x15 CM (Escala ajustada para ver completo) */
+        /* CARNET 10x15 CM */
         #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
         
         .carnet-box { 
@@ -37,17 +37,16 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* 1. CORRECCIÓN FONDO (Más oscuro para legibilidad) */
+        /* 1. CORRECCIÓN FONDO */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
-            /* Gradiente al 85% y 98% de opacidad negra para contraste máximo */
             background: linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
         }
         
-        /* HEADER AVALES (Blanco) */
+        /* HEADER AVALES */
         .c-header-strip { 
             position: absolute; top: 0; left: 0; width: 100%; height: 90px; 
             background: white; display: flex; align-items: center; justify-content: center; gap: 30px; 
@@ -55,26 +54,16 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. CORRECCIÓN TÍTULO (Centrado total) */
+        /* 2. CORRECCIÓN TÍTULO */
         .c-main-header { 
-            position: absolute; 
-            top: 90px; 
-            left: 0; 
-            width: 100%; 
-            height: 110px; 
+            position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
             border-bottom: 2px solid var(--hydro-cyan); 
-            
-            /* Alineación CENTRADA total para evitar tocar bordes */
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 20; 
+            display: flex; align-items: center; justify-content: center; z-index: 20; 
         }
         .c-logo { 
             font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
             text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            /* Ajuste fino visual */
             margin-top: 5px;
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
@@ -93,7 +82,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. CORRECCIÓN NOMBRE (Separación de líneas) */
+        /* 3. CORRECCIÓN NOMBRE */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -101,7 +90,6 @@
         }
         .c-name { 
             font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
-            /* Interlineado aumentado para evitar superposición */
             line-height: 1.35; 
             font-size: 2rem;
             color: white; text-shadow: 0 4px 4px rgba(0,0,0,0.9); 
@@ -111,15 +99,13 @@
         
         .c-dni { 
             font-size: 1.6rem; color: #ccc; letter-spacing: 3px; font-weight: 700; 
-            margin-bottom: 35px; /* Más espacio antes del cartel */
-            text-shadow: 0 2px 4px black; 
+            margin-bottom: 35px; text-shadow: 0 2px 4px black; 
         }
         
-        /* 4. CORRECCIÓN CARTEL (Ancho reducido para no chocar con QR) */
+        /* 4. CORRECCIÓN CARTEL */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
-            width: 65%; /* REDUCIDO del 80% al 65% para liberar espacio al QR */
-            height: 70px; 
+            width: 65%; height: 70px; 
             display: flex; justify-content: center; align-items: center;
             font-family: 'Black Ops One'; font-size: 2.4rem; 
             transform: skew(-12deg); 
@@ -129,7 +115,7 @@
         }
         .c-role-badge span { 
             transform: skew(12deg); 
-            line-height: 1; /* Centrado matemático */
+            line-height: 1; 
             display: block;
         }
 
@@ -149,13 +135,12 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* 5. CORRECCIÓN QR (Más pequeño y abajo) */
+        /* 5. CORRECCIÓN QR */
         .c-qr { 
             position: absolute; 
-            bottom: 135px; /* Pegado al footer blanco */
-            right: 15px;   
+            bottom: 135px; right: 15px;   
             background: white; padding: 5px; border-radius: 4px; 
-            width: 100px; height: 100px; /* Reducido a 100px */
+            width: 100px; height: 100px; 
             z-index: 30; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
         }
