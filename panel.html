@@ -26,83 +26,53 @@
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* CARNET 10x15 */
+        /* CARNET 10x15 (Base) */
         #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -100px; }
-        
         .carnet-box { 
             width: 600px; height: 900px; 
             position: relative; overflow: hidden; 
-            /* Fondo base oscuro */
-            background: #05080a; 
+            background: #05080a; /* Fondo base negro */
             border: 1px solid #333;
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* MARCA DE AGUA (FONDO CORREGIDO) */
+        /* MARCA DE AGUA (CORREGIDA: Más visible) */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; /* Detrás del contenido */
-            opacity: 0.25; /* Visible pero sutil */
+            z-index: 1; 
+            opacity: 0.5; /* Aumentada para visibilidad */
             pointer-events: none;
             background-size: cover; 
             background-position: center;
-            /* Imagen por defecto si no hay carga */
+            /* Imagen default */
             background-image: url('https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=600');
-            /* Filtros para integrar con el fondo oscuro */
-            filter: grayscale(100%) brightness(0.8);
+            filter: grayscale(100%); /* Solo B/N, sin oscurecer */
         }
         
-        /* HEADER (AVALES) */
-        .c-header-strip { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100px; 
-            background: white; display: flex; align-items: center; justify-content: center; gap: 20px; 
-            z-index: 20; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
+        /* HEADERs */
+        .c-header-strip { position: absolute; top: 0; left: 0; width: 100%; height: 100px; background: white; display: flex; align-items: center; justify-content: center; gap: 20px; z-index: 20; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         .c-aval-logo { max-height: 70px; max-width: 120px; object-fit: contain; }
-
-        /* TÍTULO EVENTO */
-        .c-main-header { 
-            position: absolute; top: 100px; left: 0; width: 100%; height: 90px; 
-            background: rgba(0, 229, 255, 0.1); border-bottom: 2px solid var(--hydro-cyan); 
-            display: flex; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(5px);
-        }
+        .c-main-header { position: absolute; top: 100px; left: 0; width: 100%; height: 90px; background: rgba(0, 229, 255, 0.1); border-bottom: 2px solid var(--hydro-cyan); display: flex; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(5px); }
         .c-logo { font-family: 'Black Ops One'; font-size: 2.8rem; color: white; text-shadow: 0 0 15px var(--hydro-cyan); }
         .c-logo span { color: var(--rescue-orange); }
 
-        /* CUERPO */
+        /* BODY */
         .c-body { position: absolute; top: 230px; width: 100%; text-align: center; z-index: 10; }
-        
-        .c-photo-frame { 
-            width: 280px; height: 280px; margin: 0 auto 30px; 
-            border: 4px solid var(--rescue-orange); border-radius: 20px; 
-            overflow: hidden; box-shadow: 0 0 50px rgba(255, 69, 0, 0.3); background: #000; 
-        }
+        .c-photo-frame { width: 280px; height: 280px; margin: 0 auto 30px; border: 4px solid var(--rescue-orange); border-radius: 20px; overflow: hidden; box-shadow: 0 0 50px rgba(255, 69, 0, 0.3); background: #000; }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
-        
         .c-name { font-family: 'Exo 2'; font-size: 2.4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 10px; color: white; text-shadow: 0 2px 5px black; }
         .c-dni { font-size: 1.6rem; color: #ddd; letter-spacing: 3px; font-weight: 600; margin-bottom: 30px; text-shadow: 0 2px 5px black; }
-        
-        /* CARTEL ASISTENTE */
-        .c-role-badge { 
-            background: var(--hydro-cyan); color: #000; 
-            display: inline-block; padding: 10px 50px; 
-            font-family: 'Black Ops One'; font-size: 2.2rem; 
-            transform: skew(-10deg); box-shadow: 0 0 30px var(--hydro-cyan); border: 2px solid white;
-        }
+        .c-role-badge { background: var(--hydro-cyan); color: #000; display: inline-block; padding: 10px 50px; font-family: 'Black Ops One'; font-size: 2.2rem; transform: skew(-10deg); box-shadow: 0 0 30px var(--hydro-cyan); border: 2px solid white; }
 
-        /* FOOTER (SPONSORS) */
-        .c-footer { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 140px; 
-            background: white; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            padding: 10px 20px; z-index: 20; 
-        }
+        /* FOOTER */
+        .c-footer { position: absolute; bottom: 0; left: 0; width: 100%; height: 140px; background: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 20px; z-index: 20; }
         .c-logos-row { display: flex; gap: 30px; justify-content: center; align-items: center; flex-wrap: wrap; width: 100%; height: 90px; overflow: hidden; }
         
-        /* QR (CORREGIDO: DERECHA Y ARRIBA) */
+        /* QR (CORREGIDO: Movido totalmente a la derecha) */
         .c-qr { 
             position: absolute; 
-            bottom: 150px; /* Arriba del footer blanco */
-            right: 30px;   /* A la derecha para no tapar el centro */
+            bottom: 145px; /* Justo encima del footer blanco */
+            right: 5px;    /* Pegado al borde derecho */
             background: white; padding: 5px; border-radius: 5px; 
             width: 130px; height: 130px; z-index: 30; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.8); border: 1px solid #ccc;
@@ -207,9 +177,9 @@
             if (isValidCode(dni, code)) {
                 try {
                     const { data } = await sb.from('alumnos').select('*').eq('dni', dni);
-                    if(data && data.length > 0) return alert("⚠️ CREDENCIAL YA GENERADA.");
+                    if(data && data.length > 0) return alert("⚠️ CREDENCIAL YA GENERADA.\nEl acceso es de un solo uso.");
                     grantAccess(dni, null);
-                } catch(err) { console.error(err); alert("Error conexión"); }
+                } catch(err) { console.error(err); alert("Error conexión DB"); }
             } else {
                 const err = document.getElementById('errorMsg');
                 err.classList.remove('hidden'); setTimeout(() => err.classList.add('hidden'), 3000);
@@ -271,7 +241,7 @@
             const photoInput = document.getElementById('photo-upload');
 
             if(photoInput.files.length === 0) return alert("Falta la foto");
-            btn.disabled = true; btn.textContent = "GUARDANDO...";
+            btn.disabled = true; btn.textContent = "PROCESANDO...";
 
             try {
                 const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
@@ -289,11 +259,11 @@
                 new QRious({ element: document.getElementById('qr-code-preview'), value: `${CONFIG.repoUrl}?id=${matricula}`, size: 200, level: 'H' });
 
                 document.getElementById('actions').classList.remove('hidden');
-                btn.textContent = "¡ÉXITO!"; btn.classList.replace('bg-cyan-600', 'bg-green-600');
+                btn.textContent = "¡CREDENCIAL ÉXITOSA!"; btn.classList.replace('bg-cyan-600', 'bg-green-600');
 
             } catch (err) {
                 console.error(err);
-                alert("Error de conexión");
+                alert("Error al generar. Verifica tu conexión.");
                 btn.disabled = false; btn.textContent = "REINTENTAR";
             }
         };
