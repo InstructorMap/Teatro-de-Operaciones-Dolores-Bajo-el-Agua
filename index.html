@@ -3,641 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolores Bajo el Agua 2026 | Congreso Hidro-Táctico</title>
+    <title>Generador Oficial - Dolores 2026</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;500;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <style>
-        :root {
-            --bg-deep: #020405; --bg-panel: #0d1114; --rescue-orange: #ff4500; 
-            --hydro-cyan: #00e5ff; --text-main: #f0f0f0; --glass: rgba(13, 17, 20, 0.85);
-            --gold: #ffd700; --silver: #c0c0c0; --titanium: #8b9bb4;
+        :root { 
+            --bg-deep: #05080a;
+            --hydro-cyan: #00e5ff;
+            --rescue-orange: #ff4500;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Roboto', sans-serif; background: #020405; color: white; }
+
+        /* LOGIN */
+        #access-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020405; z-index: 9999; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%); }
+        .login-card { background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); }
+        .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
+        .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
+
+        /* CARNET 10x15 CM */
+        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
         
-        body { 
-            font-family: 'Roboto', sans-serif; background-color: var(--bg-deep); color: var(--text-main); 
-            line-height: 1.6; overflow-x: hidden; position: relative; min-height: 100vh;
+        .carnet-box { 
+            width: 600px; height: 900px; 
+            position: relative; overflow: hidden; 
+            background-color: #000;
+            border: 1px solid #333;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* FONDO DINÁMICO */
-        #dynamic-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-size: cover; background-position: center; opacity: 0.15;
-            filter: grayscale(80%) contrast(120%); pointer-events: none;
-            background-image: url('inundacion2.jpg'); /* Default */
+        /* 1. CORRECCIÓN FONDO */
+        .c-watermark-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; 
+            background: linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
+            background-size: cover; 
+            background-position: center;
+        }
+        
+        /* HEADER AVALES */
+        .c-header-strip { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 90px; 
+            background: white; display: flex; align-items: center; justify-content: center; gap: 30px; 
+            z-index: 20; padding: 0 20px; 
+        }
+        .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
+
+        /* 2. CORRECCIÓN TÍTULO */
+        .c-main-header { 
+            position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
+            background: rgba(0, 229, 255, 0.05); 
+            border-bottom: 2px solid var(--hydro-cyan); 
+            display: flex; align-items: center; justify-content: center; z-index: 20; 
+        }
+        .c-logo { 
+            font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
+            text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
+            margin-top: 5px;
+        }
+        .c-logo span { color: var(--rescue-orange); text-shadow: none; }
+
+        /* CUERPO CENTRAL */
+        .c-body { 
+            position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
+            display: flex; flex-direction: column; align-items: center;
+        }
+        
+        .c-photo-frame { 
+            width: 270px; height: 270px; 
+            border: 5px solid var(--rescue-orange); border-radius: 25px; 
+            overflow: hidden; box-shadow: 0 0 40px rgba(255, 69, 0, 0.4); 
+            background: #000; margin-bottom: 20px;
+        }
+        .c-photo { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* 3. CORRECCIÓN NOMBRE */
+        .c-name-wrapper {
+            width: 90%; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin-bottom: 5px;
+        }
+        .c-name { 
+            font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
+            line-height: 1.35; 
+            font-size: 2rem;
+            color: white; text-shadow: 0 4px 4px rgba(0,0,0,0.9); 
+            text-align: center;
+            word-wrap: break-word;
+        }
+        
+        .c-dni { 
+            font-size: 1.6rem; color: #ccc; letter-spacing: 3px; font-weight: 700; 
+            margin-bottom: 35px; text-shadow: 0 2px 4px black; 
+        }
+        
+        /* 4. CORRECCIÓN CARTEL */
+        .c-role-badge { 
+            background: var(--hydro-cyan); color: #05080a; 
+            width: 65%; height: 70px; 
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Black Ops One'; font-size: 2.4rem; 
+            transform: skew(-12deg); 
+            box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 3px white; 
+            margin-bottom: 10px;
+            padding: 0; 
+        }
+        .c-role-badge span { 
+            transform: skew(12deg); 
+            line-height: 1; 
+            display: block;
         }
 
-        h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* UI ELEMENTS MEJORADOS */
-        .btn { 
-            display: inline-block; padding: 14px 35px; 
-            background: linear-gradient(135deg, var(--rescue-orange), #d50000); 
-            color: #fff; font-weight: 800; border: none; cursor: pointer; 
-            text-transform: uppercase; font-family: 'Exo 2'; 
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); 
-            transition: 0.4s; box-shadow: 0 0 20px rgba(255, 69, 0, 0.4); text-decoration: none;
-            position: relative; overflow: hidden;
+        /* FOOTER */
+        .c-footer { 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 130px; 
+            background: white; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 20; 
         }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 69, 0, 0.8); }
-        
-        .btn-hydro { 
-            background: rgba(0, 229, 255, 0.05); border: 1px solid var(--hydro-cyan); color: var(--hydro-cyan); 
-            padding: 12px 30px; font-weight: 700; text-transform: uppercase; 
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); 
-            transition: 0.3s; display: inline-block; text-decoration: none; cursor: pointer;
+        .c-footer-title {
+            color: #333; font-size: 10px; font-weight: bold; margin-bottom: 5px; 
+            text-transform: uppercase; letter-spacing: 2px;
         }
-        .btn-hydro:hover { background: rgba(0, 229, 255, 0.2); box-shadow: 0 0 25px var(--hydro-cyan); text-shadow: 0 0 8px white; }
-
-        header { padding: 15px 5%; position: fixed; width: 100%; top: 0; background: rgba(2, 4, 5, 0.9); z-index: 1000; border-bottom: 1px solid rgba(0, 229, 255, 0.1); backdrop-filter: blur(15px); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Black Ops One'; font-size: 1.8rem; color: #fff; text-shadow: 0 0 10px var(--hydro-cyan); } .logo span { color: var(--rescue-orange); }
-
-        /* HERO & CONTADOR */
-        .hero { min-height: 100vh; display: flex; align-items: center; padding: 160px 10% 80px; position: relative; }
-        .hero-content { position: relative; z-index: 2; border-left: 5px solid var(--hydro-cyan); padding-left: 40px; max-width: 900px; background: linear-gradient(90deg, rgba(0,0,0,0.9), transparent); padding: 50px; border-radius: 0 20px 20px 0; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
-        .hero-badge { background: rgba(0, 229, 255, 0.1); color: var(--hydro-cyan); padding: 8px 20px; font-weight: bold; border: 1px solid var(--hydro-cyan); display: inline-block; margin-bottom: 25px; font-size: 0.9rem; letter-spacing: 3px; box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
-        h1 { font-size: 4.5rem; line-height: 0.9; margin-bottom: 25px; color: white; text-shadow: 0 5px 15px black; } h1 span { color: var(--rescue-orange); font-style: italic; }
-        
-        /* CONTADOR */
-        .countdown-box { display: flex; gap: 20px; margin: 30px 0; }
-        .count-item { text-align: center; background: rgba(255,255,255,0.05); padding: 10px 20px; border: 1px solid #333; border-radius: 5px; min-width: 80px; }
-        .count-num { font-size: 2rem; font-weight: 900; color: white; font-family: 'Black Ops One'; display: block; line-height: 1; }
-        .count-label { font-size: 0.7rem; color: var(--hydro-cyan); text-transform: uppercase; letter-spacing: 1px; }
-
-        section { padding: 100px 10%; position: relative; z-index: 2; }
-        .section-title { text-align: center; font-size: 3rem; margin-bottom: 10px; color: white; text-shadow: 0 0 20px rgba(0,0,0,0.8); }
-        .section-sub { text-align: center; color: var(--hydro-cyan); font-weight: 700; margin-bottom: 70px; letter-spacing: 4px; font-size: 1rem; text-shadow: 0 0 10px var(--hydro-cyan); }
-        
-        /* SPONSORS TIERS REVISADOS */
-        .investment-section { background: linear-gradient(180deg, #020405 0%, #0d1114 100%); position: relative; overflow: hidden; }
-        .investment-section::before { content:''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--hydro-cyan), transparent); }
-        
-        .tiers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
-        
-        .tier-card { 
-            background: rgba(255,255,255,0.02); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            padding: 40px 30px; text-align: center; transition: 0.4s; 
-            position: relative; overflow: hidden; backdrop-filter: blur(10px);
-            border-radius: 10px;
+        .c-logos-row { 
+            display: flex; gap: 30px; justify-content: center; align-items: center; 
+            flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
-        .tier-card:hover { transform: translateY(-15px); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
         
-        /* Colores Específicos */
-        .tier-titanio { border-top: 5px solid var(--titanium); box-shadow: 0 -10px 30px rgba(139, 155, 180, 0.1); }
-        .tier-titanio:hover { box-shadow: 0 0 50px rgba(139, 155, 180, 0.4); }
-        
-        .tier-platino { border-top: 5px solid #e5e4e2; }
-        .tier-oro { border-top: 5px solid var(--gold); }
-        .tier-plata { border-top: 5px solid var(--silver); }
-
-        .tier-badge { 
-            position: absolute; top: 15px; right: 15px; 
-            font-size: 0.7rem; font-weight: bold; padding: 4px 10px; border-radius: 20px;
-            text-transform: uppercase; letter-spacing: 1px;
+        /* 5. CORRECCIÓN QR */
+        .c-qr { 
+            position: absolute; 
+            bottom: 135px; right: 15px;   
+            background: white; padding: 5px; border-radius: 4px; 
+            width: 100px; height: 100px; 
+            z-index: 30; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
         }
-        .bg-urgency { background: rgba(255, 69, 0, 0.2); color: var(--rescue-orange); border: 1px solid var(--rescue-orange); animation: pulse 2s infinite; }
-        
-        .tier-name { font-weight: 900; font-size: 1.8rem; color: white; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
-        .tier-price { font-size: 2.5rem; color: #fff; font-family: 'Exo 2'; margin-bottom: 25px; font-weight: 900; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .tier-list { list-style: none; padding: 0; margin-bottom: 30px; text-align: left; color: #ccc; font-size: 0.95rem; }
-        .tier-list li { margin-bottom: 12px; padding-left: 25px; position: relative; }
-        .tier-list li::before { content: '✓'; color: var(--hydro-cyan); position: absolute; left: 0; font-weight: bold; }
-
-        /* AVALES & SPONSORS DISPLAY */
-        .avales-section { background: rgba(10, 14, 17, 0.95); padding: 40px 10%; text-align: center; border-bottom: 1px solid #333; position: relative; z-index: 2; }
-        .avales-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 25px; }
-        .aval-item { background: #ffffff; padding: 10px 20px; border-radius: 8px; transition: 0.3s; height: 80px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .aval-img { max-height: 100%; max-width: 180px; object-fit: contain; }
-
-        .sponsors-section { background: #000; padding: 40px 10%; text-align: center; border-top: 1px solid #333; }
-        .sponsors-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 30px; align-items: center; opacity: 1; filter: grayscale(0%); }
-        .sponsor-img-footer { max-height: 90px; max-width: 220px; object-fit: contain; transition: 0.3s; background: rgba(255,255,255,0.95); padding: 12px; border-radius: 6px; }
-        
-        /* RESTO DE ESTILOS (Mantenidos) */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .station-card { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; transition: 0.3s; border-radius: 4px; }
-        .station-card:hover { transform: translateY(-5px); border-color: var(--rescue-orange); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .station-img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.7) grayscale(30%); transition: 0.4s; }
-        .station-card:hover .station-img { filter: brightness(1.1) grayscale(0%); }
-        .station-body { padding: 25px; } .station-title { font-size: 1.4rem; color: white; margin-bottom: 10px; font-weight: 700; }
-        
-        .inst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; text-align: center; }
-        .inst-card { padding: 20px; background: rgba(255,255,255,0.02); border-radius: 10px; transition: 0.3s; }
-        .inst-img-wrap { width: 170px; height: 170px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid var(--rescue-orange); }
-        .inst-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .gallery-item { height: 220px; overflow: hidden; border-radius: 4px; cursor: pointer; border: 1px solid #333; }
-        .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; } .gallery-item:hover .gallery-img { transform: scale(1.1); }
-        
-        .accom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .accom-card { background: #111; padding: 25px; border-left: 3px solid var(--hydro-cyan); border-radius: 0 8px 8px 0; transition: 0.3s; }
-
-        /* MODALES & ADMIN */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 500px; text-align: center; border-radius: 8px; position: relative; box-shadow: 0 0 50px rgba(0, 229, 255, 0.2); }
-        .gocuotas-box { border: 1px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.05); padding: 15px; border-radius: 8px; margin-top: 15px; position: relative; overflow: hidden; }
-        .gocuotas-badge { position: absolute; top: 10px; right: -30px; background: var(--rescue-orange); color: white; font-size: 0.6rem; padding: 2px 30px; transform: rotate(45deg); font-weight: bold; }
-        .counter-bar { height: 6px; background: #333; border-radius: 3px; margin: 10px 0; overflow: hidden; }
-        .counter-fill { height: 100%; background: var(--hydro-cyan); width: 100%; transition: width 1s; }
-
-        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
-        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
-        .tab-btn { padding: 8px 15px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; font-weight: bold; border-radius: 4px; }
-        .tab-btn.active { background: var(--rescue-orange); color: white; }
-        .admin-section { display: none; animation: fadeIn 0.3s; } .admin-section.active { display: block; }
-        .input-dark { width: 100%; padding: 12px; background: #080c0f; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 4px; }
-        .preview-list { margin-top: 15px; display: grid; gap: 10px; }
-        .preview-item { display: flex; align-items: center; background: #222; padding: 10px; justify-content: space-between; border-radius: 4px; }
-        .preview-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; background: white; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { h1 { font-size: 3rem; } .hero { padding-top: 120px; } .hero-content { padding: 30px; } }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <div id="dynamic-bg"></div>
-
-    <header>
-        <div class="logo">DBA <span>2026</span></div>
-        <button onclick="openModal()" class="btn" style="font-size:0.8rem; padding: 10px 20px;">INSCRIBIRSE</button>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <span class="hero-badge">CONGRESO INTERDISCIPLINARIO</span>
-            <h1>DOLORES <br><span>BAJO EL AGUA</span></h1>
-            <p class="hero-p">Entrenamiento operativo de alto rendimiento en inundaciones, altura y medicina táctica. 6 Estaciones. Simulacro final.</p>
-            
-            <div class="countdown-box" id="countdown">
-                <div class="count-item"><span class="count-num" id="dias">00</span><span class="count-label">DÍAS</span></div>
-                <div class="count-item"><span class="count-num" id="horas">00</span><span class="count-label">HS</span></div>
-                <div class="count-item"><span class="count-num" id="minutos">00</span><span class="count-label">MIN</span></div>
-            </div>
-
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
-                <button onclick="openModal()" class="btn">RESERVAR LUGAR</button>
-                <a href="#estaciones" class="btn-hydro">VER CIRCUITO</a>
-            </div>
+    <div id="access-screen">
+        <div class="login-card">
+            <h2 class="text-white text-2xl font-black mb-2 uppercase">Área Restringida</h2>
+            <form onsubmit="validateAccess(event)">
+                <input type="text" id="loginDNI" class="login-input" placeholder="SU DNI" required>
+                <input type="text" id="loginCode" class="login-input" placeholder="CÓDIGO ÚNICO" required>
+                <button type="submit" class="w-full bg-orange-600 text-white font-bold py-3 rounded hover:bg-orange-700 transition">ENTRAR</button>
+            </form>
+            <p id="errorMsg" class="text-red-500 text-sm mt-4 hidden font-bold">⛔ CÓDIGO INCORRECTO</p>
+            <a href="index.html" class="block mt-4 text-gray-500 text-xs hover:text-white">Volver al Inicio</a>
         </div>
-    </section>
-
-    <div class="avales-section">
-        <p style="color:#666; font-size:0.8rem; letter-spacing:2px; margin-bottom: 20px;">ORGANIZA & AVALA</p>
-        <div class="avales-grid" id="publicAvales"><p style="color:#444;">Cargando alianzas...</p></div>
     </div>
 
-    <section id="estaciones">
-        <p class="section-sub">CIRCUITO DE HABILIDADES</p>
-        <h2 class="section-title">6 ESTACIONES OPERATIVAS</h2>
-        <div class="grid-cards" id="publicStations"></div>
-    </section>
-
-    <section class="investment-section" id="sponsors-info">
-        <p class="section-sub">ALIANZAS ESTRATÉGICAS</p>
-        <h2 class="section-title">OPORTUNIDAD SPONSORS</h2>
-        <div class="tiers-grid">
-            
-            <div class="tier-card tier-titanio">
-                <div class="tier-badge bg-urgency">¡ÚLTIMO LUGAR!</div>
-                <div class="tier-name" style="color:#8b9bb4">TITANIO</div>
-                <div class="tier-price">$1.000.000 <small>ARS</small></div>
-                <ul class="tier-list">
-                    <li>Stand Físico Exclusivo (Principal)</li>
-                    <li>Logo GIGANTE en Remera Oficial</li>
-                    <li>Mención Exclusiva en Videos</li>
-                    <li>Acceso VIP a Cena de Cierre</li>
-                    <li>20 Pases de Cortesía</li>
-                </ul>
-                <button onclick="contactSponsor('TITANIO')" class="btn-hydro" style="width:100%; font-size:0.9rem; border-color:#8b9bb4; color:#8b9bb4;">SOLICITAR AHORA</button>
+    <div id="main-content" class="max-w-7xl mx-auto w-full p-4 hidden">
+        <header class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+            <div><h1 class="text-2xl font-black text-white italic">DOLORES <span class="text-cyan-400">2026</span></h1><p class="text-gray-500 text-xs">SISTEMA DE ACREDITACIÓN</p></div>
+            <div class="flex gap-4">
+                <button onclick="exportDB()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded text-gray-300 border border-gray-600"><i class="fas fa-file-excel"></i> LISTA ADMIN</button>
+                <a href="index.html" class="text-xs bg-red-900 hover:bg-red-800 px-3 py-2 rounded text-white font-bold">SALIR</a>
             </div>
+        </header>
 
-            <div class="tier-card tier-platino">
-                <div class="tier-badge" style="background:#333; color:white; border:1px solid #555;">SOLO 3 CUPOS</div>
-                <div class="tier-name" style="color:#e5e4e2">PLATINO</div>
-                <div class="tier-price">$750.000 <small>ARS</small></div>
-                <ul class="tier-list">
-                    <li>Banner en Zona de Estaciones</li>
-                    <li>Logo Destacado en Remera</li>
-                    <li>Presencia en Redes (5 Posts)</li>
-                    <li>10 Pases de Cortesía</li>
-                </ul>
-                <button onclick="contactSponsor('PLATINO')" class="btn-hydro" style="width:100%; font-size:0.8rem; border-color:#fff; color:#fff;">CONSULTAR</button>
-            </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <section class="bg-gray-900 p-8 rounded-xl border border-gray-800">
+                <h3 class="text-cyan-400 font-bold mb-4 uppercase tracking-widest text-sm border-l-4 border-orange-500 pl-3">Datos del Asistente</h3>
+                <form id="carnet-form" class="space-y-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="text-xs font-bold text-gray-500 uppercase">DNI (Fijo)</label><input type="text" id="dni" class="w-full p-3 bg-black rounded text-white font-bold border border-gray-700 cursor-not-allowed" readonly></div>
+                        <div><label class="text-xs font-bold text-gray-500 uppercase">Nombre (Fijo)</label><input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly></div>
+                    </div>
+                    <div class="p-6 border-2 border-dashed border-gray-700 rounded-xl bg-black text-center hover:border-cyan-400 transition cursor-pointer relative group">
+                        <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
+                        <div class="text-gray-400 group-hover:text-cyan-400 transition"><i class="fas fa-camera text-3xl mb-2"></i><p class="text-xs font-bold uppercase">Click para subir Selfie</p></div>
+                    </div>
+                    <button type="submit" id="submit-btn" class="w-full bg-cyan-600 text-black py-4 rounded font-black text-lg hover:bg-cyan-500 transition shadow-[0_0_20px_rgba(0,229,255,0.4)] uppercase">GENERAR CREDENCIAL</button>
+                </form>
+            </section>
 
-            <div class="tier-card tier-oro">
-                <div class="tier-badge" style="background:#333; color:white; border:1px solid #555;">5 CUPOS</div>
-                <div class="tier-name" style="color:var(--gold)">ORO</div>
-                <div class="tier-price">$500.000 <small>ARS</small></div>
-                <ul class="tier-list">
-                    <li>Logo en Web y Mailing</li>
-                    <li>Entrega de Folletería en Kit</li>
-                    <li>Mención en Redes Sociales</li>
-                    <li>5 Pases de Cortesía</li>
-                </ul>
-                <button onclick="contactSponsor('ORO')" class="btn-hydro" style="width:100%; font-size:0.8rem; border-color:var(--gold); color:var(--gold);">CONSULTAR</button>
-            </div>
+            <section class="flex flex-col items-center">
+                <div id="download-area">
+                    <div id="preview-container" class="carnet-box">
+                        <div id="bg-watermark" class="c-watermark-layer"></div>
+                        
+                        <div class="c-header-strip" id="header-avales-container"></div>
 
-            <div class="tier-card tier-plata">
-                <div class="tier-name" style="color:var(--silver)">PLATA</div>
-                <div class="tier-price">$100.000 <small>ARS</small></div>
-                <ul class="tier-list">
-                    <li>Presencia Digital Web</li>
-                    <li>Mención en Agradecimientos</li>
-                    <li>2 Pases de Cortesía</li>
-                </ul>
-                <button onclick="contactSponsor('PLATA')" class="btn-hydro" style="width:100%; font-size:0.8rem; border-color:var(--silver); color:var(--silver);">CONSULTAR</button>
-            </div>
-        </div>
-    </section>
+                        <div class="c-main-header"><div class="c-logo">DBA <span>2026</span></div></div>
 
-    <section id="instructores" style="background: rgba(8, 12, 15, 0.9);">
-        <p class="section-sub">CUERPO DOCENTE</p>
-        <h2 class="section-title">STAFF PROFESIONAL</h2>
-        <div class="inst-grid" id="publicInstructors"></div>
-    </section>
-
-    <section id="galeria">
-        <p class="section-sub">EXPERIENCIA VISUAL</p>
-        <h2 class="section-title">GALERÍA OPERATIVA</h2>
-        <div class="gallery-grid" id="publicGallery"></div>
-    </section>
-
-    <section id="alojamiento" style="background: rgba(8, 12, 15, 0.9);">
-        <h2 class="section-title">LOGÍSTICA & ALOJAMIENTO</h2>
-        <div class="accom-grid" id="publicAccom"></div>
-    </section>
-
-    <section class="pricing-section" id="inscripcion">
-        <div class="price-box">
-            <div class="price-badge">CUPOS LIMITADOS</div>
-            <h3 style="color:var(--hydro-cyan); margin-bottom:10px;">PASE FULL 2026</h3>
-            <div class="price-val">$100.000</div>
-            <p style="color:#ccc; margin-bottom:30px; font-size: 1.1rem;">Acceso Virtual + Presencial + Kit + Certificación.</p>
-            <button onclick="openModal()" class="btn" style="width:100%;">INICIAR INSCRIPCIÓN</button>
-        </div>
-    </section>
-
-    <footer style="background: black; padding: 40px 10%; text-align: center; border-top: 1px solid #222;">
-        <p style="color: #555; margin-bottom: 20px;">© 2026 Dolores Bajo el Agua.</p>
-        <p style="color:#333; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px; text-transform:uppercase;">NOS ACOMPAÑAN:</p>
-        <div id="publicSponsors" class="sponsors-grid"></div>
-        <button onclick="toggleAdmin()" style="background:none; border:none; color:#333; font-size:0.8rem; margin-top:40px; cursor:pointer;">Admin Login</button>
-    </footer>
-
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-content">
-            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">&times;</span>
-            <h3 style="color:white; font-size:1.5rem; margin-bottom:5px;">INSCRIPCIÓN OFICIAL</h3>
-            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Asegura tu lugar hoy mismo.</p>
-            <div style="text-align:left; margin-bottom:20px;">
-                <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
-                <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
-            </div>
-            <div id="step1">
-                <div style="display:flex; gap:10px; flex-direction:column;">
-                    <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span>PAGO TOTAL ($100k)</span> <i class="fas fa-credit-card"></i>
-                    </button>
-                    <div id="goCuotasContainer" class="gocuotas-box">
-                        <div class="gocuotas-badge">PROMO</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div style="text-align:left;"><span style="display:block; color:white; font-weight:bold;">3 x $33.333</span><span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span></div>
-                            <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.8rem; padding:8px 15px;">ELEGIR CUOTAS</button>
+                        <div class="c-body">
+                            <div class="c-photo-frame"><img id="photo-preview" class="c-photo" src="https://placehold.co/400x400/111/333?text=FOTO" alt="Foto"></div>
+                            
+                            <div class="c-name-wrapper">
+                                <div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div>
+                            </div>
+                            
+                            <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
+                            
+                            <div class="c-role-badge"><span>ASISTENTE</span></div>
                         </div>
-                        <div class="counter-bar"><div id="slotsBar" class="counter-fill"></div></div>
-                        <p id="slotsText" style="text-align:right; font-size:0.7rem; color:var(--hydro-cyan);">Quedan cupos</p>
+
+                        <div class="c-qr"><canvas id="qr-code-preview" style="width:100%; height:100%;"></canvas></div>
+
+                        <div class="c-footer">
+                            <p class="c-footer-title">SPONSORS OFICIALES:</p>
+                            <div class="c-logos-row" id="footer-sponsors-container"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px; animation: fadeIn 0.5s;">
-                <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px;">¡CASI LISTO!</p>
-                <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">1. Envía el comprobante.<br>2. Recibirás un código.<br>3. Ingrésalo abajo.</p>
-                <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:20px;"><i class="fab fa-whatsapp"></i> ENVIAR COMPROBANTE</button>
-                <div style="background:#222; padding:15px; border-radius:5px; border:1px dashed #555;">
-                    <label style="color:#fff; font-size:0.7rem; display:block; margin-bottom:5px; text-align:left;">TENGO MI CÓDIGO:</label>
-                    <div style="display:flex; gap:5px;">
-                        <input type="text" id="accessCodeInput" class="input-dark" placeholder="EJ: A1B2C3D4" style="margin-bottom:0; text-align:center; text-transform:uppercase; letter-spacing:2px; font-weight:bold;">
-                        <button onclick="verifyAndEnter()" class="btn-hydro" style="padding:10px 20px;">ENTRAR</button>
-                    </div>
+                <div id="actions" class="mt-4 hidden text-center">
+                    <button onclick="downloadImage()" class="bg-orange-600 text-white px-10 py-3 rounded font-bold shadow-lg hover:bg-orange-500 transition"><i class="fas fa-download"></i> DESCARGAR IMAGEN</button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:10px;">
-            <h3>PANEL DE CONTROL</h3>
-            <button onclick="toggleAdmin()" style="color:red; background:none; border:none; cursor:pointer;">CERRAR</button>
-        </div>
-        <div class="admin-nav">
-            <button class="tab-btn active" onclick="showTab('tabKeys')">🔑 CLAVES</button>
-            <button class="tab-btn" onclick="showTab('tabConfig')">CONFIG</button>
-            <button class="tab-btn" onclick="showTab('tabAvales')">AVALES</button>
-            <button class="tab-btn" onclick="showTab('tabSponsors')">SPONSORS</button>
-            <button class="tab-btn" onclick="showTab('tabStations')">ESTACIONES</button>
-            <button class="tab-btn" onclick="showTab('tabInst')">INSTRUCTORES</button>
-            <button class="tab-btn" onclick="showTab('tabGal')">GALERÍA</button>
-            <button class="tab-btn" onclick="showTab('tabAcc')">ALOJAMIENTO</button>
-        </div>
-
-        <div id="tabKeys" class="admin-section active">
-            <div style="background:#222; padding:20px; border-radius:8px; text-align:center;">
-                <h4 style="color:var(--rescue-orange); margin-bottom:10px;">GENERADOR DE ACCESO</h4>
-                <input type="number" id="keyDNI" class="input-dark" placeholder="DNI Alumno" style="text-align:center; font-size:1.2rem;">
-                <button onclick="generateUniqueKey()" class="btn" style="width:100%; padding:15px; background:white; color:black; margin-top:10px;">GENERAR CÓDIGO</button>
-                <div id="keyResult" style="margin-top:20px; padding:15px; border:2px dashed var(--hydro-cyan); display:none;">
-                    <h2 id="finalKey" style="color:var(--hydro-cyan); font-size:2rem; font-family:'Black Ops One'; margin:10px 0; user-select:all; cursor:pointer;" onclick="copyKey()"></h2>
-                    <p id="copyMsg" style="color:#00c853; font-size:0.8rem; display:none;">¡Copiado!</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="tabConfig" class="admin-section">
-            <h4 style="color:var(--hydro-cyan);">FONDO & PAGOS</h4>
-            <input type="file" id="bgFile" class="input-dark" accept="image/*">
-            <button onclick="updateBackground()" class="btn" style="padding:10px; width:100%;">CAMBIAR FONDO</button>
-            <button onclick="clearBackground()" style="color:red; background:none; border:none; margin-top:5px;">Restaurar</button>
-            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
-            <label style="font-size:0.8rem; color:#888;">Link MP / GoCuotas:</label>
-            <input type="text" id="linkMP" class="input-dark" placeholder="MP"><input type="text" id="linkGO" class="input-dark" placeholder="GO">
-            <label style="font-size:0.8rem; color:#888;">Cupos Vendidos:</label><input type="number" id="soldSlots" class="input-dark" value="0">
-            <button onclick="saveConfig()" class="btn" style="padding:10px; width:100%;">GUARDAR</button>
-        </div>
-
-        <div id="tabAvales" class="admin-section">
-            <p style="color:#aaa; font-size:0.8rem;">Logos Institucionales (Arriba)</p>
-            <input type="text" id="avName" class="input-dark" placeholder="Nombre">
-            <input type="file" id="avFile" class="input-dark" accept="image/*">
-            <button onclick="addLogo('dba_avales', 'avName', 'avFile')" class="btn" style="padding:10px; width:100%;">SUBIR AVAL</button>
-            <div id="listAvales" class="preview-list"></div>
-        </div>
-
-        <div id="tabSponsors" class="admin-section">
-            <p style="color:#aaa; font-size:0.8rem;">Logos Comerciales (Abajo)</p>
-            <input type="text" id="spName" class="input-dark" placeholder="Nombre">
-            <input type="file" id="spFile" class="input-dark" accept="image/*">
-            <button onclick="addLogo('dba_sponsors', 'spName', 'spFile')" class="btn" style="padding:10px; width:100%;">SUBIR SPONSOR</button>
-            <div id="listSponsors" class="preview-list"></div>
-        </div>
-
-        <div id="tabStations" class="admin-section">
-            <select id="stSelect" class="input-dark"><option value="0">1. Acuático</option><option value="1">2. Altura</option><option value="2">3. Confinados</option><option value="3">4. Táctica</option><option value="4">5. Radio</option><option value="5">6. PAP</option></select>
-            <input type="file" id="stFile" class="input-dark" accept="image/*">
-            <button onclick="updateStation()" class="btn" style="padding:10px; width:100%;">ACTUALIZAR FOTO</button>
-        </div>
-        <div id="tabInst" class="admin-section">
-            <input type="text" id="inName" class="input-dark" placeholder="Nombre"><input type="text" id="inRole" class="input-dark" placeholder="Cargo"><input type="file" id="inFile" class="input-dark" accept="image/*">
-            <button onclick="addInstructor()" class="btn" style="padding:10px; width:100%;">AGREGAR</button>
-            <div id="listInst" class="preview-list"></div>
-        </div>
-        <div id="tabGal" class="admin-section">
-            <input type="file" id="galFile" class="input-dark" accept="image/*"><button onclick="addGalleryPhoto()" class="btn" style="padding:10px; width:100%;">AGREGAR FOTO</button><div id="listGaleria" class="preview-list"></div>
-        </div>
-        <div id="tabAcc" class="admin-section">
-            <input type="text" id="acName" class="input-dark" placeholder="Lugar"><input type="text" id="acDesc" class="input-dark" placeholder="Info"><select id="acIcon" class="input-dark"><option value="fas fa-hotel">Hotel</option><option value="fas fa-campground">Camping</option></select>
-            <button onclick="addAccom()" class="btn" style="padding:10px; width:100%;">AGREGAR</button>
-            <div id="listAccom" class="preview-list"></div>
+            </section>
         </div>
     </div>
 
     <script>
-        // NUEVO NUMERO DE WHATSAPP
-        const WHATSAPP_NUMBER = "5492213642475"; 
-        
-        // SUPABASE REAL
-        const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
-        const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
-        const sb = supabase.createClient(SB_URL, SB_KEY);
+        const CONFIG = {
+            supabaseUrl: 'https://bqhitoqdfzjzqfcltgap.supabase.co',
+            supabaseKey: 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6', 
+            repoUrl: 'https://instructormap.github.io/verificador-Carnet-Oficial/' 
+        };
+        const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
 
-        let DB = { avales:[], sponsors:[], stations:[], instructores:[], galeria:[], accom:[], config:{ mp:"", go:"", sold:0, bg:"" } };
-        const DEFAULT_STATIONS = [
-            {title:"Acuático",desc:"Técnicas en correntada",icon:"fas fa-water",img:"https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=400"},
-            {title:"Altura",desc:"Rappel táctico",icon:"fas fa-mountain",img:"https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=400"},
-            {title:"Confinados",desc:"Búsqueda BREC",icon:"fas fa-dungeon",img:"https://images.unsplash.com/photo-1605218427368-35b86ba389b4?q=80&w=400"},
-            {title:"Táctica",desc:"Protocolo MARCH",icon:"fas fa-briefcase-medical",img:"https://images.unsplash.com/photo-1599467657930-b3b3cb913d78?q=80&w=400"},
-            {title:"Radio",desc:"Puesto de Comando",icon:"fas fa-headset",img:"https://images.unsplash.com/photo-1587823207416-64151c8e1d96?q=80&w=400"},
-            {title:"PAP",desc:"Psicología",icon:"fas fa-brain",img:"https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400"}
-        ];
-
-        document.addEventListener('DOMContentLoaded', () => { 
-            loadFromCloud(); 
-            startCountdown();
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlDni = params.get('dni');
+            const urlName = params.get('name');
+            const urlAuth = params.get('auth');
+            if(urlDni && urlAuth) {
+                if(isValidCode(urlDni, urlAuth)) { grantAccess(urlDni, urlName); return; }
+            }
+            if(urlDni) document.getElementById('loginDNI').value = urlDni;
         });
 
-        // --- CONTADOR REGRESIVO (Para Noviembre 2026) ---
-        function startCountdown() {
-            const targetDate = new Date("November 22, 2026 09:00:00").getTime();
-            
-            setInterval(() => {
-                const now = new Date().getTime();
-                const diff = targetDate - now;
-                
-                if (diff > 0) {
-                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    
-                    document.getElementById('dias').innerText = d < 10 ? '0'+d : d;
-                    document.getElementById('horas').innerText = h < 10 ? '0'+h : h;
-                    document.getElementById('minutos').innerText = m < 10 ? '0'+m : m;
-                }
-            }, 1000);
-        }
-
-        async function loadFromCloud() {
-            try {
-                let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
-                if (!error && data && data.datos) {
-                    DB = { ...DB, ...data.datos };
-                }
-                
-                if(!DB.stations || !DB.stations.length) DB.stations = DEFAULT_STATIONS;
-                
-                document.getElementById('linkMP').value = DB.config.mp || "";
-                document.getElementById('linkGO').value = DB.config.go || "";
-                document.getElementById('soldSlots').value = DB.config.sold || 0;
-                
-                if(DB.config.bg) {
-                    document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
-                }
-                
-                renderAll();
-            } catch (err) { console.error(err); renderAll(); }
-        }
-
-        async function saveToCloud() {
-            const btn = event.target; 
-            const txt = btn ? btn.textContent : "Guardando..."; 
-            if(btn) { btn.textContent="Guardando..."; btn.disabled=true; }
-            
-            try { 
-                await sb.from('sitio_config').upsert({ id: 1, datos: DB }); 
-                alert("✅ Guardado y Sincronizado");
-            } 
-            catch (e) { alert("Error al guardar: " + e.message); }
-            finally { 
-                if(btn) { btn.textContent=txt; btn.disabled=false; }
-                checkSlots(); 
+        async function validateAccess(e) {
+            e.preventDefault();
+            const dni = document.getElementById('loginDNI').value;
+            const code = document.getElementById('loginCode').value;
+            if (isValidCode(dni, code)) {
+                try {
+                    const { data } = await sb.from('alumnos').select('*').eq('dni', dni);
+                    if(data && data.length > 0) return alert("⚠️ CREDENCIAL YA GENERADA.");
+                    grantAccess(dni, null);
+                } catch(err) { console.error(err); alert("Error conexión DB"); }
+            } else {
+                const err = document.getElementById('errorMsg');
+                err.classList.remove('hidden'); setTimeout(() => err.classList.add('hidden'), 3000);
             }
         }
 
-        function generateUniqueKey() {
-            const dni = document.getElementById('keyDNI').value.trim();
-            if(!dni || dni.length < 6) return alert("DNI inválido");
+        function isValidCode(dniInput, codeInput) {
+            if(!dniInput || !codeInput) return false;
             const salt = "DOLORES26"; 
-            const code = btoa(dni + salt).substring(0, 8).toUpperCase(); 
-            document.getElementById('finalKey').innerText = code;
-            document.getElementById('keyResult').style.display = 'block';
-        }
-        function copyKey() { navigator.clipboard.writeText(document.getElementById('finalKey').innerText); document.getElementById('copyMsg').style.display='block'; setTimeout(()=>document.getElementById('copyMsg').style.display='none',2000); }
-
-        // SUBIR ARCHIVO A STORAGE
-        async function uploadToCloud(file) {
-            const fileName = `assets/${Date.now()}_${file.name.replace(/\s/g, '_')}`;
-            const { data, error } = await sb.storage.from('fotos_carnet').upload(fileName, file);
-            if (error) { console.error(error); throw new Error("Error subiendo imagen"); }
-            const { data: publicData } = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
-            return publicData.publicUrl;
+            const expected = btoa(dniInput.toString().trim() + salt).substring(0, 8).toUpperCase();
+            return codeInput.toString().trim().toUpperCase() === expected;
         }
 
-        async function saveConfig() {
-            DB.config.mp = document.getElementById('linkMP').value;
-            DB.config.go = document.getElementById('linkGO').value;
-            DB.config.sold = document.getElementById('soldSlots').value;
-            await saveToCloud();
+        function grantAccess(dni, name) {
+            document.getElementById('access-screen').style.display = 'none';
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('dni').value = dni;
+            document.getElementById('dni-container').textContent = `DNI: ${dni}`;
+            if(name) {
+                const decoded = decodeURIComponent(name);
+                document.getElementById('nombre').value = decoded;
+                document.getElementById('nombre-preview').textContent = decoded;
+                
+                setTimeout(() => {
+                    fitText(document.getElementById('nombre-preview'), document.querySelector('.c-name-wrapper'));
+                }, 100);
+            }
+            loadDynamicAssets();
         }
 
-        async function updateBackground() {
-            const f = document.getElementById('bgFile').files[0];
-            if(!f) return alert("Imagen requerida");
-            DB.config.bg = await uploadToCloud(f);
-            document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
-            await saveToCloud();
-        }
-        function clearBackground() { DB.config.bg=""; saveToCloud(); location.reload(); }
-
-        async function addLogo(key, nameId, fileId) {
-            const name = document.getElementById(nameId).value;
-            const f = document.getElementById(fileId).files[0];
-            if(!name || !f) return alert("Faltan datos");
-            
-            const imgUrl = await uploadToCloud(f);
-            const targetArray = key === 'dba_avales' ? 'avales' : 'sponsors';
-            DB[targetArray].push({ name, img: imgUrl });
-            
-            document.getElementById(nameId).value=''; document.getElementById(fileId).value='';
-            renderAll(); await saveToCloud();
+        function fitText(el, container) {
+            let size = 2.0; 
+            el.style.fontSize = size + 'rem';
+            while (el.scrollHeight > container.clientHeight || el.scrollWidth > container.clientWidth) {
+                size -= 0.1;
+                if (size < 1.0) break;
+                el.style.fontSize = size + 'rem';
+            }
         }
 
-        async function addInstructor() {
-            const name = document.getElementById('inName').value;
-            const role = document.getElementById('inRole').value;
-            const f = document.getElementById('inFile').files[0];
-            if(!name || !f) return alert("Faltan datos");
-            const imgUrl = await uploadToCloud(f);
-            DB.instructores.push({name, role, img: imgUrl});
-            renderAll(); await saveToCloud();
+        async function loadDynamicAssets() {
+            try {
+                // LEER DE LA NUBE (Supabase)
+                let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
+                
+                let bg = null;
+                let avales = [];
+                let sponsors = [];
+
+                if (data && data.datos) {
+                    bg = data.datos.config.bg;
+                    avales = data.datos.avales || [];
+                    sponsors = data.datos.sponsors || [];
+                }
+
+                if(bg) {
+                    document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('${bg}')`;
+                }
+
+                const headerCont = document.getElementById('header-avales-container');
+                if(avales.length) headerCont.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
+                else headerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN AVALES</span>';
+
+                const footerCont = document.getElementById('footer-sponsors-container');
+                if(sponsors.length) footerCont.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
+                else footerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN SPONSORS</span>';
+
+            } catch (err) {
+                console.error("Error cargando assets:", err);
+            }
         }
 
-        async function addGalleryPhoto() {
-            const f = document.getElementById('galFile').files[0];
-            if(!f) return alert("Falta foto");
-            const imgUrl = await uploadToCloud(f);
-            DB.galeria.push({img: imgUrl});
-            renderAll(); await saveToCloud();
-        }
+        document.getElementById('photo-upload').onchange = (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => document.getElementById('photo-preview').src = ev.target.result;
+                reader.readAsDataURL(file);
+            }
+        };
 
-        function addAccom() {
-            const name = document.getElementById('acName').value;
-            const desc = document.getElementById('acDesc').value;
-            const icon = document.getElementById('acIcon').value;
-            if(!name) return alert("Nombre requerido");
-            DB.accom.push({name, desc, link:"", icon});
-            renderAll(); saveToCloud();
-        }
+        document.getElementById('carnet-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const dni = document.getElementById('dni').value;
+            const name = document.getElementById('nombre').value;
+            const photoInput = document.getElementById('photo-upload');
 
-        async function updateStation() {
-            const idx = document.getElementById('stSelect').value;
-            const f = document.getElementById('stFile').files[0];
-            if(!f) return alert("Falta foto");
-            const imgUrl = await uploadToCloud(f);
-            DB.stations[idx].img = imgUrl;
-            renderAll(); await saveToCloud();
-        }
+            if(photoInput.files.length === 0) return alert("Falta la foto");
+            btn.disabled = true; btn.textContent = "GUARDANDO...";
 
-        function deleteItem(type, idx) {
-            if(!confirm("¿Borrar?")) return;
-            if(type === 'avales') DB.avales.splice(idx,1);
-            else if(type === 'sponsors') DB.sponsors.splice(idx,1);
-            else if(type === 'instructores') DB.instructores.splice(idx,1);
-            else if(type === 'accom') DB.accom.splice(idx,1);
-            else if(type === 'galeria') DB.galeria.splice(idx,1);
-            renderAll(); saveToCloud();
-        }
+            try {
+                const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
+                await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
+                const { data: imgData } = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
 
-        function renderAll() {
-            document.getElementById('publicAvales').innerHTML = DB.avales.map(i => `<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('') || '<p style="color:#444">Avales</p>';
-            document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, 'avales', x)).join('');
-            
-            document.getElementById('publicSponsors').innerHTML = DB.sponsors.map(i => `<img src="${i.img}" class="sponsor-img-footer">`).join('');
-            document.getElementById('listSponsors').innerHTML = DB.sponsors.map((i,x) => mkRow(i.name, 'sponsors', x)).join('');
+                const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
+                await sb.from('alumnos').insert([{
+                    dni: dni,
+                    nombre_completo: name,
+                    matricula_arg: matricula,
+                    foto_url: imgData.publicUrl
+                }]);
 
-            document.getElementById('publicStations').innerHTML = DB.stations.map(s => `<div class="station-card"><img src="${s.img}" class="station-img"><div class="station-body"><i class="${s.icon} station-icon"></i><div class="station-title">${s.title}</div><p style="color:#ccc">${s.desc}</p></div></div>`).join('');
-            document.getElementById('publicInstructors').innerHTML = DB.instructores.map(i => `<div class="inst-card"><div class="inst-img-wrap"><img src="${i.img}" class="inst-img"></div><div class="inst-name">${i.name}</div><div class="inst-role">${i.role}</div></div>`).join('');
-            document.getElementById('listInst').innerHTML = DB.instructores.map((i,x) => mkRow(i.name, 'instructores', x)).join('');
-            document.getElementById('publicGallery').innerHTML = DB.galeria.map(i => `<div class="gallery-item"><img src="${i.img}" class="gallery-img"></div>`).join('');
-            document.getElementById('listGaleria').innerHTML = DB.galeria.map((i,x) => mkRow('Foto '+x, 'galeria', x)).join('');
-            document.getElementById('publicAccom').innerHTML = DB.accom.map(i => `<div class="accom-card"><i class="${i.icon} accom-icon"></i><h3 style="color:white">${i.name}</h3><p style="color:#aaa">${i.desc}</p></div>`).join('');
-            document.getElementById('listAccom').innerHTML = DB.accom.map((i,x) => mkRow(i.name, 'accom', x)).join('');
-            checkSlots();
-        }
-        function mkRow(txt, type, idx) { return `<div class="preview-item"><span>${txt}</span><button onclick="deleteItem('${type}', ${idx})" style="color:red;border:none;background:none;">X</button></div>`; }
+                new QRious({ element: document.getElementById('qr-code-preview'), value: `${CONFIG.repoUrl}?id=${matricula}`, size: 200, level: 'H' });
 
-        function contactSponsor(tier) { window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa el plan '+tier)}`, '_blank'); }
-        function openModal() { document.getElementById('paymentModal').style.display='flex'; }
-        function closeModal() { document.getElementById('paymentModal').style.display='none'; }
-        
-        function processPayment(type) {
-            const name = document.getElementById('payName').value;
-            const dni = document.getElementById('payDni').value;
-            if(!name || !dni) return alert("Completa tus datos");
-            const link = type === 'MP' ? DB.config.mp : DB.config.go;
-            if(!link) return alert("Link no configurado");
-            window.open(link, '_blank');
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('validationStep').style.display = 'block';
-        }
-        function sendProof() {
-            const name = document.getElementById('payName').value;
-            const dni = document.getElementById('payDni').value;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, pago realizado por ${name} (${dni}). Solicito acceso.`)}`, '_blank');
-        }
-        function verifyAndEnter() {
-            const dni = document.getElementById('payDni').value.trim();
-            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
-            if(!code) return alert("Ingresa código");
-            const salt = "DOLORES26"; 
-            if (code === btoa(dni + salt).substring(0, 8).toUpperCase()) {
-                window.location.href = `panel.html?dni=${dni}&name=${encodeURIComponent(document.getElementById('payName').value)}&auth=${code}`;
-            } else alert("Código incorrecto");
-        }
-        function toggleAdmin() {
-            const p = document.getElementById('adminPanel');
-            if(p.style.display==='block') p.style.display='none';
-            else if(prompt("Clave Admin:")==="admin2026") p.style.display='block';
-        }
-        function showTab(id) {
-            document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-            document.getElementById(id).classList.add('active'); event.target.classList.add('active');
+                document.getElementById('actions').classList.remove('hidden');
+                btn.textContent = "¡ÉXITO!"; btn.classList.replace('bg-cyan-600', 'bg-green-600');
+
+            } catch (err) {
+                console.error(err);
+                alert("Error de conexión");
+                btn.disabled = false; btn.textContent = "REINTENTAR";
+            }
+        };
+
+        window.downloadImage = () => {
+            const node = document.getElementById('preview-container');
+            html2canvas(node, { scale: 3, useCORS: true }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Credencial_Dolores_${document.getElementById('dni').value}.jpg`;
+                link.href = canvas.toDataURL("image/jpeg", 0.9);
+                link.click();
+            });
+        };
+
+        async function exportDB() {
+            if(prompt("Clave Admin:") !== "admin2026") return alert("Error");
+            const { data } = await sb.from('alumnos').select('*');
+            if(!data || !data.length) return alert("Sin datos");
+            const csv = "data:text/csv;charset=utf-8," + Object.keys(data[0]).join(",") + "\n" + data.map(o => Object.values(o).join(",")).join("\n");
+            const link = document.createElement("a"); link.href = encodeURI(csv); link.download = "asistentes.csv"; link.click();
         }
     </script>
 </body>
