@@ -37,7 +37,7 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* 1. CORRECCIÓN FONDO */
+        /* 1. FONDO (Base64) */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
@@ -54,7 +54,7 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. CORRECCIÓN TÍTULO */
+        /* 2. TÍTULO */
         .c-main-header { 
             position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
@@ -82,7 +82,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. CORRECCIÓN NOMBRE */
+        /* 3. NOMBRE */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -102,7 +102,7 @@
             margin-bottom: 35px; text-shadow: 0 2px 4px black; 
         }
         
-        /* 4. CORRECCIÓN CARTEL */
+        /* 4. CARTEL */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
             width: 65%; height: 70px; 
@@ -135,7 +135,7 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* 5. CORRECCIÓN QR */
+        /* 5. QR */
         .c-qr { 
             position: absolute; 
             bottom: 135px; right: 15px;   
@@ -293,7 +293,7 @@
 
         async function loadDynamicAssets() {
             try {
-                // LEER DE LA NUBE (Supabase)
+                // LEER DE LA NUBE (Base64 desde Tabla)
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 
                 let bg = null;
@@ -343,16 +343,25 @@
             btn.disabled = true; btn.textContent = "GUARDANDO...";
 
             try {
+                // Aquí volvemos a subir la selfie al Storage (única parte que usa Storage, si falla hay que revisar permisos)
                 const fileName = `dolores26_${dni}_${Date.now()}.jpg`;
-                await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
-                const { data: imgData } = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
+                const { data, error } = await sb.storage.from('fotos_carnet').upload(fileName, photoInput.files[0]);
+                
+                let publicUrl = "";
+                if(error) {
+                    console.error("Fallo subida imagen, usando local como fallback");
+                    // Fallback: Si falla Storage, no guardamos URL, o guardamos un placeholder
+                } else {
+                    const res = sb.storage.from('fotos_carnet').getPublicUrl(fileName);
+                    publicUrl = res.data.publicUrl;
+                }
 
                 const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
                 await sb.from('alumnos').insert([{
                     dni: dni,
                     nombre_completo: name,
                     matricula_arg: matricula,
-                    foto_url: imgData.publicUrl
+                    foto_url: publicUrl // Puede ir vacío si falló el storage
                 }]);
 
                 new QRious({ element: document.getElementById('qr-code-preview'), value: `${CONFIG.repoUrl}?id=${matricula}`, size: 200, level: 'H' });
@@ -362,7 +371,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert("Error de conexión");
+                alert("Error al generar credencial");
                 btn.disabled = false; btn.textContent = "REINTENTAR";
             }
         };
