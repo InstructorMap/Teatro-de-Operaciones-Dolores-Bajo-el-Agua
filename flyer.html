@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flyer Oficial - Teatro de Operaciones DBA2026</title>
     
-    <meta property="og:title" content="Teatro de Operaciones Hidro-Táctico DBA2026">
-    <meta property="og:description" content="Entrenamiento operativo de alto rendimiento. 27-28 FEB. Cupos limitados.">
+    <meta property="og:title" content="🚨 TEATRO DE OPERACIONES DBA2026">
+    <meta property="og:description" content="Entrenamiento Hidro-Táctico de Alto Rendimiento. 27-28 FEB. Cupos Limitados. Toca para ingresar.">
     <meta property="og:image" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/preview-flyer.jpg"> 
+    <meta property="og:image:width" content="1080">
+    <meta property="og:image:height" content="1920">
     <meta property="og:url" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/flyer.html">
     <meta property="og:type" content="website">
 
@@ -26,7 +28,7 @@
         }
         body { background-color: #111; font-family: 'Exo 2', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
-        /* CONTENEDOR PRINCIPAL (9:16) */
+        /* CONTENEDOR PRINCIPAL (9:16 - Formato Historia/Celular) */
         #flyer-container {
             width: 450px; 
             height: 800px;
@@ -50,7 +52,7 @@
             z-index: 1;
         }
         
-        /* HEADER */
+        /* HEADER (AVALES) */
         .f-header-strip {
             position: relative; z-index: 20;
             background: rgba(5, 8, 10, 0.96); 
@@ -64,7 +66,7 @@
             padding: 10px;
         }
 
-        /* FOOTER */
+        /* FOOTER (SPONSORS) */
         .f-footer-strip {
             position: relative; z-index: 20;
             background: rgba(5, 8, 10, 0.96); 
@@ -88,7 +90,7 @@
             align-items: center;
             padding: 10px 20px;
             text-align: center;
-            gap: 25px; 
+            gap: 25px; /* Espacio limpio entre elementos */
         }
 
         /* TÍTULOS */
@@ -137,30 +139,31 @@
         .f-date { font-size: 2.2rem; font-weight: 900; color: white; line-height: 1; }
         .f-loc { color: #ccc; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; font-weight: 700; }
 
-        /* --- NUEVO BOTÓN VISUAL (REEMPLAZO DEL QR) --- */
+        /* === NUEVO ELEMENTO: BOTÓN TÁCTICO (Reemplaza al QR) === */
         .f-action-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            text-decoration: none; /* Quitar subrayado del link */
+            text-decoration: none; 
             transition: transform 0.2s;
         }
+        /* Efecto Zoom al pasar el mouse (solo web) */
         .f-action-wrapper:hover { transform: scale(1.05); }
 
         .f-icon-circle {
-            width: 140px; height: 140px;
-            border: 4px solid white;
+            width: 130px; height: 130px;
+            border: 3px solid rgba(255,255,255,0.8);
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.4), inset 0 0 20px rgba(0, 229, 255, 0.2);
-            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.3), inset 0 0 30px rgba(0, 229, 255, 0.2);
+            background: rgba(0,0,0,0.6);
             margin-bottom: 15px;
             position: relative;
         }
         
-        /* Efecto de radar giratorio sutil */
+        /* Animación de Radar (Giro lento) */
         .f-icon-circle::after {
             content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
             border-radius: 50%;
@@ -168,7 +171,7 @@
             border-right: 4px solid transparent;
             border-bottom: 4px solid var(--hydro-cyan);
             border-left: 4px solid transparent;
-            animation: spinTarget 4s linear infinite;
+            animation: spinTarget 6s linear infinite;
         }
 
         .f-big-icon {
@@ -177,16 +180,18 @@
         }
 
         .f-cta-btn {
-            background: var(--rescue-orange);
+            background: linear-gradient(135deg, var(--rescue-orange), #d50000);
             color: white;
             font-family: 'Exo 2';
             font-weight: 900;
-            padding: 10px 30px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            box-shadow: 0 0 30px rgba(255, 69, 0, 0.5);
+            /* Forma recortada táctica */
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         @keyframes spinTarget { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -210,7 +215,7 @@
 <body>
 
     <div style="position:fixed; top:20px; right:20px; z-index:100;">
-        <button onclick="downloadFlyer()" class="bg-orange-600 hover:bg-orange-500 text-white px-6 py-3 rounded-full font-bold shadow-xl transition-all flex items-center gap-2 border-2 border-orange-400">
+        <button onclick="downloadFlyer()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-full font-bold shadow-xl transition-all flex items-center gap-2 border-2 border-blue-400">
             <i class="fas fa-camera"></i> DESCARGAR FLYER
         </button>
     </div>
@@ -254,6 +259,7 @@
     </div>
 
     <script>
+        // CONFIGURACIÓN SUPABASE
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
@@ -262,19 +268,23 @@
             loadData();
         });
 
+        // CARGA DE DATOS DESDE LA NUBE
         async function loadData() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if (data && data.datos) {
                     const DB = data.datos;
+                    // Fondo
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
+                    // Logos
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, 'logo-img');
                 }
             } catch (err) { console.error(err); }
         }
 
+        // RENDERIZADO DE LOGOS
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
@@ -284,15 +294,16 @@
             }
         }
 
+        // FUNCIÓN DE DESCARGA (GENERADOR DE IMAGEN)
         function downloadFlyer() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> PROCESANDO...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> GENERANDO...';
             btn.disabled = true;
 
             const node = document.getElementById('flyer-container');
             
-            // Pausa breve para asegurar estilos
+            // Pausa de 500ms para asegurar que todo esté renderizado
             setTimeout(() => {
                 html2canvas(node, {
                     scale: 3, 
@@ -302,8 +313,8 @@
                     logging: false
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = 'Flyer_TeatroOperaciones_2026.jpg';
-                    link.href = canvas.toDataURL("image/jpeg", 0.98);
+                    link.download = 'Flyer_TeatroOperaciones_2026.jpg'; // Nombre del archivo
+                    link.href = canvas.toDataURL("image/jpeg", 0.95);
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -312,7 +323,7 @@
                     btn.disabled = false;
                 }).catch(err => {
                     console.error("Error descarga:", err);
-                    btn.innerHTML = 'REINTENTAR';
+                    btn.innerHTML = 'ERROR AL GENERAR';
                     btn.disabled = false;
                 });
             }, 500); 
