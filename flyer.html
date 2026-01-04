@@ -36,70 +36,91 @@
             overflow: hidden;
             box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
             border: 1px solid #222;
+            display: flex;
+            flex-direction: column; /* Estructura vertical estricta */
+            justify-content: space-between; /* Separa Header, Body, Footer */
         }
 
-        /* CAPAS DE FONDO (Más oscuras para contraste) */
+        /* CAPAS DE FONDO */
         .flyer-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); 
             background-size: cover; background-position: center;
-            opacity: 0.3; /* Reducido para oscurecer */
+            opacity: 0.35; 
             filter: grayscale(100%) contrast(110%);
             z-index: 1;
         }
-        .flyer-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Gradiente más agresivo hacia el negro */
-            background: linear-gradient(180deg, 
-                rgba(2,4,5,0.8) 0%, 
-                rgba(2,4,5,0.6) 30%, 
-                rgba(2,4,5,0.9) 70%, 
-                #020405 100%);
-            z-index: 2;
+        
+        /* HEADER STRIP (AVALES - ARRIBA) */
+        .f-header-strip {
+            position: relative; z-index: 20;
+            background: rgba(255, 255, 255, 0.95); /* Fondo blanco casi sólido */
+            width: 100%;
+            height: 90px; /* Altura fija para avales */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 4px solid var(--hydro-cyan);
+            padding: 5px;
         }
 
-        .flyer-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 50px 25px 30px; }
+        /* FOOTER STRIP (SPONSORS - ABAJO) */
+        .f-footer-strip {
+            position: relative; z-index: 20;
+            background: rgba(255, 255, 255, 0.95); /* Fondo blanco */
+            width: 100%;
+            height: 100px; /* Un poco más alto para sponsors */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 4px solid var(--rescue-orange);
+            padding: 5px;
+        }
 
-        /* HEADER ALINEADO */
-        .f-title { font-family: 'Black Ops One'; font-size: 4.2rem; color: white; line-height: 0.85; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 8px; }
+        /* CUERPO CENTRAL (INFO + QR) */
+        .f-body {
+            position: relative; z-index: 10;
+            flex-grow: 1; /* Ocupa todo el espacio sobrante */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centrado vertical */
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* TEXTOS */
+        .f-title { font-family: 'Black Ops One'; font-size: 4rem; color: white; line-height: 0.85; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin-bottom: 5px; }
         .f-title span { color: var(--rescue-orange); }
-        .f-subtitle { color: var(--hydro-cyan); font-size: 1.1rem; letter-spacing: 3px; font-weight: 800; text-transform: uppercase; margin-bottom: 40px; }
+        .f-subtitle { color: var(--hydro-cyan); font-size: 1.2rem; letter-spacing: 4px; font-weight: 900; text-transform: uppercase; margin-bottom: 25px; text-shadow: 0 2px 5px black; }
 
-        /* CAJA DE FECHA AJUSTADA */
-        .f-info-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
-        .f-info-box { 
-            border-left: 5px solid var(--rescue-orange); 
-            background: linear-gradient(90deg, rgba(255, 69, 0, 0.15), transparent); 
-            padding: 15px 25px; 
-            text-align: left; 
-            backdrop-filter: blur(5px);
-            display: inline-block; /* Para que se ajuste al contenido y se pueda centrar */
-            min-width: 280px;
+        /* FECHA DESTACADA */
+        .f-date-box { 
+            background: rgba(0,0,0,0.6); 
+            border: 1px solid var(--hydro-cyan); 
+            padding: 10px 30px; 
+            margin-bottom: 30px; 
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
         }
-        .f-date { font-size: 2.4rem; font-weight: 900; color: white; line-height: 1; }
-        .f-location { color: #ccc; font-size: 1.1rem; font-weight: 600; text-transform: uppercase; margin-top: 8px; letter-spacing: 1px; }
-        .f-location i { color: var(--hydro-cyan); margin-right: 8px; }
+        .f-date { font-size: 2.2rem; font-weight: 900; color: white; }
+        .f-loc { color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* QR AREA CENTRADA */
-        .f-qr-section { margin: 20px 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .f-qr-box { background: white; padding: 12px; display: inline-block; border-radius: 12px; box-shadow: 0 5px 30px rgba(0,0,0,0.5); }
-        /* EL CANVAS REAL DONDE SE DIBUJA EL QR */
-        #qr-canvas { width: 180px; height: 180px; display: block; }
-        
-        .f-cta { color: white; font-size: 1rem; margin-top: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
-
-        /* FOOTER ALINEADO */
-        .f-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .f-section-title { font-size: 0.75rem; color: #999; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; display: block; font-weight: 800; }
-        
-        .logos-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px; align-items: center; }
-        
-        .logo-img { 
-            height: 55px; object-fit: contain; filter: none; opacity: 1; 
-            background: rgba(255,255,255,0.08); padding: 8px; border-radius: 6px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        /* QR AREA */
+        .f-qr-box { 
+            background: white; padding: 10px; border-radius: 10px; 
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2); 
         }
-        .logo-aval { height: 70px; background: rgba(255,255,255,0.12); } 
+        #qr-canvas { width: 170px; height: 170px; display: block; }
+        .f-cta { color: white; font-size: 0.9rem; margin-top: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* LOGOS */
+        .strip-title { font-size: 0.65rem; color: #333; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        .logos-row { display: flex; gap: 20px; justify-content: center; align-items: center; width: 100%; flex-wrap: wrap; }
+        .logo-img { height: 50px; object-fit: contain; } /* Logos normales */
+        .logo-aval { height: 60px; } /* Avales un poco más grandes */
 
     </style>
 </head>
@@ -113,35 +134,36 @@
 
     <div id="flyer-container">
         <div class="flyer-bg" id="dynamic-bg-layer"></div>
-        <div class="flyer-overlay"></div>
+        
+        <div class="f-header-strip">
+            <span class="strip-title">ORGANIZA & AVALA</span>
+            <div class="logos-row" id="avales-container">
+                </div>
+        </div>
 
-        <div class="flyer-content">
+        <div class="f-body">
             <div>
                 <div class="f-title">DBA <span>2026</span></div>
                 <div class="f-subtitle">Congreso Hidro-Táctico</div>
             </div>
-                
-            <div class="f-info-wrapper">
-                <div class="f-info-box">
-                    <div class="f-date">27-28 FEB</div>
-                    <div class="f-location"><i class="fas fa-map-marker-alt"></i> DOLORES, BS. AS.</div>
-                </div>
+
+            <div class="f-date-box">
+                <div class="f-date">27-28 FEB</div>
+                <div class="f-loc"><i class="fas fa-map-marker-alt text-orange-500"></i> DOLORES, BS. AS.</div>
             </div>
 
-            <div class="f-qr-section">
+            <div>
                 <div class="f-qr-box">
                     <canvas id="qr-canvas"></canvas>
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
+        </div>
 
-            <div class="f-footer">
-                <span class="f-section-title" style="color:var(--hydro-cyan);">ORGANIZA & AVALA</span>
-                <div class="logos-row" id="avales-container"></div>
-
-                <span class="f-section-title">NOS ACOMPAÑAN</span>
-                <div class="logos-row" id="sponsors-container"></div>
-            </div>
+        <div class="f-footer-strip">
+            <span class="strip-title">NOS ACOMPAÑAN</span>
+            <div class="logos-row" id="sponsors-container">
+                </div>
         </div>
     </div>
 
@@ -153,19 +175,17 @@
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            drawCanvasQR(); // Dibujar QR nativo
+            drawCanvasQR();
             loadData();
         });
 
-        // --- SOLUCIÓN TÉCNICA AL PROBLEMA DE DESCARGA ---
-        // Usamos QRious para dibujar directamente sobre el elemento <canvas> del DOM.
-        // html2canvas captura perfectamente los elementos canvas nativos.
+        // GENERAR QR NATIVO (SOLUCIÓN VERIFICADA)
         function drawCanvasQR() {
             var qr = new QRious({
-                element: document.getElementById('qr-canvas'), // Apuntamos al ID del canvas
+                element: document.getElementById('qr-canvas'),
                 value: WEB_URL,
-                size: 300, // Resolución interna del dibujo
-                level: 'H' // Máxima corrección de errores
+                size: 300,
+                level: 'H'
             });
         }
 
@@ -176,8 +196,9 @@
                     const DB = data.datos;
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
+                    // Renderizar logos en sus franjas blancas
                     renderLogos('avales-container', DB.avales, 'logo-aval');
-                    renderLogos('sponsors-container', DB.sponsors, '');
+                    renderLogos('sponsors-container', DB.sponsors, 'logo-img');
                 }
             } catch (err) { console.error(err); }
         }
@@ -185,50 +206,45 @@
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
-                // crossOrigin="anonymous" es vital para que html2canvas acepte las imágenes externas
-                div.innerHTML = list.map(item => `<img src="${item.img}" class="logo-img ${extraClass}" crossorigin="anonymous">`).join('');
+                // crossOrigin es vital
+                div.innerHTML = list.map(item => `<img src="${item.img}" class="${extraClass}" crossorigin="anonymous">`).join('');
             } else {
-                // Espaciador visual si no hay logos
-                div.innerHTML = '<div style="height:50px; display:flex; align-items:center;"><span style="color:#444; font-size:0.8rem; letter-spacing:1px;">ESPACIO DISPONIBLE</span></div>';
+                div.innerHTML = '<span style="color:#999; font-size:0.7rem; font-weight:bold;">ESPACIO DISPONIBLE</span>';
             }
         }
 
         function downloadFlyer() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...';
             btn.disabled = true;
 
             const node = document.getElementById('flyer-container');
             
-            // Configuración optimizada para html2canvas
             html2canvas(node, {
-                scale: 3, // Alta resolución (para zoom en celular)
-                useCORS: true, // OBLIGATORIO para los logos de Supabase
-                allowTaint: false, // No permitir imágenes contaminadas
-                backgroundColor: '#020405', // Color de fondo de seguridad
+                scale: 3, 
+                useCORS: true, 
+                allowTaint: false,
+                backgroundColor: '#020405',
                 logging: false,
-                // Pequeño truco para asegurar que todo esté renderizado
-                onclone: (clonedDoc) => {
-                    clonedDoc.getElementById('flyer-container').style.transform = 'none';
+                onclone: (doc) => {
+                    // Asegurar que todo esté visible en el clon
+                    doc.getElementById('flyer-container').style.height = '800px'; 
                 }
             }).then(canvas => {
-                // Crear link de descarga temporal
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
-                // Calidad JPG al 98%
                 link.href = canvas.toDataURL("image/jpeg", 0.98);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
 
-                // Restaurar botón
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }).catch(err => {
-                console.error("Error en captura:", err);
-                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ERROR';
-                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
+                console.error(err);
+                btn.innerHTML = 'ERROR';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
             });
         }
     </script>
