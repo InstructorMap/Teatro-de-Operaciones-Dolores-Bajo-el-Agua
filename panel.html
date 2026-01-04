@@ -154,7 +154,6 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('preview-img').src = e.target.result;
-                    // Reducir foto
                     resizeImage(e.target.result, 200).then(resized => { currentPhotoBase64 = resized; });
                 }
                 reader.readAsDataURL(file);
@@ -173,30 +172,29 @@
             btn.disabled = true;
 
             try {
-                // 1. GUARDAR EN SUPABASE (Con los nombres de columna EXACTOS)
+                // 1. GUARDAR EN SUPABASE (CON LOS NOMBRES EXACTOS DE COLUMNAS)
                 const { error } = await sb.from('alumnos').upsert([
                     { 
                         dni: dni, 
-                        nombrecompleto: name, // Corregido: sin espacios
-                        matricula_arg: dni,   // Corregido: matricula_arg
-                        url_de_la_foto: currentPhotoBase64 // Corregido: url_de_la_foto
-                        // Eliminados: rol, estado (para evitar error)
+                        nombre_completo: name,       // AHORA SI: nombre_completo
+                        matricula_arg: dni,          // matricula_arg
+                        url_de_la_foto: currentPhotoBase64 // url_de_la_foto
                     }
                 ], { onConflict: 'dni' });
 
                 if (error) throw error;
 
-                // 2. GENERAR QR
+                // 2. Generar QR
                 btn.innerHTML = 'GENERANDO QR...';
                 const cleanDni = dni.replace(/\D/g,'');
                 const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
                 var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
                 document.getElementById('qr-img-render').src = qr.toDataURL();
 
-                // 3. PAUSA RENDER
+                // 3. Pausa para renderizado
                 await new Promise(r => setTimeout(r, 1000));
 
-                // 4. DESCARGAR
+                // 4. Descargar
                 btn.innerHTML = 'DESCARGANDO...';
                 const canvas = await html2canvas(document.getElementById('carnet-container'), {
                     scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#020405', logging: false
@@ -209,7 +207,7 @@
                 link.click();
                 document.body.removeChild(link);
 
-                Swal.fire({icon:'success', title:'¡Correcto!', text:'Datos guardados y credencial generada.'});
+                Swal.fire({icon:'success', title:'¡Éxito!', text:'Credencial generada correctamente.'});
 
             } catch (err) {
                 console.error(err);
@@ -217,7 +215,7 @@
                     icon: 'error', 
                     title: 'Error Base de Datos', 
                     text: 'Detalle: ' + (err.message || err),
-                    footer: 'Verifica en Supabase que las columnas: dni, nombrecompleto, matricula_arg, url_de_la_foto existan.'
+                    footer: 'Verifica las columnas: dni, nombre_completo, matricula_arg, url_de_la_foto'
                 });
             } finally {
                 btn.innerHTML = originalText;
