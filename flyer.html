@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -27,68 +27,88 @@
         }
         body { background-color: #111; font-family: 'Exo 2', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
+        /* CONTENEDOR PRINCIPAL (9:16) */
         #flyer-container {
             width: 450px; 
             height: 800px;
             background: #020405;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.2);
-            border: 1px solid #333;
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
+            border: 1px solid #222;
         }
 
+        /* CAPAS DE FONDO (Más oscuras para contraste) */
         .flyer-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); 
             background-size: cover; background-position: center;
-            opacity: 0.4; filter: grayscale(100%) contrast(120%);
+            opacity: 0.3; /* Reducido para oscurecer */
+            filter: grayscale(100%) contrast(110%);
             z-index: 1;
         }
         .flyer-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* Gradiente más agresivo hacia el negro */
             background: linear-gradient(180deg, 
-                rgba(2,4,5,0.9) 0%, 
-                rgba(2,4,5,0.4) 40%, 
-                rgba(2,4,5,0.95) 85%, 
+                rgba(2,4,5,0.8) 0%, 
+                rgba(2,4,5,0.6) 30%, 
+                rgba(2,4,5,0.9) 70%, 
                 #020405 100%);
             z-index: 2;
         }
 
-        .flyer-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 40px 20px; }
+        .flyer-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 50px 25px 30px; }
 
-        .f-title { font-family: 'Black Ops One'; font-size: 4rem; color: white; line-height: 0.9; text-shadow: 0 0 20px rgba(0, 229, 255, 0.6); margin-bottom: 5px; }
+        /* HEADER ALINEADO */
+        .f-title { font-family: 'Black Ops One'; font-size: 4.2rem; color: white; line-height: 0.85; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 8px; }
         .f-title span { color: var(--rescue-orange); }
-        .f-subtitle { color: var(--hydro-cyan); font-size: 1rem; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 30px; }
+        .f-subtitle { color: var(--hydro-cyan); font-size: 1.1rem; letter-spacing: 3px; font-weight: 800; text-transform: uppercase; margin-bottom: 40px; }
 
-        .f-info-box { border-left: 4px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.1); padding: 15px; margin: 20px 0; text-align: left; backdrop-filter: blur(5px); }
-        .f-date { font-size: 2rem; font-weight: 900; color: white; line-height: 1; }
-        .f-location { color: #ccc; font-size: 1rem; text-transform: uppercase; margin-top: 5px; }
-        .f-location i { color: var(--hydro-cyan); margin-right: 5px; }
+        /* CAJA DE FECHA AJUSTADA */
+        .f-info-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
+        .f-info-box { 
+            border-left: 5px solid var(--rescue-orange); 
+            background: linear-gradient(90deg, rgba(255, 69, 0, 0.15), transparent); 
+            padding: 15px 25px; 
+            text-align: left; 
+            backdrop-filter: blur(5px);
+            display: inline-block; /* Para que se ajuste al contenido y se pueda centrar */
+            min-width: 280px;
+        }
+        .f-date { font-size: 2.4rem; font-weight: 900; color: white; line-height: 1; }
+        .f-location { color: #ccc; font-size: 1.1rem; font-weight: 600; text-transform: uppercase; margin-top: 8px; letter-spacing: 1px; }
+        .f-location i { color: var(--hydro-cyan); margin-right: 8px; }
 
-        .f-qr-box { background: white; padding: 10px; display: inline-block; border-radius: 10px; margin: 20px auto; box-shadow: 0 0 30px rgba(0, 229, 255, 0.3); }
-        .f-cta { color: white; font-size: 0.9rem; margin-top: 10px; font-weight: bold; letter-spacing: 1px; animation: pulse 2s infinite; }
+        /* QR AREA CENTRADA */
+        .f-qr-section { margin: 20px 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .f-qr-box { background: white; padding: 12px; display: inline-block; border-radius: 12px; box-shadow: 0 5px 30px rgba(0,0,0,0.5); }
+        /* EL CANVAS REAL DONDE SE DIBUJA EL QR */
+        #qr-canvas { width: 180px; height: 180px; display: block; }
         
-        /* ESTA IMAGEN RECIBIRÁ EL CÓDIGO BASE64 LOCAL */
-        .qr-img { width: 150px; height: 150px; display: block; object-fit: contain; }
+        .f-cta { color: white; font-size: 1rem; margin-top: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
 
-        .f-footer { margin-top: auto; border-top: 1px solid #333; padding-top: 20px; }
-        .f-section-title { font-size: 0.7rem; color: #888; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; display: block; font-weight: bold; }
+        /* FOOTER ALINEADO */
+        .f-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .f-section-title { font-size: 0.75rem; color: #999; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; display: block; font-weight: 800; }
         
-        .logos-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+        .logos-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px; align-items: center; }
         
         .logo-img { 
-            height: 50px; object-fit: contain; filter: none; opacity: 1; transition: 0.3s;
-            background: rgba(255,255,255,0.05); padding: 5px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            height: 55px; object-fit: contain; filter: none; opacity: 1; 
+            background: rgba(255,255,255,0.08); padding: 8px; border-radius: 6px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .logo-aval { height: 60px; background: rgba(255,255,255,0.1); } 
+        .logo-aval { height: 70px; background: rgba(255,255,255,0.12); } 
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div style="position:fixed; top:20px; right:20px; z-index:100; display:flex; gap:10px;">
-        <button onclick="downloadFlyer()" class="bg-blue-600 text-white px-6 py-3 rounded font-bold hover:bg-blue-500 shadow-lg"><i class="fas fa-download"></i> DESCARGAR IMAGEN</button>
+    <div style="position:fixed; top:20px; right:20px; z-index:100;">
+        <button onclick="downloadFlyer()" class="bg-orange-600 hover:bg-orange-500 text-white px-6 py-3 rounded-full font-bold shadow-xl transition-all flex items-center gap-2 border-2 border-orange-400">
+            <i class="fas fa-camera"></i> CAPTURAR FLYER
+        </button>
     </div>
 
     <div id="flyer-container">
@@ -96,18 +116,21 @@
         <div class="flyer-overlay"></div>
 
         <div class="flyer-content">
-            <div style="margin-top: 40px;">
+            <div>
                 <div class="f-title">DBA <span>2026</span></div>
                 <div class="f-subtitle">Congreso Hidro-Táctico</div>
+            </div>
+                
+            <div class="f-info-wrapper">
                 <div class="f-info-box">
                     <div class="f-date">27-28 FEB</div>
                     <div class="f-location"><i class="fas fa-map-marker-alt"></i> DOLORES, BS. AS.</div>
                 </div>
             </div>
 
-            <div>
+            <div class="f-qr-section">
                 <div class="f-qr-box">
-                    <img id="qr-target" class="qr-img" alt="QR Inscripción">
+                    <canvas id="qr-canvas"></canvas>
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
@@ -115,6 +138,7 @@
             <div class="f-footer">
                 <span class="f-section-title" style="color:var(--hydro-cyan);">ORGANIZA & AVALA</span>
                 <div class="logos-row" id="avales-container"></div>
+
                 <span class="f-section-title">NOS ACOMPAÑAN</span>
                 <div class="logos-row" id="sponsors-container"></div>
             </div>
@@ -122,28 +146,27 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN EXACTA
+        // CONFIGURACIÓN
         const WEB_URL = "https://teatro-de-operaciones-dolores-bajo.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            generateLocalQR(); // Generar QR internamente
+            drawCanvasQR(); // Dibujar QR nativo
             loadData();
         });
 
-        // --- SOLUCIÓN DEL FALLO ---
-        // Generamos el QR en memoria y lo convertimos a Base64 inmediatamente.
-        // Esto evita llamadas a servidores externos y problemas de CORS.
-        function generateLocalQR() {
+        // --- SOLUCIÓN TÉCNICA AL PROBLEMA DE DESCARGA ---
+        // Usamos QRious para dibujar directamente sobre el elemento <canvas> del DOM.
+        // html2canvas captura perfectamente los elementos canvas nativos.
+        function drawCanvasQR() {
             var qr = new QRious({
+                element: document.getElementById('qr-canvas'), // Apuntamos al ID del canvas
                 value: WEB_URL,
-                size: 500, // Alta calidad
-                level: 'H'
+                size: 300, // Resolución interna del dibujo
+                level: 'H' // Máxima corrección de errores
             });
-            // Asignamos el string Base64 directamente a la imagen
-            document.getElementById('qr-target').src = qr.toDataURL();
         }
 
         async function loadData() {
@@ -153,7 +176,6 @@
                     const DB = data.datos;
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
-                    // Renderizamos logos agregando crossOrigin para evitar problemas similares con los sponsors
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, '');
                 }
@@ -163,26 +185,50 @@
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
-                // crossOrigin="anonymous" es vital para imágenes de Supabase
+                // crossOrigin="anonymous" es vital para que html2canvas acepte las imágenes externas
                 div.innerHTML = list.map(item => `<img src="${item.img}" class="logo-img ${extraClass}" crossorigin="anonymous">`).join('');
             } else {
-                div.innerHTML = '<span style="color:#444; font-size:0.8rem;">...</span>';
+                // Espaciador visual si no hay logos
+                div.innerHTML = '<div style="height:50px; display:flex; align-items:center;"><span style="color:#444; font-size:0.8rem; letter-spacing:1px;">ESPACIO DISPONIBLE</span></div>';
             }
         }
 
         function downloadFlyer() {
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
+            btn.disabled = true;
+
             const node = document.getElementById('flyer-container');
             
+            // Configuración optimizada para html2canvas
             html2canvas(node, {
-                scale: 3, 
-                useCORS: true, // Obligatorio para los sponsors
-                allowTaint: true,
-                backgroundColor: null,
+                scale: 3, // Alta resolución (para zoom en celular)
+                useCORS: true, // OBLIGATORIO para los logos de Supabase
+                allowTaint: false, // No permitir imágenes contaminadas
+                backgroundColor: '#020405', // Color de fondo de seguridad
+                logging: false,
+                // Pequeño truco para asegurar que todo esté renderizado
+                onclone: (clonedDoc) => {
+                    clonedDoc.getElementById('flyer-container').style.transform = 'none';
+                }
             }).then(canvas => {
+                // Crear link de descarga temporal
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
-                link.href = canvas.toDataURL("image/jpeg", 0.95);
+                // Calidad JPG al 98%
+                link.href = canvas.toDataURL("image/jpeg", 0.98);
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
+
+                // Restaurar botón
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error("Error en captura:", err);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ERROR';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
             });
         }
     </script>
