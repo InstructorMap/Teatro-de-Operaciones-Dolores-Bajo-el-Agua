@@ -34,7 +34,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-size: cover; background-position: center; opacity: 0.2;
             filter: grayscale(100%) contrast(120%); pointer-events: none;
-            background-image: url('inundacion2.jpg'); /* Default fallback */
+            background-image: url('inundacion2.jpg'); 
         }
 
         h1, h2, h3 { font-family: 'Exo 2', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
@@ -430,7 +430,6 @@
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         let DB = { avales:[], sponsors:[], stations:[], instructores:[], galeria:[], accom:[], config:{ mp:"", go:"", sold:0, bg:"" } };
-        
         const DEFAULT_STATIONS = [
             {title:"Acuático",desc:"Técnicas en correntada",icon:"fas fa-water",img:"https://images.unsplash.com/photo-1549468069-b3d4072740a6?q=80&w=400"},
             {title:"Altura",desc:"Rappel táctico",icon:"fas fa-mountain",img:"https://images.unsplash.com/photo-1533664426743-41c304db9192?q=80&w=400"},
