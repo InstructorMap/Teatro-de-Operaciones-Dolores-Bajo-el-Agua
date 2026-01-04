@@ -35,92 +35,111 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
-            border: 1px solid #222;
+            border: 1px solid #333;
             display: flex;
-            flex-direction: column; /* Estructura vertical estricta */
-            justify-content: space-between; /* Separa Header, Body, Footer */
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* CAPAS DE FONDO */
+        /* CAPAS DE FONDO (Más oscuras) */
         .flyer-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); 
             background-size: cover; background-position: center;
-            opacity: 0.35; 
-            filter: grayscale(100%) contrast(110%);
+            opacity: 0.25; /* Reducido para más oscuridad */
+            filter: grayscale(100%) contrast(120%);
             z-index: 1;
         }
         
-        /* HEADER STRIP (AVALES - ARRIBA) */
+        /* HEADER STRIP (AVALES - DARK MODE) */
         .f-header-strip {
             position: relative; z-index: 20;
-            background: rgba(255, 255, 255, 0.95); /* Fondo blanco casi sólido */
+            /* Fondo oscuro semi-transparente en lugar de blanco */
+            background: rgba(5, 8, 10, 0.9); 
             width: 100%;
-            height: 90px; /* Altura fija para avales */
+            height: 100px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-bottom: 4px solid var(--hydro-cyan);
+            /* Línea de contraste Cyan */
+            border-bottom: 2px solid var(--hydro-cyan);
             padding: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* FOOTER STRIP (SPONSORS - ABAJO) */
+        /* FOOTER STRIP (SPONSORS - DARK MODE) */
         .f-footer-strip {
             position: relative; z-index: 20;
-            background: rgba(255, 255, 255, 0.95); /* Fondo blanco */
+            background: rgba(5, 8, 10, 0.9); 
             width: 100%;
-            height: 100px; /* Un poco más alto para sponsors */
+            height: 110px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-top: 4px solid var(--rescue-orange);
+            /* Línea de contraste Naranja */
+            border-top: 2px solid var(--rescue-orange);
             padding: 5px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
-        /* CUERPO CENTRAL (INFO + QR) */
+        /* CUERPO CENTRAL */
         .f-body {
             position: relative; z-index: 10;
-            flex-grow: 1; /* Ocupa todo el espacio sobrante */
+            flex-grow: 1; 
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centrado vertical */
+            justify-content: center; 
             align-items: center;
             padding: 20px;
             text-align: center;
         }
 
         /* TEXTOS */
-        .f-title { font-family: 'Black Ops One'; font-size: 4rem; color: white; line-height: 0.85; text-shadow: 0 5px 15px rgba(0,0,0,0.8); margin-bottom: 5px; }
+        .f-title { font-family: 'Black Ops One'; font-size: 4.5rem; color: white; line-height: 0.85; text-shadow: 0 5px 20px rgba(0,0,0,0.9); margin-bottom: 5px; }
         .f-title span { color: var(--rescue-orange); }
-        .f-subtitle { color: var(--hydro-cyan); font-size: 1.2rem; letter-spacing: 4px; font-weight: 900; text-transform: uppercase; margin-bottom: 25px; text-shadow: 0 2px 5px black; }
+        .f-subtitle { color: var(--hydro-cyan); font-size: 1.1rem; letter-spacing: 4px; font-weight: 800; text-transform: uppercase; margin-bottom: 30px; text-shadow: 0 2px 5px black; }
 
         /* FECHA DESTACADA */
         .f-date-box { 
-            background: rgba(0,0,0,0.6); 
-            border: 1px solid var(--hydro-cyan); 
+            background: rgba(0,0,0,0.7); /* Más oscuro */
+            border-left: 4px solid var(--rescue-orange); 
             padding: 10px 30px; 
-            margin-bottom: 30px; 
-            border-radius: 4px;
-            backdrop-filter: blur(4px);
+            margin-bottom: 35px; 
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
-        .f-date { font-size: 2.2rem; font-weight: 900; color: white; }
-        .f-loc { color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .f-date { font-size: 2.4rem; font-weight: 900; color: white; line-height: 1; }
+        .f-loc { color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
 
-        /* QR AREA */
+        /* QR AREA (CORREGIDO: Marco Fino) */
         .f-qr-box { 
-            background: white; padding: 10px; border-radius: 10px; 
-            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2); 
+            background: white; 
+            padding: 6px; /* Relleno reducido (antes 10-12px) */
+            border-radius: 8px; 
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.25); 
+            display: inline-block;
         }
-        #qr-canvas { width: 170px; height: 170px; display: block; }
-        .f-cta { color: white; font-size: 0.9rem; margin-top: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        /* El canvas ajustado al tamaño */
+        #qr-canvas { width: 180px; height: 180px; display: block; }
+        
+        .f-cta { color: white; font-size: 0.85rem; margin-top: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; }
 
         /* LOGOS */
-        .strip-title { font-size: 0.65rem; color: #333; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        .strip-title { 
+            font-size: 0.6rem; color: #777; font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; 
+        }
         .logos-row { display: flex; gap: 20px; justify-content: center; align-items: center; width: 100%; flex-wrap: wrap; }
-        .logo-img { height: 50px; object-fit: contain; } /* Logos normales */
-        .logo-aval { height: 60px; } /* Avales un poco más grandes */
+        
+        .logo-img { 
+            height: 50px; object-fit: contain; 
+            /* Fondo sutil para resaltar logo oscuro sobre fondo oscuro */
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 4px; padding: 5px;
+        } 
+        .logo-aval { height: 60px; background: rgba(255, 255, 255, 0.15); }
 
     </style>
 </head>
@@ -149,7 +168,7 @@
 
             <div class="f-date-box">
                 <div class="f-date">27-28 FEB</div>
-                <div class="f-loc"><i class="fas fa-map-marker-alt text-orange-500"></i> DOLORES, BS. AS.</div>
+                <div class="f-loc"><i class="fas fa-map-marker-alt text-cyan-400"></i> DOLORES, BS. AS.</div>
             </div>
 
             <div>
@@ -179,7 +198,7 @@
             loadData();
         });
 
-        // GENERAR QR NATIVO (SOLUCIÓN VERIFICADA)
+        // GENERAR QR (CANVAS NATIVO)
         function drawCanvasQR() {
             var qr = new QRious({
                 element: document.getElementById('qr-canvas'),
@@ -196,7 +215,6 @@
                     const DB = data.datos;
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
-                    // Renderizar logos en sus franjas blancas
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, 'logo-img');
                 }
@@ -206,10 +224,10 @@
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
-                // crossOrigin es vital
+                // crossOrigin para evitar problemas de descarga
                 div.innerHTML = list.map(item => `<img src="${item.img}" class="${extraClass}" crossorigin="anonymous">`).join('');
             } else {
-                div.innerHTML = '<span style="color:#999; font-size:0.7rem; font-weight:bold;">ESPACIO DISPONIBLE</span>';
+                div.innerHTML = '<span style="color:#555; font-size:0.6rem; letter-spacing:2px;">ESPACIO DISPONIBLE</span>';
             }
         }
 
@@ -228,7 +246,6 @@
                 backgroundColor: '#020405',
                 logging: false,
                 onclone: (doc) => {
-                    // Asegurar que todo esté visible en el clon
                     doc.getElementById('flyer-container').style.height = '800px'; 
                 }
             }).then(canvas => {
