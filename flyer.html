@@ -6,14 +6,13 @@
     <title>Flyer Oficial - DBA 2026</title>
     
     <meta property="og:title" content="DBA 2026 | Congreso Hidro-Táctico Dolores">
-    <meta property="og:description" content="Entrenamiento operativo de alto rendimiento. 27-28 FEB. Cupos limitados. ¡Inscríbete ahora!">
+    <meta property="og:description" content="Entrenamiento operativo de alto rendimiento. 27-28 FEB. Cupos limitados.">
     <meta property="og:image" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/preview-flyer.jpg"> 
     <meta property="og:url" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/flyer.html">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -75,29 +74,19 @@
         .f-cta { color: white; font-size: 0.9rem; margin-top: 10px; font-weight: bold; letter-spacing: 1px; animation: pulse 2s infinite; }
         
         /* IMAGEN QR (ESTILO) */
-        #qr-img-display { width: 150px; height: 150px; display: block; }
+        .qr-img { width: 150px; height: 150px; display: block; object-fit: contain; }
 
         /* BANNER DE SPONSORS (Footer) */
         .f-footer { margin-top: auto; border-top: 1px solid #333; padding-top: 20px; }
         .f-section-title { font-size: 0.7rem; color: #888; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; display: block; font-weight: bold; }
         
-        .logos-row { 
-            display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; 
-        }
+        .logos-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
         
-        /* LOGOS FULL COLOR */
+        /* LOGOS */
         .logo-img { 
-            height: 50px;       
-            object-fit: contain; 
-            filter: none;       
-            opacity: 1;         
-            transition: 0.3s;
-            background: rgba(255,255,255,0.05); 
-            padding: 5px;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            height: 50px; object-fit: contain; filter: none; opacity: 1; transition: 0.3s;
+            background: rgba(255,255,255,0.05); padding: 5px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-        
         .logo-aval { height: 60px; background: rgba(255,255,255,0.1); } 
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
@@ -117,7 +106,6 @@
             <div style="margin-top: 40px;">
                 <div class="f-title">DBA <span>2026</span></div>
                 <div class="f-subtitle">Congreso Hidro-Táctico</div>
-                
                 <div class="f-info-box">
                     <div class="f-date">27-28 FEB</div>
                     <div class="f-location"><i class="fas fa-map-marker-alt"></i> DOLORES, BS. AS.</div>
@@ -126,97 +114,77 @@
 
             <div>
                 <div class="f-qr-box">
-                    <canvas id="qr-web-canvas" style="display: none;"></canvas>
-                    <img id="qr-img-display" src="" alt="QR Inscripción">
+                    <img id="qr-target" class="qr-img" src="" alt="Cargando QR..." crossorigin="anonymous">
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
 
             <div class="f-footer">
                 <span class="f-section-title" style="color:var(--hydro-cyan);">ORGANIZA & AVALA</span>
-                <div class="logos-row" id="avales-container">
-                    </div>
+                <div class="logos-row" id="avales-container"></div>
 
                 <span class="f-section-title">NOS ACOMPAÑAN</span>
-                <div class="logos-row" id="sponsors-container">
-                    </div>
+                <div class="logos-row" id="sponsors-container"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN CONECTADA A TU VERCEL ---
+        // CONFIGURACIÓN DE URLS
         const WEB_URL = "https://teatro-de-operaciones-dolores-bajo.vercel.app/"; 
-        
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // 1. INICIALIZAR
         document.addEventListener('DOMContentLoaded', () => {
-            generateQR();
+            loadQR();
             loadData();
         });
 
-        // GENERAR QR Y CONVERTIR A IMAGEN (FIX DESCARGA)
-        function generateQR() {
-            // 1. Generar en el canvas oculto
-            var qr = new QRious({
-                element: document.getElementById('qr-web-canvas'),
-                value: WEB_URL,
-                size: 500, // Alta resolución interna
-                level: 'H' 
-            });
-
-            // 2. Extraer la imagen base64 del canvas
-            var dataUrl = qr.toDataURL();
-
-            // 3. Ponerla en la etiqueta IMG visible
-            document.getElementById('qr-img-display').src = dataUrl;
+        // 1. CARGAR QR COMO IMAGEN EXTERNA (INFALIBLE)
+        function loadQR() {
+            // Usamos una API pública y estable que devuelve un PNG directo
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(WEB_URL)}&format=png`;
+            const qrImg = document.getElementById('qr-target');
+            
+            // Forzar recarga para evitar caché
+            qrImg.src = qrApiUrl;
         }
 
-        // 2. CARGAR DATOS DE LA NUBE
+        // 2. CARGAR DATOS SUPABASE
         async function loadData() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if (data && data.datos) {
                     const DB = data.datos;
-
-                    if(DB.config.bg) {
-                        document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
-                    }
-
-                    // Avales
-                    const avalesDiv = document.getElementById('avales-container');
-                    if(DB.avales && DB.avales.length > 0) {
-                        avalesDiv.innerHTML = DB.avales.map(a => `<img src="${a.img}" class="logo-img logo-aval">`).join('');
-                    } else {
-                        avalesDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">...</span>';
-                    }
-
-                    // Sponsors
-                    const sponsorsDiv = document.getElementById('sponsors-container');
-                    if(DB.sponsors && DB.sponsors.length > 0) {
-                        sponsorsDiv.innerHTML = DB.sponsors.map(s => `<img src="${s.img}" class="logo-img">`).join('');
-                    } else {
-                        sponsorsDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">Espacio Disponible</span>';
-                    }
+                    if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
+                    
+                    renderLogos('avales-container', DB.avales, 'logo-aval');
+                    renderLogos('sponsors-container', DB.sponsors, '');
                 }
-            } catch (err) {
-                console.error("Error cargando flyer data:", err);
+            } catch (err) { console.error(err); }
+        }
+
+        function renderLogos(containerId, list, extraClass) {
+            const div = document.getElementById(containerId);
+            if(list && list.length > 0) {
+                div.innerHTML = list.map(item => `<img src="${item.img}" class="logo-img ${extraClass}" crossorigin="anonymous">`).join('');
+            } else {
+                div.innerHTML = '<span style="color:#444; font-size:0.8rem;">...</span>';
             }
         }
 
-        // 3. DESCARGAR IMAGEN
+        // 3. DESCARGAR IMAGEN (CONFIGURACIÓN CORS OPTIMIZADA)
         function downloadFlyer() {
             const node = document.getElementById('flyer-container');
             
-            // Usamos html2canvas sobre el contenedor que ahora tiene una <IMG> normal
+            // Pequeña espera para asegurar que las imágenes externas (QR) estén listas
             html2canvas(node, {
                 scale: 3, 
-                useCORS: true,
+                useCORS: true, // Vital para descargar imágenes de Supabase y del QR
+                allowTaint: true,
                 backgroundColor: null,
-                allowTaint: true 
+                logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
