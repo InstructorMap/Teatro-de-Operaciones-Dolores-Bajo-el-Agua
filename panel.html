@@ -15,50 +15,109 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --bg-deep: #020405; --hydro-cyan: #00e5ff; --rescue-orange: #ff4500; }
+        :root { 
+            --bg-deep: #020405; 
+            --hydro-cyan: #00e5ff; 
+            --rescue-orange: #ff4500; 
+        }
         body { background-color: #0a0a0a; font-family: 'Exo 2', sans-serif; color: white; }
 
-        /* CARNET */
+        /* CARNET (CONTENEDOR PRINCIPAL) */
         #carnet-container {
-            width: 400px; height: 650px; background: #020405; position: relative;
-            overflow: hidden; border: 1px solid #333; box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            width: 400px; 
+            height: 650px;
+            background: #020405;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
             display: flex; flex-direction: column; justify-content: space-between;
         }
+
         .carnet-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('inundacion2.jpg'); background-size: cover; opacity: 0.25; filter: grayscale(100%); z-index: 1;
+            background-image: url('inundacion2.jpg'); 
+            background-size: cover; background-position: center;
+            opacity: 0.25; filter: grayscale(100%);
+            z-index: 1;
         }
         
-        /* LOGOS CENTRADOS Y AJUSTADOS */
+        /* HEADER Y FOOTER (LOGOS) */
         .c-header, .c-footer { 
-            position: relative; z-index: 10; background: rgba(5,8,10, 0.95); 
+            position: relative; z-index: 10; 
+            background: rgba(5,8,10, 0.95); 
             min-height: 70px; padding: 5px;
             display: flex; justify-content: center; align-items: center;
         }
         .c-header { border-bottom: 2px solid var(--hydro-cyan); }
         .c-footer { border-top: 2px solid var(--rescue-orange); }
 
+        /* Alineación corregida de logos */
         .logo-row { 
-            display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; width: 100%; 
+            display: flex; 
+            gap: 10px; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
         }
         .logo-img { 
-            height: 35px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 3px; 
+            height: 35px; 
+            object-fit: contain; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 3px; 
+            padding: 3px; 
         }
 
-        .c-body { position: relative; z-index: 10; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; text-align: center; }
-        .student-photo-frame { width: 140px; height: 140px; border: 3px solid var(--rescue-orange); background: #111; margin-bottom: 15px; overflow: hidden; box-shadow: 0 0 20px rgba(255, 69, 0, 0.2); }
+        /* CUERPO DEL CARNET */
+        .c-body { 
+            position: relative; z-index: 10; 
+            flex-grow: 1; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            padding: 10px; text-align: center; 
+        }
+
+        .student-photo-frame { 
+            width: 140px; height: 140px; 
+            border: 3px solid var(--rescue-orange); 
+            background: #111; 
+            margin-bottom: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2); 
+        }
         #preview-img { width: 100%; height: 100%; object-fit: cover; }
+
         .c-title { font-family: 'Black Ops One'; font-size: 1.8rem; line-height: 1; margin-bottom: 5px; text-transform: uppercase; }
         .c-role { color: var(--hydro-cyan); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 15px; }
-        .c-data-box { background: rgba(255,255,255,0.05); padding: 8px 20px; border-radius: 4px; border-left: 3px solid var(--hydro-cyan); width: 90%; margin-bottom: 15px; }
+        
+        .c-data-box { 
+            background: rgba(255,255,255,0.05); 
+            padding: 8px 20px; 
+            border-radius: 4px; 
+            border-left: 3px solid var(--hydro-cyan); 
+            width: 90%; margin-bottom: 15px; 
+        }
         .c-name { font-size: 1.2rem; font-weight: bold; text-transform: uppercase; line-height: 1.1; }
         .c-dni { color: #aaa; font-size: 0.9rem; margin-top: 2px; }
         
-        .c-qr-frame { background: white; padding: 5px; border-radius: 4px; display: inline-block; margin-top: 10px; }
+        .c-qr-frame { 
+            background: white; padding: 5px; border-radius: 4px; 
+            display: inline-block; margin-top: 5px;
+        }
         #qr-img-render { width: 80px; height: 80px; display: block; object-fit: contain; }
         
-        .input-tactical { background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 10px; width: 100%; border-radius: 4px; margin-bottom: 10px; }
-        .input-locked { opacity: 0.6; cursor: not-allowed; background: #111; color: #888; border-color: #444; }
+        /* INPUTS DEL FORMULARIO */
+        .input-tactical { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid #333; 
+            color: white; 
+            padding: 10px; width: 100%; 
+            border-radius: 4px; margin-bottom: 10px; 
+        }
+        .input-locked { 
+            opacity: 0.6; cursor: not-allowed; 
+            background: #111; color: #888; border-color: #444; 
+        }
     </style>
 </head>
 <body class="flex flex-col md:flex-row h-screen overflow-hidden">
@@ -84,22 +143,26 @@
 
             <div class="bg-gray-800 p-4 rounded border border-orange-900/50">
                 <label class="text-xs text-orange-500 uppercase font-bold mb-2 block">👉 1. Subir Foto Selfie</label>
-                <input type="file" id="inp-photo" class="text-sm text-gray-300" accept="image/*" onchange="loadPhoto(event)">
+                <input type="file" id="inp-photo" class="text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-600 file:text-white hover:file:bg-orange-500 cursor-pointer" accept="image/*" onchange="loadPhoto(event)">
             </div>
 
             <hr class="border-gray-700 my-4">
 
-            <button onclick="processAndDownload()" id="btn-action" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-4 rounded shadow-lg flex items-center justify-center gap-2">
+            <button onclick="processAndDownload()" id="btn-action" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-4 rounded shadow-lg flex items-center justify-center gap-2 transition hover:scale-105">
                 <i class="fas fa-id-card"></i> GENERAR Y DESCARGAR
             </button>
+            <p class="text-center text-xs text-gray-500 mt-2">Al descargar, quedarás registrado oficialmente.</p>
         </div>
     </div>
 
     <div class="w-full md:w-2/3 bg-black flex justify-center items-center p-10 overflow-y-auto">
+        
         <div id="carnet-container">
             <div class="carnet-bg" id="dynamic-bg"></div>
             
-            <div class="c-header"><div class="logo-row" id="avales-container"></div></div>
+            <div class="c-header">
+                <div class="logo-row" id="avales-container">Loading...</div>
+            </div>
 
             <div class="c-body">
                 <div class="c-title">DBA 2026</div>
@@ -119,12 +182,15 @@
                 </div>
             </div>
 
-            <div class="c-footer"><div class="logo-row" id="sponsors-container"></div></div>
+            <div class="c-footer">
+                <div class="logo-row" id="sponsors-container">Loading...</div>
+            </div>
         </div>
+
     </div>
 
     <script>
-        // CONFIGURACIÓN
+        // === CONFIGURACIÓN ===
         const BASE_URL = "https://teatro-de-operaciones-dba2026.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
@@ -132,69 +198,85 @@
 
         let currentPhotoBase64 = null;
 
+        // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', () => {
+            // 1. Leer datos de la URL (Seguridad)
             const params = new URLSearchParams(window.location.search);
             const nameUrl = params.get('name');
             const dniUrl = params.get('dni');
 
             if(nameUrl && dniUrl) {
+                // Rellenar Inputs
                 document.getElementById('inp-name').value = decodeURIComponent(nameUrl).toUpperCase();
                 document.getElementById('inp-dni').value = dniUrl;
+                // Rellenar Carnet
                 document.getElementById('view-name').innerText = decodeURIComponent(nameUrl).toUpperCase();
                 document.getElementById('view-dni').innerText = 'DNI: ' + dniUrl;
             } else {
-                Swal.fire({icon:'error', title:'Error', text:'Ingresa desde el link oficial.'});
+                // Bloquear si no hay datos
+                Swal.fire({
+                    icon:'error', 
+                    title:'Acceso Denegado', 
+                    text:'Debes ingresar desde el link oficial recibido.',
+                    allowOutsideClick: false,
+                    showConfirmButton: false
+                });
+                document.getElementById('btn-action').disabled = true;
+                document.getElementById('btn-action').classList.add('opacity-50');
             }
-            loadData();
+            loadData(); // Cargar logos
         });
 
+        // CARGA DE FOTO
         function loadPhoto(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('preview-img').src = e.target.result;
+                    // Optimizar imagen para BD (Max 200px)
                     resizeImage(e.target.result, 200).then(resized => { currentPhotoBase64 = resized; });
                 }
                 reader.readAsDataURL(file);
             }
         }
 
+        // PROCESO DE GUARDADO Y DESCARGA
         async function processAndDownload() {
             const btn = document.getElementById('btn-action');
             const name = document.getElementById('inp-name').value;
             const dni = document.getElementById('inp-dni').value;
 
-            if(!name || !dni || !currentPhotoBase64) return Swal.fire('Atención', 'Falta la foto.', 'warning');
+            if(!name || !dni || !currentPhotoBase64) return Swal.fire('Atención', 'Debes subir tu foto.', 'warning');
 
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> GUARDANDO...';
             btn.disabled = true;
 
             try {
-                // 1. GUARDAR EN SUPABASE (CON LOS NOMBRES EXACTOS DE COLUMNAS)
+                // 1. GUARDAR EN SUPABASE (Usando nombre de columna 'foto')
                 const { error } = await sb.from('alumnos').upsert([
                     { 
                         dni: dni, 
-                        nombre_completo: name,       // AHORA SI: nombre_completo
-                        matricula_arg: dni,          // matricula_arg
-                        url_de_la_foto: currentPhotoBase64 // url_de_la_foto
+                        nombre_completo: name, 
+                        matricula_arg: dni,
+                        foto: currentPhotoBase64 // <--- Columna renombrada
                     }
                 ], { onConflict: 'dni' });
 
                 if (error) throw error;
 
-                // 2. Generar QR
+                // 2. GENERAR QR
                 btn.innerHTML = 'GENERANDO QR...';
                 const cleanDni = dni.replace(/\D/g,'');
                 const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
                 var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
                 document.getElementById('qr-img-render').src = qr.toDataURL();
 
-                // 3. Pausa para renderizado
+                // 3. ESPERA TÉCNICA (Para renderizado)
                 await new Promise(r => setTimeout(r, 1000));
 
-                // 4. Descargar
+                // 4. DESCARGAR
                 btn.innerHTML = 'DESCARGANDO...';
                 const canvas = await html2canvas(document.getElementById('carnet-container'), {
                     scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#020405', logging: false
@@ -214,8 +296,7 @@
                 Swal.fire({
                     icon: 'error', 
                     title: 'Error Base de Datos', 
-                    text: 'Detalle: ' + (err.message || err),
-                    footer: 'Verifica las columnas: dni, nombre_completo, matricula_arg, url_de_la_foto'
+                    text: 'Asegúrate de haber renombrado la columna "url_de_la_foto" a "foto" en Supabase. Error: ' + err.message
                 });
             } finally {
                 btn.innerHTML = originalText;
@@ -223,6 +304,7 @@
             }
         }
 
+        // REDIMENSIONAR IMAGEN
         function resizeImage(base64Str, maxWidth) {
             return new Promise((resolve) => {
                 let img = new Image();
@@ -239,6 +321,7 @@
             });
         }
 
+        // CARGAR LOGOS
         async function loadData() {
             try {
                 let { data } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
