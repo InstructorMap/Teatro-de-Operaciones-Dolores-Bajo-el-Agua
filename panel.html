@@ -26,7 +26,7 @@
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* CARNET 10x15 CM (Escala para visualización) */
+        /* CARNET 10x15 CM */
         #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
         
         .carnet-box { 
@@ -41,7 +41,7 @@
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
-            background: linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
+            background: linear-gradient(to bottom, rgba(5,8,10,0.80) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
         }
@@ -54,18 +54,20 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. TÍTULO "DBA" */
+        /* 2. TÍTULO "DBA" (SUBIDO MUCHO MÁS) */
         .c-main-header { 
             position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
             border-bottom: 2px solid var(--hydro-cyan); 
             display: flex; align-items: center; justify-content: center; z-index: 20; 
-            padding-bottom: 10px; /* Seguridad extra */
+            
+            /* CAMBIO CLAVE: Padding bottom aumentado drásticamente para subir el texto */
+            padding-bottom: 40px; 
         }
         .c-logo { 
             font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
             text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            margin-top: 5px; 
+            margin-top: 0; /* Reseteado */
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
@@ -83,52 +85,46 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. NOMBRE (FIX: Anti-Empaste) */
+        /* 3. NOMBRE */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            margin-bottom: 5px;
+            margin-bottom: 15px; 
         }
         .c-name { 
             font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
-            /* Aumentado a 1.5 para separar líneas en la descarga */
-            line-height: 1.5; 
-            /* Letras separadas para que no se peguen */
-            letter-spacing: 2px;
-            /* Tamaño reducido para seguridad */
-            font-size: 1.9rem;
+            line-height: 1.4; 
+            font-size: 1.9rem; 
+            letter-spacing: 2px; 
             color: white; 
-            /* Sombra sólida para evitar manchas */
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.9); 
+            text-shadow: 2px 2px 0px rgba(0,0,0,1); 
             text-align: center;
             word-wrap: break-word;
         }
         
         .c-dni { 
             font-size: 1.6rem; color: #ccc; letter-spacing: 3px; font-weight: 700; 
-            margin-bottom: 35px; text-shadow: 2px 2px 0px black; 
+            margin-bottom: 30px; text-shadow: 2px 2px 0px black; 
         }
         
-        /* 4. CARTEL ASISTENTE (FIX: Alineación Matemática) */
+        /* 4. CARTEL ASISTENTE */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
-            /* Ancho reducido al 58% para alejar del QR */
             width: 58%; height: 70px; 
-            /* Centrado por altura de línea, NO flexbox */
+            line-height: 70px; 
             text-align: center;
-            line-height: 70px;
-            
             font-family: 'Black Ops One'; font-size: 2.4rem; 
             transform: skew(-12deg); 
             box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 3px white; 
             margin-bottom: 10px; 
-            margin-left: auto; margin-right: auto; /* Centrado horizontal del bloque */
+            margin-left: auto; margin-right: auto;
         }
         .c-role-badge span { 
             transform: skew(12deg); 
             display: inline-block; 
-            line-height: normal; /* Reset para el texto interno */
-            vertical-align: middle;
+            line-height: normal; 
+            vertical-align: middle; 
+            margin-top: -3px; 
         }
 
         /* FOOTER */
@@ -147,13 +143,11 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* 5. QR (FIX: Tamaño y Posición) */
+        /* 5. QR */
         .c-qr { 
             position: absolute; 
-            /* Subido a 140px y movido más a la derecha */
-            bottom: 140px; right: 10px;   
+            bottom: 145px; right: 15px;   
             background: white; padding: 5px; border-radius: 4px; 
-            /* Reducido a 88px */
             width: 88px; height: 88px; 
             z-index: 30; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
@@ -287,12 +281,11 @@
                 const decoded = decodeURIComponent(name);
                 document.getElementById('nombre').value = decoded;
                 document.getElementById('nombre-preview').textContent = decoded;
-                // Fit text logic if needed, removed for simplicity as CSS handles it now
             }
             loadDynamicAssets();
         }
 
-        // 2. CARGAR ASSETS (Base64)
+        // 2. CARGA DE ASSETS (Base64)
         async function loadDynamicAssets() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
@@ -308,14 +301,16 @@
                 }
 
                 if(bg) {
-                    document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('${bg}')`;
+                    document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.80) 0%, rgba(5,8,10,0.98) 100%), url('${bg}')`;
                 }
 
                 const headerCont = document.getElementById('header-avales-container');
                 if(avales.length) headerCont.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
-                
+                else headerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN AVALES</span>';
+
                 const footerCont = document.getElementById('footer-sponsors-container');
                 if(sponsors.length) footerCont.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
+                else footerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN SPONSORS</span>';
 
             } catch (err) {
                 console.error("Error cargando assets:", err);
@@ -349,10 +344,9 @@
             btn.disabled = true; btn.textContent = "GUARDANDO...";
 
             try {
-                // Convertir a Base64
                 const photoBase64 = await resize(photoInput.files[0], 400);
-
                 const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
+                
                 await sb.from('alumnos').insert([{
                     dni: dni,
                     nombre_completo: name,
@@ -374,8 +368,7 @@
 
         window.downloadImage = () => {
             const node = document.getElementById('preview-container');
-            // Usamos html2canvas con configuración básica para evitar distorsiones
-            html2canvas(node, { scale: 3, useCORS: true }).then(canvas => {
+            html2canvas(node, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `Credencial_Dolores_${document.getElementById('dni').value}.jpg`;
                 link.href = canvas.toDataURL("image/jpeg", 0.9);
