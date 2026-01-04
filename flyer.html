@@ -38,7 +38,7 @@
             border: 1px solid #333;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* CLAVE: Empuja header arriba y footer abajo */
+            justify-content: space-between;
         }
 
         /* CAPAS DE FONDO */
@@ -46,7 +46,7 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); 
             background-size: cover; background-position: center;
-            opacity: 0.3; /* Oscuro */
+            opacity: 0.25; 
             filter: grayscale(100%) contrast(120%);
             z-index: 1;
         }
@@ -54,31 +54,31 @@
         /* HEADER STRIP (AVALES - DARK MODE) */
         .f-header-strip {
             position: relative; z-index: 20;
-            background: rgba(5, 8, 10, 0.95); /* Fondo casi negro */
+            background: rgba(5, 8, 10, 0.95); 
             width: 100%;
             height: 100px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-bottom: 3px solid var(--hydro-cyan); /* Línea de contraste */
+            border-bottom: 2px solid var(--hydro-cyan);
             padding: 5px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         /* FOOTER STRIP (SPONSORS - DARK MODE) */
         .f-footer-strip {
             position: relative; z-index: 20;
-            background: rgba(5, 8, 10, 0.95); /* Fondo casi negro */
+            background: rgba(5, 8, 10, 0.95); 
             width: 100%;
             height: 110px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-top: 3px solid var(--rescue-orange); /* Línea de contraste */
+            border-top: 2px solid var(--rescue-orange);
             padding: 5px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
         /* CUERPO CENTRAL */
@@ -100,7 +100,7 @@
 
         /* FECHA DESTACADA */
         .f-date-box { 
-            background: rgba(0,0,0,0.8); 
+            background: rgba(0,0,0,0.7); 
             border-left: 4px solid var(--rescue-orange); 
             padding: 10px 30px; 
             margin-bottom: 35px; 
@@ -110,7 +110,7 @@
         .f-date { font-size: 2.4rem; font-weight: 900; color: white; line-height: 1; }
         .f-loc { color: #ccc; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
 
-        /* QR AREA (CORREGIDO: Marco Fino) */
+        /* QR AREA (CORREGIDO: VUELTA AL <img>) */
         .f-qr-box { 
             background: white; 
             padding: 5px; /* MARCO FINO */
@@ -118,8 +118,8 @@
             box-shadow: 0 0 50px rgba(0, 229, 255, 0.25); 
             display: inline-block;
         }
-        /* IMAGEN DEL QR (CLAVE PARA LA DESCARGA) */
-        .qr-img-display { width: 180px; height: 180px; display: block; }
+        /* IMPORTANTE: ESTO ES UNA IMAGEN, NO UN CANVAS */
+        .qr-img { width: 180px; height: 180px; display: block; object-fit: contain; }
         
         .f-cta { color: white; font-size: 0.85rem; margin-top: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; }
 
@@ -132,7 +132,6 @@
         
         .logo-img { 
             height: 50px; object-fit: contain; 
-            /* Fondo sutil para resaltar logo oscuro sobre fondo oscuro */
             background: rgba(255, 255, 255, 0.1); 
             border-radius: 4px; padding: 5px;
         } 
@@ -153,8 +152,7 @@
         
         <div class="f-header-strip">
             <span class="strip-title">ORGANIZA & AVALA</span>
-            <div class="logos-row" id="avales-container">
-                </div>
+            <div class="logos-row" id="avales-container"></div>
         </div>
 
         <div class="f-body">
@@ -170,7 +168,7 @@
 
             <div>
                 <div class="f-qr-box">
-                    <img id="qr-target" class="qr-img-display" alt="QR">
+                    <img id="qr-target" class="qr-img" alt="QR Code">
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
@@ -178,31 +176,30 @@
 
         <div class="f-footer-strip">
             <span class="strip-title">NOS ACOMPAÑAN</span>
-            <div class="logos-row" id="sponsors-container">
-                </div>
+            <div class="logos-row" id="sponsors-container"></div>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN
         const WEB_URL = "https://teatro-de-operaciones-dolores-bajo.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            generateImgQR(); // Usamos método de IMAGEN, no canvas directo
+            generateImgQR(); // Lógica de IMAGEN
             loadData();
         });
 
-        // SOLUCIÓN TÉCNICA: GENERAR BASE64 E INYECTAR EN IMG
+        // --- LÓGICA QUE SI FUNCIONA (v5.0) ---
         function generateImgQR() {
+            // Creamos el QR en memoria
             var qr = new QRious({
                 value: WEB_URL,
-                size: 500, // Alta calidad interna
+                size: 500,
                 level: 'H'
             });
-            // Esto convierte el dibujo en una imagen real entendible por el descargador
+            // Inyectamos el resultado como SRC de la imagen
             document.getElementById('qr-target').src = qr.toDataURL();
         }
 
@@ -213,7 +210,6 @@
                     const DB = data.datos;
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
-                    // Renderizar logos
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, 'logo-img');
                 }
@@ -240,9 +236,12 @@
             html2canvas(node, {
                 scale: 3, 
                 useCORS: true, 
-                allowTaint: true, // Permitir taint por si acaso, pero con CORS activo
+                allowTaint: false,
                 backgroundColor: '#020405',
-                logging: false
+                logging: false,
+                onclone: (doc) => {
+                    doc.getElementById('flyer-container').style.height = '800px'; 
+                }
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
