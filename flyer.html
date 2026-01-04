@@ -13,7 +13,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -51,7 +50,7 @@
             z-index: 1;
         }
         
-        /* HEADER (AVALES) */
+        /* HEADER */
         .f-header-strip {
             position: relative; z-index: 20;
             background: rgba(5, 8, 10, 0.96); 
@@ -65,7 +64,7 @@
             padding: 10px;
         }
 
-        /* FOOTER (SPONSORS) */
+        /* FOOTER */
         .f-footer-strip {
             position: relative; z-index: 20;
             background: rgba(5, 8, 10, 0.96); 
@@ -89,10 +88,10 @@
             align-items: center;
             padding: 10px 20px;
             text-align: center;
-            gap: 20px; 
+            gap: 25px; 
         }
 
-        /* --- CORRECCIÓN DE TEXTOS SUPERPUESTOS --- */
+        /* TÍTULOS */
         .f-title-main { 
             font-family: 'Black Ops One'; 
             font-size: 3rem;
@@ -106,10 +105,10 @@
             font-family: 'Black Ops One';
             color: var(--rescue-orange); 
             font-size: 2.2rem;
-            line-height: 1.1; /* Un poco más de aire */
+            line-height: 1.1; 
             text-transform: uppercase;
             margin-top: 5px;
-            margin-bottom: 5px; /* Separación extra abajo */
+            margin-bottom: 5px; 
         }
         .f-subtitle-badge { 
             color: var(--hydro-cyan); 
@@ -122,7 +121,7 @@
             padding: 5px 15px;
             border-radius: 4px;
             display: inline-block;
-            margin-top: 15px; /* AUMENTADO: Separación crítica para evitar superposición */
+            margin-top: 15px; 
         }
 
         /* FECHA */
@@ -138,27 +137,59 @@
         .f-date { font-size: 2.2rem; font-weight: 900; color: white; line-height: 1; }
         .f-loc { color: #ccc; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; font-weight: 700; }
 
-        /* QR AREA */
-        .f-qr-wrapper {
-            background: white;
-            padding: 6px; 
-            border-radius: 8px;
-            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
-            display: inline-block;
-            margin-bottom: 5px;
+        /* --- NUEVO BOTÓN VISUAL (REEMPLAZO DEL QR) --- */
+        .f-action-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none; /* Quitar subrayado del link */
+            transition: transform 0.2s;
         }
-        /* IMAGEN REAL */
-        #qr-image-render { 
-            width: 160px; height: 160px; 
-            display: block; 
-            object-fit: contain;
+        .f-action-wrapper:hover { transform: scale(1.05); }
+
+        .f-icon-circle {
+            width: 140px; height: 140px;
+            border: 4px solid white;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.4), inset 0 0 20px rgba(0, 229, 255, 0.2);
+            background: rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+            position: relative;
         }
         
-        .f-cta { 
-            color: white; font-size: 0.75rem; margin-top: 10px; 
-            font-weight: 800; text-transform: uppercase; letter-spacing: 2px; 
-            opacity: 0.8; 
+        /* Efecto de radar giratorio sutil */
+        .f-icon-circle::after {
+            content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border-top: 4px solid var(--hydro-cyan);
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid var(--hydro-cyan);
+            border-left: 4px solid transparent;
+            animation: spinTarget 4s linear infinite;
         }
+
+        .f-big-icon {
+            font-size: 4rem; color: white;
+            text-shadow: 0 0 20px var(--hydro-cyan);
+        }
+
+        .f-cta-btn {
+            background: var(--rescue-orange);
+            color: white;
+            font-family: 'Exo 2';
+            font-weight: 900;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.5);
+        }
+
+        @keyframes spinTarget { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* LOGOS */
         .strip-title { 
@@ -207,12 +238,13 @@
                 </div>
             </div>
 
-            <div>
-                <div class="f-qr-wrapper">
-                    <img id="qr-image-render" alt="QR Code">
+            <a href="https://teatro-de-operaciones-dolores-bajo.vercel.app/" class="f-action-wrapper">
+                <div class="f-icon-circle">
+                    <i class="fas fa-crosshairs f-big-icon"></i>
                 </div>
-                <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
-            </div>
+                <div class="f-cta-btn">INGRESAR</div>
+            </a>
+            
         </div>
 
         <div class="f-footer-strip">
@@ -222,25 +254,13 @@
     </div>
 
     <script>
-        const WEB_URL = "https://teatro-de-operaciones-dolores-bajo.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            createQRImage(); 
             loadData();
         });
-
-        // GENERAR QR
-        function createQRImage() {
-            var qr = new QRious({
-                value: WEB_URL,
-                size: 500,
-                level: 'H'
-            });
-            document.getElementById('qr-image-render').src = qr.toDataURL();
-        }
 
         async function loadData() {
             try {
@@ -267,14 +287,12 @@
         function downloadFlyer() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
-            // Mensaje claro de espera
-            btn.innerHTML = '<i class="fas fa-clock"></i> ESPERE UN MOMENTO...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> PROCESANDO...';
             btn.disabled = true;
 
             const node = document.getElementById('flyer-container');
             
-            // CORRECCIÓN CRÍTICA: 2.5 SEGUNDOS DE ESPERA
-            // Esto asegura que el QR se haya renderizado completamente antes de capturar
+            // Pausa breve para asegurar estilos
             setTimeout(() => {
                 html2canvas(node, {
                     scale: 3, 
@@ -297,7 +315,7 @@
                     btn.innerHTML = 'REINTENTAR';
                     btn.disabled = false;
                 });
-            }, 2500); // 2500ms = 2.5 Segundos (Tiempo suficiente para el QR)
+            }, 500); 
         }
     </script>
 </body>
