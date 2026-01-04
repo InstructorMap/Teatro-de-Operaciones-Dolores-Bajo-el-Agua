@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flyer Oficial - DBA 2026</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root { 
+            --bg-deep: #020405; 
+            --hydro-cyan: #00e5ff; 
+            --rescue-orange: #ff4500; 
+        }
+        body { background-color: #111; font-family: 'Exo 2', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+        /* CONTENEDOR DEL FLYER (Formato Historia de Instagram 9:16) */
+        #flyer-container {
+            width: 450px; 
+            height: 800px;
+            background: #020405;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.2);
+            border: 1px solid #333;
+        }
+
+        /* CAPAS DE FONDO */
+        .flyer-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('inundacion2.jpg'); /* Tu imagen de fondo */
+            background-size: cover; background-position: center;
+            opacity: 0.4; filter: grayscale(100%) contrast(120%);
+            z-index: 1;
+        }
+        .flyer-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, 
+                rgba(2,4,5,0.9) 0%, 
+                rgba(2,4,5,0.4) 40%, 
+                rgba(2,4,5,0.95) 85%, 
+                #020405 100%);
+            z-index: 2;
+        }
+
+        /* CONTENIDO */
+        .flyer-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 40px 20px; }
+
+        /* HEADER */
+        .f-title { font-family: 'Black Ops One'; font-size: 4rem; color: white; line-height: 0.9; text-shadow: 0 0 20px rgba(0, 229, 255, 0.6); margin-bottom: 5px; }
+        .f-title span { color: var(--rescue-orange); }
+        .f-subtitle { color: var(--hydro-cyan); font-size: 1rem; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 30px; }
+
+        /* INFO CENTRAL */
+        .f-info-box { border-left: 4px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.1); padding: 15px; margin: 20px 0; text-align: left; backdrop-filter: blur(5px); }
+        .f-date { font-size: 2rem; font-weight: 900; color: white; line-height: 1; }
+        .f-location { color: #ccc; font-size: 1rem; text-transform: uppercase; margin-top: 5px; }
+        .f-location i { color: var(--hydro-cyan); margin-right: 5px; }
+
+        /* QR AREA */
+        .f-qr-box { background: white; padding: 10px; display: inline-block; border-radius: 10px; margin: 20px auto; box-shadow: 0 0 30px rgba(0, 229, 255, 0.3); }
+        .f-cta { color: white; font-size: 0.9rem; margin-top: 10px; font-weight: bold; letter-spacing: 1px; animation: pulse 2s infinite; }
+
+        /* BANNER DE SPONSORS (Footer) */
+        .f-footer { margin-top: auto; border-top: 1px solid #333; padding-top: 20px; }
+        .f-section-title { font-size: 0.7rem; color: #666; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; display: block; }
+        
+        .logos-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
+        .logo-img { height: 40px; object-fit: contain; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; }
+        
+        /* Efecto al generar imagen: quitamos filtros para que se vean a color real si se desea, o mantenemos estética */
+        .logo-aval { height: 50px; filter: none; opacity: 1; } /* Avales a color */
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div style="position:fixed; top:20px; right:20px; z-index:100; display:flex; gap:10px;">
+        <button onclick="downloadFlyer()" class="bg-blue-600 text-white px-6 py-3 rounded font-bold hover:bg-blue-500 shadow-lg"><i class="fas fa-download"></i> DESCARGAR IMAGEN</button>
+    </div>
+
+    <div id="flyer-container">
+        <div class="flyer-bg" id="dynamic-bg-layer"></div>
+        <div class="flyer-overlay"></div>
+
+        <div class="flyer-content">
+            <div style="margin-top: 40px;">
+                <div class="f-title">DBA <span>2026</span></div>
+                <div class="f-subtitle">Congreso Hidro-Táctico</div>
+                
+                <div class="f-info-box">
+                    <div class="f-date">27-28 FEB</div>
+                    <div class="f-location"><i class="fas fa-map-marker-alt"></i> DOLORES, BS. AS.</div>
+                </div>
+            </div>
+
+            <div>
+                <div class="f-qr-box">
+                    <canvas id="qr-web"></canvas>
+                </div>
+                <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
+            </div>
+
+            <div class="f-footer">
+                <span class="f-section-title" style="color:var(--hydro-cyan);">ORGANIZA & AVALA</span>
+                <div class="logos-row" id="avales-container">
+                    </div>
+
+                <span class="f-section-title">NOS ACOMPAÑAN</span>
+                <div class="logos-row" id="sponsors-container">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN
+        const WEB_URL = "https://dba2026.com"; // Tu dominio real (o el de GitHub)
+        const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
+        const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
+        const sb = supabase.createClient(SB_URL, SB_KEY);
+
+        // 1. INICIALIZAR
+        document.addEventListener('DOMContentLoaded', () => {
+            // Generar QR que apunte a la web principal
+            new QRious({
+                element: document.getElementById('qr-web'),
+                value: WEB_URL,
+                size: 150,
+                level: 'H' // Alto nivel de corrección de errores
+            });
+
+            loadData();
+        });
+
+        // 2. CARGAR DATOS DE LA NUBE
+        async function loadData() {
+            try {
+                let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
+                if (data && data.datos) {
+                    const DB = data.datos;
+
+                    // Fondo
+                    if(DB.config.bg) {
+                        document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
+                    }
+
+                    // Avales (Logos grandes y a color)
+                    const avalesDiv = document.getElementById('avales-container');
+                    if(DB.avales && DB.avales.length > 0) {
+                        avalesDiv.innerHTML = DB.avales.map(a => `<img src="${a.img}" class="logo-img logo-aval">`).join('');
+                    } else {
+                        avalesDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">Cargando alianzas...</span>';
+                    }
+
+                    // Sponsors (Logos más chicos y monocromáticos/elegantes)
+                    const sponsorsDiv = document.getElementById('sponsors-container');
+                    if(DB.sponsors && DB.sponsors.length > 0) {
+                        sponsorsDiv.innerHTML = DB.sponsors.map(s => `<img src="${s.img}" class="logo-img">`).join('');
+                    } else {
+                        sponsorsDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">Espacio Disponible</span>';
+                    }
+                }
+            } catch (err) {
+                console.error("Error cargando flyer data:", err);
+            }
+        }
+
+        // 3. DESCARGAR IMAGEN (HTML2CANVAS OPTIMIZADO)
+        function downloadFlyer() {
+            const node = document.getElementById('flyer-container');
+            
+            html2canvas(node, {
+                scale: 3, // Alta resolución para impresión o zoom
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Flyer_DBA2026_Oficial.jpg';
+                link.href = canvas.toDataURL("image/jpeg", 0.95);
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
