@@ -38,15 +38,15 @@
             border: 1px solid #333;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-between; /* CLAVE: Empuja header arriba y footer abajo */
         }
 
-        /* CAPAS DE FONDO (Más oscuras) */
+        /* CAPAS DE FONDO */
         .flyer-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); 
             background-size: cover; background-position: center;
-            opacity: 0.25; /* Reducido para más oscuridad */
+            opacity: 0.3; /* Oscuro */
             filter: grayscale(100%) contrast(120%);
             z-index: 1;
         }
@@ -54,34 +54,31 @@
         /* HEADER STRIP (AVALES - DARK MODE) */
         .f-header-strip {
             position: relative; z-index: 20;
-            /* Fondo oscuro semi-transparente en lugar de blanco */
-            background: rgba(5, 8, 10, 0.9); 
+            background: rgba(5, 8, 10, 0.95); /* Fondo casi negro */
             width: 100%;
             height: 100px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Línea de contraste Cyan */
-            border-bottom: 2px solid var(--hydro-cyan);
+            border-bottom: 3px solid var(--hydro-cyan); /* Línea de contraste */
             padding: 5px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         /* FOOTER STRIP (SPONSORS - DARK MODE) */
         .f-footer-strip {
             position: relative; z-index: 20;
-            background: rgba(5, 8, 10, 0.9); 
+            background: rgba(5, 8, 10, 0.95); /* Fondo casi negro */
             width: 100%;
             height: 110px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Línea de contraste Naranja */
-            border-top: 2px solid var(--rescue-orange);
+            border-top: 3px solid var(--rescue-orange); /* Línea de contraste */
             padding: 5px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
         }
 
         /* CUERPO CENTRAL */
@@ -103,7 +100,7 @@
 
         /* FECHA DESTACADA */
         .f-date-box { 
-            background: rgba(0,0,0,0.7); /* Más oscuro */
+            background: rgba(0,0,0,0.8); 
             border-left: 4px solid var(--rescue-orange); 
             padding: 10px 30px; 
             margin-bottom: 35px; 
@@ -116,13 +113,13 @@
         /* QR AREA (CORREGIDO: Marco Fino) */
         .f-qr-box { 
             background: white; 
-            padding: 6px; /* Relleno reducido (antes 10-12px) */
+            padding: 5px; /* MARCO FINO */
             border-radius: 8px; 
             box-shadow: 0 0 50px rgba(0, 229, 255, 0.25); 
             display: inline-block;
         }
-        /* El canvas ajustado al tamaño */
-        #qr-canvas { width: 180px; height: 180px; display: block; }
+        /* IMAGEN DEL QR (CLAVE PARA LA DESCARGA) */
+        .qr-img-display { width: 180px; height: 180px; display: block; }
         
         .f-cta { color: white; font-size: 0.85rem; margin-top: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; }
 
@@ -173,7 +170,7 @@
 
             <div>
                 <div class="f-qr-box">
-                    <canvas id="qr-canvas"></canvas>
+                    <img id="qr-target" class="qr-img-display" alt="QR">
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
@@ -194,18 +191,19 @@
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            drawCanvasQR();
+            generateImgQR(); // Usamos método de IMAGEN, no canvas directo
             loadData();
         });
 
-        // GENERAR QR (CANVAS NATIVO)
-        function drawCanvasQR() {
+        // SOLUCIÓN TÉCNICA: GENERAR BASE64 E INYECTAR EN IMG
+        function generateImgQR() {
             var qr = new QRious({
-                element: document.getElementById('qr-canvas'),
                 value: WEB_URL,
-                size: 300,
+                size: 500, // Alta calidad interna
                 level: 'H'
             });
+            // Esto convierte el dibujo en una imagen real entendible por el descargador
+            document.getElementById('qr-target').src = qr.toDataURL();
         }
 
         async function loadData() {
@@ -215,6 +213,7 @@
                     const DB = data.datos;
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
+                    // Renderizar logos
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, 'logo-img');
                 }
@@ -224,7 +223,6 @@
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
-                // crossOrigin para evitar problemas de descarga
                 div.innerHTML = list.map(item => `<img src="${item.img}" class="${extraClass}" crossorigin="anonymous">`).join('');
             } else {
                 div.innerHTML = '<span style="color:#555; font-size:0.6rem; letter-spacing:2px;">ESPACIO DISPONIBLE</span>';
@@ -242,12 +240,9 @@
             html2canvas(node, {
                 scale: 3, 
                 useCORS: true, 
-                allowTaint: false,
+                allowTaint: true, // Permitir taint por si acaso, pero con CORS activo
                 backgroundColor: '#020405',
-                logging: false,
-                onclone: (doc) => {
-                    doc.getElementById('flyer-container').style.height = '800px'; 
-                }
+                logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
