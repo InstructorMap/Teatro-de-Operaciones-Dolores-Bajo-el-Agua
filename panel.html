@@ -20,13 +20,13 @@
         }
         body { font-family: 'Roboto', sans-serif; background: #020405; color: white; }
 
-        /* --- LOGIN SCREEN --- */
+        /* LOGIN */
         #access-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020405; z-index: 9999; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%); }
         .login-card { background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); }
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
-        /* --- CREDENCIAL DIGITAL (10x15 CM) --- */
+        /* CARNET 10x15 CM (Escala ajustada para visualizar) */
         #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
         
         .carnet-box { 
@@ -37,11 +37,11 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* 1. FONDO (Base64 leído de DB) */
+        /* 1. FONDO OSCURO (Base64) */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
-            /* Gradiente al 98% negro abajo para máximo contraste */
+            /* Gradiente oscuro para contraste perfecto */
             background: linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
             background-size: cover; 
             background-position: center;
@@ -55,7 +55,7 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. TÍTULO DBA (Ajuste Vertical) */
+        /* 2. TÍTULO CENTRADO */
         .c-main-header { 
             position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
@@ -65,11 +65,11 @@
         .c-logo { 
             font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
             text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            margin-top: 5px; /* Centrado óptico */
+            margin-top: 5px; 
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
-        /* CUERPO */
+        /* CUERPO CENTRAL */
         .c-body { 
             position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
             display: flex; flex-direction: column; align-items: center;
@@ -83,7 +83,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. NOMBRE (Separación de líneas) */
+        /* 3. NOMBRE (Interlineado ok) */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -91,7 +91,7 @@
         }
         .c-name { 
             font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
-            line-height: 1.35; /* Vital para que no se peguen */
+            line-height: 1.35; 
             font-size: 2rem;
             color: white; text-shadow: 0 4px 4px rgba(0,0,0,0.9); 
             text-align: center;
@@ -103,10 +103,10 @@
             margin-bottom: 35px; text-shadow: 0 2px 4px black; 
         }
         
-        /* 4. CARTEL ASISTENTE (Alineado) */
+        /* 4. CARTEL ASISTENTE (Reducido) */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
-            width: 65%; height: 70px; /* Ancho reducido para no tocar QR */
+            width: 65%; height: 70px; 
             display: flex; justify-content: center; align-items: center;
             font-family: 'Black Ops One'; font-size: 2.4rem; 
             transform: skew(-12deg); 
@@ -243,9 +243,9 @@
             const code = document.getElementById('loginCode').value;
             if (isValidCode(dni, code)) {
                 try {
-                    // Verificar si ya tiene credencial
+                    // Check duplicado
                     const { data } = await sb.from('alumnos').select('*').eq('dni', dni);
-                    if(data && data.length > 0) return alert("⚠️ CREDENCIAL YA GENERADA. Contacte a soporte si es un error.");
+                    if(data && data.length > 0) return alert("⚠️ CREDENCIAL YA GENERADA.");
                     grantAccess(dni, null);
                 } catch(err) { console.error(err); alert("Error conexión DB"); }
             } else {
@@ -284,7 +284,7 @@
             }
         }
 
-        // 2. CARGAR IMÁGENES DE DB (Base64)
+        // 2. CARGAR IMÁGENES (Lógica Base64)
         async function loadDynamicAssets() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
@@ -299,24 +299,24 @@
                     sponsors = data.datos.sponsors || [];
                 }
 
+                // Carga de Fondo
                 if(bg) {
                     document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.85) 0%, rgba(5,8,10,0.98) 100%), url('${bg}')`;
                 }
 
+                // Carga de Logos
                 const headerCont = document.getElementById('header-avales-container');
                 if(avales.length) headerCont.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
-                else headerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN AVALES</span>';
-
+                
                 const footerCont = document.getElementById('footer-sponsors-container');
                 if(sponsors.length) footerCont.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
-                else footerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN SPONSORS</span>';
 
             } catch (err) {
                 console.error("Error cargando assets:", err);
             }
         }
 
-        // 3. COMPRIMIR SELFIE DEL ALUMNO A BASE64
+        // 3. COMPRESOR SELFIE (Base64)
         const resize = (file, w=400) => new Promise(res => {
             const r = new FileReader();
             r.onload = e => { const i = new Image(); i.onload = () => { const c = document.createElement('canvas'); const rat = w/i.width; c.width = w; c.height = i.height*rat; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/jpeg', 0.5)); }; i.src = e.target.result; }; r.readAsDataURL(file);
@@ -343,12 +343,12 @@
             btn.disabled = true; btn.textContent = "GUARDANDO...";
 
             try {
-                // Convertir la selfie a texto Base64
+                // Convertir Selfie a Base64
                 const photoBase64 = await resize(photoInput.files[0], 400);
 
                 const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
                 
-                // Insertar en Supabase (campo foto_url ahora guarda el texto largo)
+                // Insertar en la tabla alumnos
                 await sb.from('alumnos').insert([{
                     dni: dni,
                     nombre_completo: name,
@@ -363,7 +363,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert("Error al guardar. Revisa la conexión.");
+                alert("Error al guardar credencial.");
                 btn.disabled = false; btn.textContent = "REINTENTAR";
             }
         };
