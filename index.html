@@ -210,27 +210,27 @@
                 <div class="tier-badge bg-urgency">¡ÚLTIMO LUGAR!</div>
                 <div class="tier-name" style="color:var(--titanium)">TITANIO</div>
                 <div class="tier-price">$1.000.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Stand Físico Exclusivo (Principal)</li><li>Logo GIGANTE en Kit Oficial</li><li>Mención Exclusiva en Videos</li><li>10 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Stand Físico Exclusivo (Principal)</li><li>Logo GIGANTE en Remera Oficial</li><li>Mención Exclusiva en Videos</li><li>20 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('TITANIO')" class="btn-hydro" style="width:100%; border-color:var(--titanium); color:var(--titanium);">SOLICITAR AHORA</button>
             </div>
             <div class="tier-card tier-platino">
                 <div class="tier-badge">SOLO 3 CUPOS</div>
                 <div class="tier-name" style="color:#e5e4e2">PLATINO</div>
                 <div class="tier-price">$750.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Banner en Zona de Estaciones</li><li>Logo Destacado en Kit Oficial</li><li>Presencia en Redes (5 Posts)</li><li>7 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Banner en Zona de Estaciones</li><li>Logo Destacado en Remera</li><li>Presencia en Redes (5 Posts)</li><li>10 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('PLATINO')" class="btn-hydro" style="width:100%; border-color:#e5e4e2; color:#e5e4e2;">CONSULTAR</button>
             </div>
             <div class="tier-card tier-oro">
                 <div class="tier-badge">5 CUPOS</div>
                 <div class="tier-name" style="color:var(--gold)">ORO</div>
                 <div class="tier-price">$500.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Logo en Web y Mailing</li><li>Folletería en Kit</li><li>Mención en Redes</li><li>4 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Logo en Web y Mailing</li><li>Folletería en Kit</li><li>Mención en Redes</li><li>5 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('ORO')" class="btn-hydro" style="width:100%; border-color:var(--gold); color:var(--gold);">CONSULTAR</button>
             </div>
             <div class="tier-card tier-plata">
                 <div class="tier-name" style="color:var(--silver)">PLATA</div>
                 <div class="tier-price">$100.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Presencia Digital Web</li><li>Mención en Agradecimientos</li><li>1 Pase de Cortesía</li></ul>
+                <ul class="tier-list"><li>Presencia Digital Web</li><li>Mención en Agradecimientos</li><li>2 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('PLATA')" class="btn-hydro" style="width:100%; border-color:var(--silver); color:var(--silver);">CONSULTAR</button>
             </div>
         </div>
@@ -254,7 +254,7 @@
     </section>
 
     <div id="mapa">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3237.962454170313!2d-57.6791!3d-36.3135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959c1b3c3b3b3b3b%3A0x1234567890abcdef!2sCalle%20Solis%20139%2C%20Dolores!5e0!3m2!1ses!2sar!4v1625581234567" class="map-container" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3228.0932336335345!2d-57.6775!3d-36.3135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzYswrAxOCw0OC42IlMgNTfCsDQwLDM5LjAiVw!5e0!3m2!1ses!2sar!4v1600000000000!5m2!1ses!2sar" class="map-container" allowfullscreen="" loading="lazy"></iframe>
         <div style="background:black; padding:20px; text-align:center;">
             <p style="color:var(--hydro-cyan); letter-spacing:2px; font-weight:bold;">ZONA DE OPERACIONES: CALLE SOLÍS 139, DOLORES</p>
         </div>
@@ -283,7 +283,7 @@
 
     <div class="modal-overlay" id="paymentModal">
         <div class="modal-content">
-            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">&times;</span>
+            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
             <h3 style="color:white; font-size:1.5rem; margin-bottom:5px;">ELIGE TU PASE</h3>
             <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Asegura tu lugar hoy mismo.</p>
             
@@ -324,10 +324,24 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span onclick="document.getElementById('adminLoginModal').style.display='none'" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
+            <h3 style="color:var(--rescue-orange); margin-bottom:20px;">ACCESO COMANDO</h3>
+            <input type="email" id="adminEmail" class="input-dark" placeholder="Correo Oficial">
+            <input type="password" id="adminPass" class="input-dark" placeholder="Clave de Acceso">
+            <button onclick="loginSupabase()" class="btn" style="width:100%; margin-top:15px;">INICIAR SESIÓN</button>
+            <p id="loginError" style="color:red; font-size:0.8rem; margin-top:10px; display:none;"></p>
+        </div>
+    </div>
+
     <div id="adminPanel">
         <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:10px;">
             <h3>PANEL DE CONTROL</h3>
-            <button onclick="toggleAdmin()" style="color:red; background:none; border:none; cursor:pointer;">CERRAR</button>
+            <div style="display:flex; gap:15px;">
+                <button onclick="logoutAdmin()" style="color:#aaa; background:none; border:none; cursor:pointer; font-size:0.8rem;">LOGOUT</button>
+                <button onclick="document.getElementById('adminPanel').style.display='none'" style="color:red; background:none; border:none; cursor:pointer;">CERRAR</button>
+            </div>
         </div>
         <div class="admin-nav">
             <button class="tab-btn active" onclick="showTab('tabKeys')">CLAVES</button>
@@ -410,7 +424,7 @@
     <script>
         const WHATSAPP_NUMBER = "5492213642475"; 
         
-        // SUPABASE REAL
+        // CONEXIÓN SUPABASE
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
@@ -429,7 +443,7 @@
         document.addEventListener('DOMContentLoaded', () => { loadFromCloud(); startCountdown(); });
 
         function startCountdown() {
-            // FECHA CORREGIDA: 27 FEBRERO 2026
+            // FECHA: 27 FEB 2026
             const targetDate = new Date("February 27, 2026 09:00:00").getTime();
             setInterval(() => {
                 const now = new Date().getTime();
@@ -447,20 +461,22 @@
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if (!error && data) DB = { ...DB, ...data.datos };
                 
-                // Si no hay estaciones en DB, usar defaults
+                // Si no hay estaciones, usar default
                 if(!DB.stations || !DB.stations.length) DB.stations = DEFAULT_STATIONS;
                 
+                // Cargar Inputs Admin
                 document.getElementById('linkMP').value = DB.config.mp || "";
                 document.getElementById('linkGO').value = DB.config.go || "";
                 document.getElementById('soldSlots').value = DB.config.sold || 0;
                 
+                // Cargar Fondo
                 if(DB.config.bg) {
                     document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
                 }
                 
                 renderAll();
                 
-                // Ocultar pantalla de carga
+                // Quitar Loading Screen
                 setTimeout(() => {
                     const screen = document.getElementById('loading-screen');
                     screen.style.opacity = '0';
@@ -472,16 +488,64 @@
 
         async function saveToCloud() {
             const btn = event.target; const txt = btn.textContent; btn.textContent="Guardando..."; btn.disabled=true;
-            try { await sb.from('sitio_config').upsert({ id: 1, datos: DB }); alert("✅ Sincronizado en Nube"); } 
-            catch (e) { alert("Error al guardar: " + e.message); }
+            try { await sb.from('sitio_config').upsert({ id: 1, datos: DB }); alert("✅ Sincronizado"); } 
+            catch (e) { alert("Error al guardar. ¿Iniciaste sesión?"); }
             finally { btn.textContent=txt; btn.disabled=false; checkSlots(); }
         }
 
+        // --- AUTH & LOGIN SYSTEM ---
+        async function toggleAdmin() {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) {
+                const p = document.getElementById('adminPanel');
+                p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+            } else {
+                document.getElementById('adminLoginModal').style.display = 'flex';
+            }
+        }
+
+        async function loginSupabase() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPass').value;
+            const errorText = document.getElementById('loginError');
+            const btn = event.target;
+
+            btn.disabled = true; btn.textContent = "VERIFICANDO...";
+            errorText.style.display = 'none';
+
+            try {
+                const { data, error } = await sb.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+
+                document.getElementById('adminLoginModal').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                alert("BIENVENIDO COMANDANTE");
+                
+                document.getElementById('adminEmail').value = '';
+                document.getElementById('adminPass').value = '';
+
+            } catch (err) {
+                console.error(err);
+                errorText.textContent = "ERROR: " + err.message;
+                errorText.style.display = 'block';
+            } finally {
+                btn.disabled = false; btn.textContent = "INICIAR SESIÓN";
+            }
+        }
+
+        function logoutAdmin() {
+            sb.auth.signOut();
+            document.getElementById('adminPanel').style.display = 'none';
+            alert("SESIÓN CERRADA");
+        }
+
+        // COMPRESOR
         const resize = (file, w=400) => new Promise(res => {
             const r = new FileReader();
             r.onload = e => { const i = new Image(); i.onload = () => { const c = document.createElement('canvas'); const rat = w/i.width; c.width = w; c.height = i.height*rat; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/jpeg', 0.5)); }; i.src = e.target.result; }; r.readAsDataURL(file);
         });
 
+        // GENERADOR DE CLAVES
         function generateUniqueKey() {
             const dni = document.getElementById('keyDNI').value.trim();
             if(!dni || dni.length < 6) return alert("DNI inválido");
@@ -490,8 +554,9 @@
             document.getElementById('finalKey').innerText = code;
             document.getElementById('keyResult').style.display = 'block';
         }
-        function copyKey() { navigator.clipboard.writeText(document.getElementById('finalKey').innerText); document.getElementById('copyMsg').style.display='block'; setTimeout(()=>document.getElementById('copyMsg').style.display='none',2000); }
+        function copyKey() { navigator.clipboard.writeText(document.getElementById('finalKey').innerText); }
 
+        // FUNCIONES ADMIN
         async function saveConfig() {
             DB.config.mp = document.getElementById('linkMP').value;
             DB.config.go = document.getElementById('linkGO').value;
@@ -524,8 +589,6 @@
             DB.instructores.push({name, role, img: await resize(f,250)});
             renderAll(); await saveToCloud();
         }
-        
-        // FUNCIONES RESTAURADAS
         async function addGalleryPhoto() {
             const f = document.getElementById('galFile').files[0];
             if(!f) return alert("Falta foto");
@@ -558,6 +621,7 @@
             renderAll(); saveToCloud();
         }
 
+        // RENDERIZADO
         function renderAll() {
             document.getElementById('publicAvales').innerHTML = DB.avales.map(i => `<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('') || '<p style="color:#444">Avales</p>';
             document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, 'avales', x)).join('');
@@ -588,6 +652,7 @@
             if(remaining <= 0) document.getElementById('goCuotasContainer').style.display = 'none';
         }
 
+        // PAGO
         function contactSponsor(tier) { window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa ser sponsor nivel '+tier)}`, '_blank'); }
         function openModal() { document.getElementById('paymentModal').style.display='flex'; }
         function closeModal() { document.getElementById('paymentModal').style.display='none'; }
