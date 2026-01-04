@@ -41,11 +41,11 @@
         .c-name { font-size: 1.2rem; font-weight: bold; text-transform: uppercase; line-height: 1.1; }
         .c-dni { color: #aaa; font-size: 0.9rem; margin-top: 2px; }
         .c-qr-frame { background: white; padding: 5px; border-radius: 4px; display: inline-block; }
-        #qr-img-render { width: 80px; height: 80px; display: block; }
+        #qr-img-render { width: 80px; height: 80px; display: block; object-fit: contain; }
         
-        /* ESTILO INPUTS BLOQUEADOS */
+        /* INPUTS BLOQUEADOS */
         .input-tactical { background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 10px; width: 100%; border-radius: 4px; margin-bottom: 10px; }
-        .input-locked { opacity: 0.5; cursor: not-allowed; border-color: #444; background: #111; color: #888; font-weight: bold; }
+        .input-locked { opacity: 0.6; cursor: not-allowed; border-color: #444; background: #111; color: #aaa; font-weight: bold; }
     </style>
 </head>
 <body class="flex flex-col md:flex-row h-screen overflow-hidden">
@@ -56,18 +56,18 @@
         
         <div class="space-y-4">
             <div>
-                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> Nombre Completo (Verificado)</label>
-                <input type="text" id="inp-name" class="input-tactical input-locked" placeholder="ESPERANDO DATOS..." readonly>
+                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> Nombre Completo</label>
+                <input type="text" id="inp-name" class="input-tactical input-locked" placeholder="CARGANDO..." readonly>
             </div>
             
             <div>
-                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> DNI / ID (Verificado)</label>
-                <input type="text" id="inp-dni" class="input-tactical input-locked" placeholder="ESPERANDO DATOS..." readonly>
+                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> DNI / ID</label>
+                <input type="text" id="inp-dni" class="input-tactical input-locked" placeholder="CARGANDO..." readonly>
             </div>
 
             <div>
                 <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> Rol Asignado</label>
-                <input type="text" id="inp-role" class="input-tactical input-locked" value="OPERADOR TÁCTICO" readonly>
+                <input type="text" id="inp-role" class="input-tactical input-locked" value="ASISTENTE" readonly>
             </div>
 
             <div class="bg-gray-800 p-4 rounded border border-orange-900/50 shadow-[0_0_15px_rgba(255,69,0,0.1)]">
@@ -80,7 +80,7 @@
             <button onclick="processAndDownload()" id="btn-action" class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-4 px-4 rounded shadow-lg flex items-center justify-center gap-2 transform transition hover:scale-[1.02]">
                 <i class="fas fa-id-card"></i> GENERAR Y DESCARGAR
             </button>
-            <p class="text-center text-xs text-gray-500 mt-2">Al descargar, confirmarás tu asistencia.</p>
+            <p class="text-center text-xs text-gray-500 mt-2">Al descargar, se activará tu QR en el sistema.</p>
         </div>
     </div>
 
@@ -90,15 +90,20 @@
             <div class="c-header"><div class="logo-row" id="avales-container"></div></div>
             <div class="c-body">
                 <div class="c-title">DBA 2026</div>
-                <div class="c-role" id="view-role">OPERADOR TÁCTICO</div>
+                <div class="c-role" id="view-role">ASISTENTE</div>
+                
                 <div class="student-photo-frame">
                     <img id="preview-img" src="https://via.placeholder.com/150?text=FOTO+PENDIENTE" alt="Foto">
                 </div>
+                
                 <div class="c-data-box">
                     <div class="c-name" id="view-name">---</div>
                     <div class="c-dni" id="view-dni">DNI: ---</div>
                 </div>
-                <div class="c-qr-frame"><img id="qr-img-render" alt="QR"></div>
+                
+                <div class="c-qr-frame">
+                    <img id="qr-img-render" src="https://via.placeholder.com/200x200/ffffff/000000?text=..." alt="QR Pendiente">
+                </div>
             </div>
             <div class="c-footer"><div class="logo-row" id="sponsors-container"></div></div>
         </div>
@@ -114,46 +119,33 @@
         let currentPhotoBase64 = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Cargar datos OBLIGATORIAMENTE de la URL (Bloqueados)
+            // 1. LEER DATOS DE LA URL (NO SE PUEDEN EDITAR)
             const params = new URLSearchParams(window.location.search);
             const nameUrl = params.get('name');
             const dniUrl = params.get('dni');
 
             if(nameUrl && dniUrl) {
+                // Rellenar inputs
                 document.getElementById('inp-name').value = decodeURIComponent(nameUrl).toUpperCase();
                 document.getElementById('inp-dni').value = dniUrl;
+                
+                // Actualizar carnet visual (TEXTO SOLAMENTE)
+                document.getElementById('view-name').innerText = decodeURIComponent(nameUrl).toUpperCase();
+                document.getElementById('view-dni').innerText = 'DNI: ' + dniUrl;
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Acceso Denegado',
-                    text: 'No se detectaron credenciales de acceso válidas. Ingresa desde el link oficial.',
-                    allowOutsideClick: false,
-                    showConfirmButton: false
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Acceso Denegado', 
+                    text: 'Debes ingresar desde el link oficial enviado a tu correo/whatsapp.', 
+                    showConfirmButton: false,
+                    allowOutsideClick: false
                 });
+                document.getElementById('btn-action').disabled = true;
+                document.getElementById('btn-action').classList.add('opacity-50');
             }
-            
-            updateCarnet();
-            loadData();
+
+            loadData(); // Cargar logos
         });
-
-        // 1. ACTUALIZAR VISTA (Solo visual, no inputs)
-        function updateCarnet() {
-            const name = document.getElementById('inp-name').value || '---';
-            const dni = document.getElementById('inp-dni').value || '---';
-            const role = document.getElementById('inp-role').value;
-
-            document.getElementById('view-name').innerText = name;
-            document.getElementById('view-dni').innerText = 'DNI: ' + dni;
-            document.getElementById('view-role').innerText = role;
-
-            // Generar QR (Apunta al validador)
-            const cleanDni = dni.replace(/\D/g,'');
-            if(cleanDni) {
-                const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
-                var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
-                document.getElementById('qr-img-render').src = qr.toDataURL();
-            }
-        }
 
         // 2. CARGAR Y OPTIMIZAR FOTO
         function loadPhoto(event) {
@@ -162,63 +154,56 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('preview-img').src = e.target.result;
-                    resizeImage(e.target.result, 150).then(resized => { currentPhotoBase64 = resized; });
+                    // Reducir tamaño de foto para la BD
+                    resizeImage(e.target.result, 200).then(resized => { 
+                        currentPhotoBase64 = resized; 
+                    });
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        function resizeImage(base64Str, maxWidth = 150) {
-            return new Promise((resolve) => {
-                let img = new Image();
-                img.src = base64Str;
-                img.onload = () => {
-                    let canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > maxWidth) {
-                        height *= maxWidth / width;
-                        width = maxWidth;
-                    }
-                    canvas.width = width; canvas.height = height;
-                    let ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.7));
-                }
-            });
-        }
-
-        // 3. GUARDAR Y DESCARGAR
+        // 3. PROCESO MAESTRO: GUARDAR -> GENERAR QR -> DESCARGAR
         async function processAndDownload() {
             const btn = document.getElementById('btn-action');
             const name = document.getElementById('inp-name').value;
             const dni = document.getElementById('inp-dni').value;
-            const role = document.getElementById('inp-role').value;
+            const role = 'ASISTENTE'; // SIEMPRE ASISTENTE
 
-            if(!name || !dni || dni === '---') return Swal.fire('Error de Datos', 'El link de acceso parece inválido.', 'error');
-            if(!currentPhotoBase64) return Swal.fire('Falta Foto', 'Es obligatorio subir una foto selfie.', 'warning');
+            // Validaciones
+            if(!name || !dni) return Swal.fire('Error', 'Faltan datos del alumno.', 'error');
+            if(!currentPhotoBase64) return Swal.fire('Atención', 'Debes subir una foto tuya para la credencial.', 'warning');
 
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> REGISTRANDO...';
             btn.disabled = true;
 
             try {
-                // A. Guardar en Nube (RENAM)
+                // A. GUARDAR EN SUPABASE
                 const { error } = await sb.from('alumnos').upsert([
                     { dni: dni, nombre: name, rol: role, foto: currentPhotoBase64, estado: 'ACTIVO' }
                 ], { onConflict: 'dni' });
 
-                if (error) throw error;
+                if (error) throw new Error(error.message);
 
-                // B. Generar Imagen
-                btn.innerHTML = '<i class="fas fa-camera"></i> IMPRIMIENDO...';
-                await new Promise(r => setTimeout(r, 500));
+                // B. GENERAR EL QR (AHORA SÍ)
+                btn.innerHTML = '<i class="fas fa-qrcode"></i> GENERANDO QR...';
+                
+                const cleanDni = dni.replace(/\D/g,'');
+                const validationUrl = `${BASE_URL}?dni=${cleanDni}`; // QR apunta al Index verificador
+                var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
+                document.getElementById('qr-img-render').src = qr.toDataURL();
+
+                // Pausa breve para que el QR se pinte en pantalla antes de la foto
+                await new Promise(r => setTimeout(r, 1200));
+
+                // C. CAPTURAR Y DESCARGAR
+                btn.innerHTML = '<i class="fas fa-camera"></i> DESCARGANDO...';
                 
                 const canvas = await html2canvas(document.getElementById('carnet-container'), {
                     scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#020405', logging: false
                 });
 
-                // C. Descargar
                 const link = document.createElement('a');
                 link.download = `Credencial_DBA_${name.replace(/\s/g,'_')}.jpg`;
                 link.href = canvas.toDataURL("image/jpeg", 0.95);
@@ -228,18 +213,35 @@
 
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Credencial Activada!',
-                    text: 'Tu registro ha sido completado exitosamente.',
+                    title: '¡Felicitaciones!',
+                    text: 'Tu credencial ha sido generada y tu matrícula activada.',
                     confirmButtonColor: '#00e5ff'
                 });
 
             } catch (err) {
                 console.error(err);
-                Swal.fire('Error', 'Error de conexión. Intenta nuevamente.', 'error');
+                Swal.fire('Error de Conexión', 'No se pudo guardar en la base de datos. Verifica tu internet.', 'error');
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
+        }
+
+        // Utils
+        function resizeImage(base64Str, maxWidth = 200) {
+            return new Promise((resolve) => {
+                let img = new Image();
+                img.src = base64Str;
+                img.onload = () => {
+                    let canvas = document.createElement('canvas');
+                    let width = img.width; let height = img.height;
+                    if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
+                    canvas.width = width; canvas.height = height;
+                    let ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.8));
+                }
+            });
         }
 
         async function loadData() {
