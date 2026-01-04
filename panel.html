@@ -26,6 +26,12 @@
         .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
         .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
 
+        /* MODAL ADMIN LOGIN (NUEVO) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
+        .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 400px; text-align: center; border-radius: 8px; position: relative; box-shadow: 0 0 50px rgba(0,229,255,0.2); }
+        .input-dark { width: 100%; padding: 12px; background: #080c0f; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 4px; }
+        .btn-modal { width:100%; padding:12px; background:var(--rescue-orange); color:white; font-weight:bold; border-radius:4px; margin-top:10px; cursor:pointer; border:none; }
+
         /* CARNET 10x15 CM */
         #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
         
@@ -37,7 +43,7 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* 1. FONDO (Base64) */
+        /* 1. FONDO */
         .c-watermark-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
@@ -54,14 +60,12 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. TÍTULO "DBA" (AJUSTE VERTICAL AGRESIVO) */
+        /* 2. TÍTULO */
         .c-main-header { 
             position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
             border-bottom: 2px solid var(--hydro-cyan); 
             display: flex; align-items: center; justify-content: center; z-index: 20; 
-            
-            /* Padding aumentado drásticamente para subir el texto mucho más */
             padding-bottom: 75px; 
         }
         .c-logo { 
@@ -71,7 +75,7 @@
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
-        /* CUERPO CENTRAL */
+        /* CUERPO */
         .c-body { 
             position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
             display: flex; flex-direction: column; align-items: center;
@@ -85,7 +89,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. NOMBRE (FIXED) */
+        /* 3. NOMBRE */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -93,13 +97,9 @@
         }
         .c-name { 
             font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
-            line-height: 1.4; 
-            font-size: 1.9rem; 
-            letter-spacing: 2px; 
-            color: white; 
-            text-shadow: 2px 2px 0px rgba(0,0,0,1); 
-            text-align: center;
-            word-wrap: break-word;
+            line-height: 1.4; font-size: 1.9rem; letter-spacing: 2px; 
+            color: white; text-shadow: 2px 2px 0px rgba(0,0,0,1); 
+            text-align: center; word-wrap: break-word;
         }
         
         .c-dni { 
@@ -107,25 +107,18 @@
             margin-bottom: 30px; text-shadow: 2px 2px 0px black; 
         }
         
-        /* 4. CARTEL ASISTENTE (FIX: Centrado Vertical) */
+        /* 4. CARTEL */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
-            width: 58%; height: 70px; 
-            line-height: 70px; 
-            text-align: center;
+            width: 58%; height: 70px; line-height: 70px; text-align: center;
             font-family: 'Black Ops One'; font-size: 2.4rem; 
             transform: skew(-12deg); 
             box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 3px white; 
-            margin-bottom: 10px; 
-            margin-left: auto; margin-right: auto;
+            margin-bottom: 10px; margin-left: auto; margin-right: auto;
         }
         .c-role-badge span { 
-            transform: skew(12deg); 
-            display: inline-block; 
-            line-height: normal; 
-            vertical-align: middle; 
-            /* Margen negativo fuerte para subir el texto dentro de la caja */
-            margin-top: -18px; 
+            transform: skew(12deg); display: inline-block; line-height: normal; 
+            vertical-align: middle; margin-top: -18px; 
         }
 
         /* FOOTER */
@@ -144,15 +137,20 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* 5. QR (FIXED) */
+        /* 5. QR */
         .c-qr { 
-            position: absolute; 
-            bottom: 145px; right: 15px;   
-            background: white; padding: 5px; border-radius: 4px; 
-            width: 88px; height: 88px; 
-            z-index: 30; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
+            position: absolute; bottom: 145px; right: 15px; background: white; 
+            padding: 5px; border-radius: 4px; width: 88px; height: 88px; 
+            z-index: 30; box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
         }
+
+        /* ADMIN PANEL STYLES */
+        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
+        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
+        .tab-btn { padding: 8px 15px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; font-weight: bold; border-radius: 4px; }
+        .tab-btn.active { background: var(--rescue-orange); color: white; }
+        .admin-section { display: none; animation: fadeIn 0.3s; } .admin-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -174,7 +172,7 @@
         <header class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
             <div><h1 class="text-2xl font-black text-white italic">DOLORES <span class="text-cyan-400">2026</span></h1><p class="text-gray-500 text-xs">SISTEMA DE ACREDITACIÓN</p></div>
             <div class="flex gap-4">
-                <button onclick="exportDB()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded text-gray-300 border border-gray-600"><i class="fas fa-file-excel"></i> LISTA ADMIN</button>
+                <button onclick="checkAuthAndAction('export')" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded text-gray-300 border border-gray-600"><i class="fas fa-file-excel"></i> LISTA ADMIN</button>
                 <a href="index.html" class="text-xs bg-red-900 hover:bg-red-800 px-3 py-2 rounded text-white font-bold">SALIR</a>
             </div>
         </header>
@@ -199,24 +197,15 @@
                 <div id="download-area">
                     <div id="preview-container" class="carnet-box">
                         <div id="bg-watermark" class="c-watermark-layer"></div>
-                        
                         <div class="c-header-strip" id="header-avales-container"></div>
-
                         <div class="c-main-header"><div class="c-logo">DBA <span>2026</span></div></div>
-
                         <div class="c-body">
                             <div class="c-photo-frame"><img id="photo-preview" class="c-photo" src="https://placehold.co/400x400/111/333?text=FOTO" alt="Foto"></div>
-                            
-                            <div class="c-name-wrapper">
-                                <div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div>
-                            </div>
-                            
+                            <div class="c-name-wrapper"><div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div></div>
                             <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
                             <div class="c-role-badge"><span>ASISTENTE</span></div>
                         </div>
-
                         <div class="c-qr"><canvas id="qr-code-preview" style="width:100%; height:100%;"></canvas></div>
-
                         <div class="c-footer">
                             <p class="c-footer-title">SPONSORS OFICIALES:</p>
                             <div class="c-logos-row" id="footer-sponsors-container"></div>
@@ -229,6 +218,66 @@
             </section>
         </div>
     </div>
+
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal-content">
+            <span onclick="document.getElementById('adminLoginModal').style.display='none'" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
+            <h3 style="color:var(--rescue-orange); margin-bottom:20px;">ACCESO COMANDO</h3>
+            <input type="email" id="adminEmail" class="input-dark" placeholder="Correo Oficial">
+            <input type="password" id="adminPass" class="input-dark" placeholder="Clave de Acceso">
+            <button onclick="loginSupabase()" class="btn-modal">INICIAR SESIÓN</button>
+            <p id="loginError" style="color:red; font-size:0.8rem; margin-top:10px; display:none;"></p>
+        </div>
+    </div>
+
+    <div id="adminPanel">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:10px;">
+            <h3>PANEL DE CONTROL</h3>
+            <div style="display:flex; gap:15px;">
+                <button onclick="logoutAdmin()" style="color:#aaa; background:none; border:none; cursor:pointer; font-size:0.8rem;">LOGOUT</button>
+                <button onclick="document.getElementById('adminPanel').style.display='none'" style="color:red; background:none; border:none; cursor:pointer;">CERRAR</button>
+            </div>
+        </div>
+        <div class="admin-nav">
+            <button class="tab-btn active" onclick="showTab('tabKeys')">CLAVES</button>
+            <button class="tab-btn" onclick="showTab('tabConfig')">CONFIG</button>
+            <button class="tab-btn" onclick="showTab('tabAvales')">AVALES</button>
+            <button class="tab-btn" onclick="showTab('tabSponsors')">SPONSORS</button>
+            <button class="tab-btn" onclick="showTab('tabStations')">ESTACIONES</button>
+            <button class="tab-btn" onclick="showTab('tabInst')">INSTRUCTORES</button>
+            <button class="tab-btn" onclick="showTab('tabGal')">GALERÍA</button>
+            <button class="tab-btn" onclick="showTab('tabAcc')">ALOJAMIENTO</button>
+        </div>
+
+        <div id="tabKeys" class="admin-section active">
+            <div style="background:#222; padding:20px; border-radius:8px; text-align:center;">
+                <h4 style="color:var(--rescue-orange); margin-bottom:10px;">GENERADOR DE ACCESO</h4>
+                <input type="number" id="keyDNI" class="input-dark" placeholder="DNI Alumno" style="text-align:center; font-size:1.2rem;">
+                <button onclick="generateUniqueKey()" class="btn-modal" style="background:white; color:black;">GENERAR CÓDIGO</button>
+                <div id="keyResult" style="margin-top:20px; padding:15px; border:2px dashed var(--hydro-cyan); display:none;">
+                    <h2 id="finalKey" style="color:var(--hydro-cyan); font-size:2rem; font-family:'Black Ops One'; margin:10px 0; user-select:all; cursor:pointer;" onclick="copyKey()"></h2>
+                    <p id="copyMsg" style="color:#00c853; font-size:0.8rem; display:none;">¡Copiado!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tabConfig" class="admin-section">
+            <p style="color:#aaa; text-align:center;">La configuración visual se gestiona desde la Landing Page.</p>
+        </div>
+        <div id="tabAvales" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
+        <div id="tabSponsors" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
+        <div id="tabStations" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
+        <div id="tabInst" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
+        <div id="tabGal" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
+        <div id="tabAcc" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
+    </div>
+
+    <footer style="background: black; padding: 40px 10%; text-align: center; border-top: 1px solid #222;">
+        <p style="color: #555; margin-bottom: 20px;">© 2026 Dolores Bajo el Agua.</p>
+        <p style="color:#333; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px; text-transform:uppercase;">NOS ACOMPAÑAN:</p>
+        <div id="footer-sponsors-container" class="c-logos-row" style="margin-top:20px;"></div>
+        <button onclick="checkAuthAndAction('panel')" style="background:none; border:none; color:#333; font-size:0.8rem; margin-top:40px; cursor:pointer;">Admin Login</button>
+    </footer>
 
     <script>
         const CONFIG = {
@@ -249,7 +298,7 @@
             if(urlDni) document.getElementById('loginDNI').value = urlDni;
         });
 
-        // 1. VALIDAR ACCESO
+        // 1. VALIDAR ACCESO USUARIO
         async function validateAccess(e) {
             e.preventDefault();
             const dni = document.getElementById('loginDNI').value;
@@ -286,36 +335,31 @@
             loadDynamicAssets();
         }
 
-        // 2. CARGA DE ASSETS (Base64)
+        // 2. CARGA DE ASSETS
         async function loadDynamicAssets() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
-                
-                let bg = null;
-                let avales = [];
-                let sponsors = [];
-
+                let bg = null; let avales = []; let sponsors = [];
                 if (data && data.datos) {
                     bg = data.datos.config.bg;
                     avales = data.datos.avales || [];
                     sponsors = data.datos.sponsors || [];
                 }
-
                 if(bg) {
                     document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.80) 0%, rgba(5,8,10,0.98) 100%), url('${bg}')`;
                 }
-
                 const headerCont = document.getElementById('header-avales-container');
                 if(avales.length) headerCont.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
-                else headerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN AVALES</span>';
+                
+                // Footer Sponsors en Preview
+                const footerContPreview = document.querySelector('#preview-container .c-logos-row');
+                if(sponsors.length) footerContPreview.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
+                
+                // Footer Sponsors en la página real (abajo del todo)
+                const footerContPage = document.getElementById('footer-sponsors-container');
+                if(sponsors.length) footerContPage.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo" style="max-height:50px;">`).join('');
 
-                const footerCont = document.getElementById('footer-sponsors-container');
-                if(sponsors.length) footerCont.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
-                else footerCont.innerHTML = '<span style="color:#aaa; font-size:10px;">SIN SPONSORS</span>';
-
-            } catch (err) {
-                console.error("Error cargando assets:", err);
-            }
+            } catch (err) { console.error("Error assets:", err); }
         }
 
         // 3. COMPRESOR
@@ -347,24 +391,11 @@
             try {
                 const photoBase64 = await resize(photoInput.files[0], 400);
                 const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
-                
-                await sb.from('alumnos').insert([{
-                    dni: dni,
-                    nombre_completo: name,
-                    matricula_arg: matricula,
-                    foto_url: photoBase64 
-                }]);
-
+                await sb.from('alumnos').insert([{ dni: dni, nombre_completo: name, matricula_arg: matricula, foto_url: photoBase64 }]);
                 new QRious({ element: document.getElementById('qr-code-preview'), value: `${CONFIG.repoUrl}?id=${matricula}`, size: 200, level: 'H' });
-
                 document.getElementById('actions').classList.remove('hidden');
                 btn.textContent = "¡ÉXITO!"; btn.classList.replace('bg-cyan-600', 'bg-green-600');
-
-            } catch (err) {
-                console.error(err);
-                alert("Error de conexión");
-                btn.disabled = false; btn.textContent = "REINTENTAR";
-            }
+            } catch (err) { console.error(err); alert("Error de conexión"); btn.disabled = false; btn.textContent = "REINTENTAR"; }
         };
 
         window.downloadImage = () => {
@@ -377,12 +408,79 @@
             });
         };
 
+        // --- SISTEMA ADMIN SEGURO ---
+        let currentAction = '';
+
+        async function checkAuthAndAction(action) {
+            currentAction = action;
+            const { data: { session } } = await sb.auth.getSession();
+            
+            if (session) {
+                // Si ya está logueado, ejecutar acción
+                if(action === 'export') exportDB();
+                else if(action === 'panel') document.getElementById('adminPanel').style.display = 'block';
+            } else {
+                // Si no, mostrar login
+                document.getElementById('adminLoginModal').style.display = 'flex';
+            }
+        }
+
+        async function loginSupabase() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPass').value;
+            const errorText = document.getElementById('loginError');
+            
+            errorText.style.display = 'none';
+            
+            try {
+                const { data, error } = await sb.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+
+                document.getElementById('adminLoginModal').style.display = 'none';
+                
+                // Ejecutar acción pendiente
+                if(currentAction === 'export') exportDB();
+                else if(currentAction === 'panel') document.getElementById('adminPanel').style.display = 'block';
+                
+                alert("BIENVENIDO ADMIN");
+            } catch (err) {
+                errorText.textContent = "ERROR: " + err.message;
+                errorText.style.display = 'block';
+            }
+        }
+
+        function logoutAdmin() {
+            sb.auth.signOut();
+            document.getElementById('adminPanel').style.display = 'none';
+            alert("SESIÓN CERRADA");
+        }
+
         async function exportDB() {
-            if(prompt("Clave Admin:") !== "admin2026") return alert("Error");
+            // Verificar sesión nuevamente por seguridad
+            const { data: { session } } = await sb.auth.getSession();
+            if(!session) return alert("Acceso Denegado");
+
             const { data } = await sb.from('alumnos').select('*');
             if(!data || !data.length) return alert("Sin datos");
             const csv = "data:text/csv;charset=utf-8," + Object.keys(data[0]).join(",") + "\n" + data.map(o => Object.values(o).join(",")).join("\n");
             const link = document.createElement("a"); link.href = encodeURI(csv); link.download = "asistentes.csv"; link.click();
+        }
+
+        // GENERADOR CLAVES (Solo en Panel Admin)
+        function generateUniqueKey() {
+            const dni = document.getElementById('keyDNI').value.trim();
+            if(!dni || dni.length < 6) return alert("DNI inválido");
+            const code = btoa(dni + "DOLORES26").substring(0, 8).toUpperCase(); 
+            document.getElementById('finalKey').innerText = code;
+            document.getElementById('keyResult').style.display = 'block';
+        }
+        function copyKey() { navigator.clipboard.writeText(document.getElementById('finalKey').innerText); }
+        
+        function toggleAdmin() { document.getElementById('adminPanel').style.display='none'; } // Helper para cerrar
+        function showTab(id) {
+            document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+            document.getElementById(id).classList.add('active'); event.target.classList.add('active');
         }
     </script>
 </body>
