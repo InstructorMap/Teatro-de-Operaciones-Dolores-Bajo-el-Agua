@@ -21,7 +21,7 @@
         }
         body { background-color: #111; font-family: 'Exo 2', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
-        /* CONTENEDOR DEL FLYER (Formato Historia de Instagram 9:16) */
+        /* CONTENEDOR DEL FLYER (9:16 Vertical) */
         #flyer-container {
             width: 450px; 
             height: 800px;
@@ -35,7 +35,7 @@
         /* CAPAS DE FONDO */
         .flyer-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('inundacion2.jpg'); /* Tu imagen de fondo */
+            background-image: url('inundacion2.jpg'); 
             background-size: cover; background-position: center;
             opacity: 0.4; filter: grayscale(100%) contrast(120%);
             z-index: 1;
@@ -70,13 +70,29 @@
 
         /* BANNER DE SPONSORS (Footer) */
         .f-footer { margin-top: auto; border-top: 1px solid #333; padding-top: 20px; }
-        .f-section-title { font-size: 0.7rem; color: #666; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; display: block; }
+        .f-section-title { font-size: 0.7rem; color: #888; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; display: block; font-weight: bold; }
         
-        .logos-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
-        .logo-img { height: 40px; object-fit: contain; filter: grayscale(100%) brightness(200%); opacity: 0.8; transition: 0.3s; }
+        .logos-row { 
+            display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; 
+        }
         
-        /* Efecto al generar imagen: quitamos filtros para que se vean a color real si se desea, o mantenemos estética */
-        .logo-aval { height: 50px; filter: none; opacity: 1; } /* Avales a color */
+        /* ESTILO CORREGIDO PARA LOS LOGOS */
+        .logo-img { 
+            height: 50px;       /* Tamaño base aumentado */
+            object-fit: contain; 
+            filter: none;       /* IMPORTANTE: Sin filtros de color */
+            opacity: 1;         /* Totalmente visibles */
+            transition: 0.3s;
+            
+            /* Truco: Fondo blanco semitransparente muy sutil para asegurar contraste si el logo es negro */
+            background: rgba(255,255,255,0.05); 
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        /* Los avales un poco más grandes por jerarquía */
+        .logo-aval { height: 60px; background: rgba(255,255,255,0.1); } 
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
@@ -123,21 +139,19 @@
 
     <script>
         // CONFIGURACIÓN
-        const WEB_URL = "https://dba2026.com"; // Tu dominio real (o el de GitHub)
+        const WEB_URL = "https://dba2026.com"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         // 1. INICIALIZAR
         document.addEventListener('DOMContentLoaded', () => {
-            // Generar QR que apunte a la web principal
             new QRious({
                 element: document.getElementById('qr-web'),
                 value: WEB_URL,
                 size: 150,
-                level: 'H' // Alto nivel de corrección de errores
+                level: 'H' 
             });
-
             loadData();
         });
 
@@ -148,20 +162,19 @@
                 if (data && data.datos) {
                     const DB = data.datos;
 
-                    // Fondo
                     if(DB.config.bg) {
                         document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     }
 
-                    // Avales (Logos grandes y a color)
+                    // Avales (Grandes y Full Color)
                     const avalesDiv = document.getElementById('avales-container');
                     if(DB.avales && DB.avales.length > 0) {
                         avalesDiv.innerHTML = DB.avales.map(a => `<img src="${a.img}" class="logo-img logo-aval">`).join('');
                     } else {
-                        avalesDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">Cargando alianzas...</span>';
+                        avalesDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">...</span>';
                     }
 
-                    // Sponsors (Logos más chicos y monocromáticos/elegantes)
+                    // Sponsors (Full Color, Normales)
                     const sponsorsDiv = document.getElementById('sponsors-container');
                     if(DB.sponsors && DB.sponsors.length > 0) {
                         sponsorsDiv.innerHTML = DB.sponsors.map(s => `<img src="${s.img}" class="logo-img">`).join('');
@@ -174,12 +187,12 @@
             }
         }
 
-        // 3. DESCARGAR IMAGEN (HTML2CANVAS OPTIMIZADO)
+        // 3. DESCARGAR IMAGEN
         function downloadFlyer() {
             const node = document.getElementById('flyer-container');
             
             html2canvas(node, {
-                scale: 3, // Alta resolución para impresión o zoom
+                scale: 3, 
                 useCORS: true,
                 backgroundColor: null
             }).then(canvas => {
