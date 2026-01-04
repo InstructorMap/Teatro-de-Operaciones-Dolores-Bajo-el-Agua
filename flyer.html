@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flyer Oficial - DBA 2026</title>
     
+    <meta property="og:title" content="DBA 2026 | Congreso Hidro-Táctico Dolores">
+    <meta property="og:description" content="Entrenamiento operativo de alto rendimiento. 27-28 FEB. Cupos limitados. ¡Inscríbete ahora!">
+    <meta property="og:image" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/preview-flyer.jpg"> 
+    <meta property="og:url" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/flyer.html">
+    <meta property="og:type" content="website">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
@@ -67,6 +73,9 @@
         /* QR AREA */
         .f-qr-box { background: white; padding: 10px; display: inline-block; border-radius: 10px; margin: 20px auto; box-shadow: 0 0 30px rgba(0, 229, 255, 0.3); }
         .f-cta { color: white; font-size: 0.9rem; margin-top: 10px; font-weight: bold; letter-spacing: 1px; animation: pulse 2s infinite; }
+        
+        /* IMAGEN QR (ESTILO) */
+        #qr-img-display { width: 150px; height: 150px; display: block; }
 
         /* BANNER DE SPONSORS (Footer) */
         .f-footer { margin-top: auto; border-top: 1px solid #333; padding-top: 20px; }
@@ -76,22 +85,19 @@
             display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; 
         }
         
-        /* ESTILO CORREGIDO PARA LOS LOGOS */
+        /* LOGOS FULL COLOR */
         .logo-img { 
-            height: 50px;       /* Tamaño base aumentado */
+            height: 50px;       
             object-fit: contain; 
-            filter: none;       /* IMPORTANTE: Sin filtros de color */
-            opacity: 1;         /* Totalmente visibles */
+            filter: none;       
+            opacity: 1;         
             transition: 0.3s;
-            
-            /* Truco: Fondo blanco semitransparente muy sutil para asegurar contraste si el logo es negro */
             background: rgba(255,255,255,0.05); 
             padding: 5px;
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         
-        /* Los avales un poco más grandes por jerarquía */
         .logo-aval { height: 60px; background: rgba(255,255,255,0.1); } 
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
@@ -120,7 +126,8 @@
 
             <div>
                 <div class="f-qr-box">
-                    <canvas id="qr-web"></canvas>
+                    <canvas id="qr-web-canvas" style="display: none;"></canvas>
+                    <img id="qr-img-display" src="" alt="QR Inscripción">
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
@@ -138,22 +145,35 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN
-        const WEB_URL = "https://dba2026.com"; 
+        // --- CONFIGURACIÓN CONECTADA A TU VERCEL ---
+        const WEB_URL = "https://teatro-de-operaciones-dolores-bajo.vercel.app/"; 
+        
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         // 1. INICIALIZAR
         document.addEventListener('DOMContentLoaded', () => {
-            new QRious({
-                element: document.getElementById('qr-web'),
-                value: WEB_URL,
-                size: 150,
-                level: 'H' 
-            });
+            generateQR();
             loadData();
         });
+
+        // GENERAR QR Y CONVERTIR A IMAGEN (FIX DESCARGA)
+        function generateQR() {
+            // 1. Generar en el canvas oculto
+            var qr = new QRious({
+                element: document.getElementById('qr-web-canvas'),
+                value: WEB_URL,
+                size: 500, // Alta resolución interna
+                level: 'H' 
+            });
+
+            // 2. Extraer la imagen base64 del canvas
+            var dataUrl = qr.toDataURL();
+
+            // 3. Ponerla en la etiqueta IMG visible
+            document.getElementById('qr-img-display').src = dataUrl;
+        }
 
         // 2. CARGAR DATOS DE LA NUBE
         async function loadData() {
@@ -166,7 +186,7 @@
                         document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     }
 
-                    // Avales (Grandes y Full Color)
+                    // Avales
                     const avalesDiv = document.getElementById('avales-container');
                     if(DB.avales && DB.avales.length > 0) {
                         avalesDiv.innerHTML = DB.avales.map(a => `<img src="${a.img}" class="logo-img logo-aval">`).join('');
@@ -174,7 +194,7 @@
                         avalesDiv.innerHTML = '<span style="color:#444; font-size:0.8rem;">...</span>';
                     }
 
-                    // Sponsors (Full Color, Normales)
+                    // Sponsors
                     const sponsorsDiv = document.getElementById('sponsors-container');
                     if(DB.sponsors && DB.sponsors.length > 0) {
                         sponsorsDiv.innerHTML = DB.sponsors.map(s => `<img src="${s.img}" class="logo-img">`).join('');
@@ -191,10 +211,12 @@
         function downloadFlyer() {
             const node = document.getElementById('flyer-container');
             
+            // Usamos html2canvas sobre el contenedor que ahora tiene una <IMG> normal
             html2canvas(node, {
                 scale: 3, 
                 useCORS: true,
-                backgroundColor: null
+                backgroundColor: null,
+                allowTaint: true 
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
