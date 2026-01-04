@@ -6,11 +6,13 @@
     <title>Flyer Oficial - Teatro de Operaciones DBA2026</title>
     
     <meta property="og:title" content="🚨 TEATRO DE OPERACIONES DBA2026">
-    <meta property="og:description" content="Entrenamiento Hidro-Táctico de Alto Rendimiento. 27-28 FEB. Cupos Limitados. Toca para ingresar.">
-    <meta property="og:image" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/preview-flyer.jpg"> 
+    <meta property="og:description" content="Entrenamiento Hidro-Táctico de Alto Rendimiento. 27-28 FEB. Cupos Limitados.">
+    
+    <meta property="og:image" content="https://teatro-de-operaciones-dba2026.vercel.app/preview-flyer.jpg"> 
     <meta property="og:image:width" content="1080">
     <meta property="og:image:height" content="1920">
-    <meta property="og:url" content="https://teatro-de-operaciones-dolores-bajo.vercel.app/flyer.html">
+    
+    <meta property="og:url" content="https://teatro-de-operaciones-dba2026.vercel.app/flyer.html">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,7 +30,7 @@
         }
         body { background-color: #111; font-family: 'Exo 2', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
-        /* CONTENEDOR PRINCIPAL (9:16 - Formato Historia/Celular) */
+        /* CONTENEDOR PRINCIPAL (9:16) */
         #flyer-container {
             width: 450px; 
             height: 800px;
@@ -52,7 +54,7 @@
             z-index: 1;
         }
         
-        /* HEADER (AVALES) */
+        /* HEADER */
         .f-header-strip {
             position: relative; z-index: 20;
             background: rgba(5, 8, 10, 0.96); 
@@ -66,7 +68,7 @@
             padding: 10px;
         }
 
-        /* FOOTER (SPONSORS) */
+        /* FOOTER */
         .f-footer-strip {
             position: relative; z-index: 20;
             background: rgba(5, 8, 10, 0.96); 
@@ -80,7 +82,7 @@
             padding: 10px;
         }
 
-        /* CUERPO CENTRAL */
+        /* BODY */
         .f-body {
             position: relative; z-index: 10;
             flex-grow: 1; 
@@ -90,7 +92,7 @@
             align-items: center;
             padding: 10px 20px;
             text-align: center;
-            gap: 25px; /* Espacio limpio entre elementos */
+            gap: 25px; 
         }
 
         /* TÍTULOS */
@@ -139,7 +141,7 @@
         .f-date { font-size: 2.2rem; font-weight: 900; color: white; line-height: 1; }
         .f-loc { color: #ccc; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; font-weight: 700; }
 
-        /* === NUEVO ELEMENTO: BOTÓN TÁCTICO (Reemplaza al QR) === */
+        /* BOTÓN TÁCTICO */
         .f-action-wrapper {
             display: flex;
             flex-direction: column;
@@ -149,7 +151,6 @@
             text-decoration: none; 
             transition: transform 0.2s;
         }
-        /* Efecto Zoom al pasar el mouse (solo web) */
         .f-action-wrapper:hover { transform: scale(1.05); }
 
         .f-icon-circle {
@@ -162,8 +163,6 @@
             margin-bottom: 15px;
             position: relative;
         }
-        
-        /* Animación de Radar (Giro lento) */
         .f-icon-circle::after {
             content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
             border-radius: 50%;
@@ -173,41 +172,22 @@
             border-left: 4px solid transparent;
             animation: spinTarget 6s linear infinite;
         }
-
-        .f-big-icon {
-            font-size: 4rem; color: white;
-            text-shadow: 0 0 20px var(--hydro-cyan);
-        }
+        .f-big-icon { font-size: 4rem; color: white; text-shadow: 0 0 20px var(--hydro-cyan); }
 
         .f-cta-btn {
             background: linear-gradient(135deg, var(--rescue-orange), #d50000);
-            color: white;
-            font-family: 'Exo 2';
-            font-weight: 900;
-            padding: 12px 35px;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            /* Forma recortada táctica */
+            color: white; font-family: 'Exo 2'; font-weight: 900; padding: 12px 35px;
+            font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;
             clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            box-shadow: 0 0 30px rgba(255, 69, 0, 0.4);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.4); border: 1px solid rgba(255,255,255,0.2);
         }
 
         @keyframes spinTarget { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* LOGOS */
-        .strip-title { 
-            font-size: 0.6rem; color: #888; font-weight: 900; 
-            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; 
-        }
+        .strip-title { font-size: 0.6rem; color: #888; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
         .logos-row { display: flex; gap: 15px; justify-content: center; align-items: center; width: 100%; flex-wrap: wrap; }
-        
-        .logo-img { 
-            height: 45px; object-fit: contain; 
-            background: rgba(255, 255, 255, 0.08); 
-            border-radius: 4px; padding: 5px;
-        } 
+        .logo-img { height: 45px; object-fit: contain; background: rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 5px; } 
         .logo-aval { height: 55px; background: rgba(255, 255, 255, 0.12); }
 
     </style>
@@ -222,20 +202,16 @@
 
     <div id="flyer-container">
         <div class="flyer-bg" id="dynamic-bg-layer"></div>
-        
         <div class="f-header-strip">
             <span class="strip-title">ORGANIZA & AVALA</span>
             <div class="logos-row" id="avales-container"></div>
         </div>
-
         <div class="f-body">
-            
             <div>
                 <div class="f-title-main">TEATRO DE <br>OPERACIONES</div>
                 <div class="f-title-sub">DBA 2026</div>
                 <div class="f-subtitle-badge">HIDRO-TÁCTICO</div>
             </div>
-
             <div class="f-date-box">
                 <div class="f-date-content">
                     <div class="f-date">27-28 FEB</div>
@@ -243,15 +219,12 @@
                 </div>
             </div>
 
-            <a href="https://teatro-de-operaciones-dolores-bajo.vercel.app/" class="f-action-wrapper">
-                <div class="f-icon-circle">
-                    <i class="fas fa-crosshairs f-big-icon"></i>
-                </div>
+            <a href="https://teatro-de-operaciones-dba2026.vercel.app/" class="f-action-wrapper">
+                <div class="f-icon-circle"><i class="fas fa-crosshairs f-big-icon"></i></div>
                 <div class="f-cta-btn">INGRESAR</div>
             </a>
             
         </div>
-
         <div class="f-footer-strip">
             <span class="strip-title">NOS ACOMPAÑAN</span>
             <div class="logos-row" id="sponsors-container"></div>
@@ -259,42 +232,31 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN SUPABASE
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-        });
+        document.addEventListener('DOMContentLoaded', () => { loadData(); });
 
-        // CARGA DE DATOS DESDE LA NUBE
         async function loadData() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if (data && data.datos) {
                     const DB = data.datos;
-                    // Fondo
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
-                    
-                    // Logos
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, 'logo-img');
                 }
             } catch (err) { console.error(err); }
         }
 
-        // RENDERIZADO DE LOGOS
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
                 div.innerHTML = list.map(item => `<img src="${item.img}" class="${extraClass}" crossorigin="anonymous">`).join('');
-            } else {
-                div.innerHTML = '<span style="color:#555; font-size:0.6rem; letter-spacing:2px;">ESPACIO DISPONIBLE</span>';
-            }
+            } else { div.innerHTML = '<span style="color:#555; font-size:0.6rem;">ESPACIO DISPONIBLE</span>'; }
         }
 
-        // FUNCIÓN DE DESCARGA (GENERADOR DE IMAGEN)
         function downloadFlyer() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
@@ -302,30 +264,19 @@
             btn.disabled = true;
 
             const node = document.getElementById('flyer-container');
-            
-            // Pausa de 500ms para asegurar que todo esté renderizado
             setTimeout(() => {
                 html2canvas(node, {
-                    scale: 3, 
-                    useCORS: true, 
-                    allowTaint: true,
-                    backgroundColor: '#020405',
-                    logging: false
+                    scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#020405', logging: false
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = 'Flyer_TeatroOperaciones_2026.jpg'; // Nombre del archivo
+                    link.download = 'Flyer_TeatroOperaciones_2026.jpg';
                     link.href = canvas.toDataURL("image/jpeg", 0.95);
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                }).catch(err => {
-                    console.error("Error descarga:", err);
-                    btn.innerHTML = 'ERROR AL GENERAR';
-                    btn.disabled = false;
-                });
+                }).catch(err => { console.error(err); btn.innerHTML = 'ERROR'; btn.disabled = false; });
             }, 500); 
         }
     </script>
