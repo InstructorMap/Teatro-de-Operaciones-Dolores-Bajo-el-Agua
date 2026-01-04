@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolores Bajo el Agua 2026 | Congreso Hidro-Táctico</title>
+    <title>Dolores Bajo el Agua 2026 | Teatro de Operaciones Hidro-Táctico</title>
     
+    <meta property="og:title" content="Teatro de Operaciones DBA2026">
+    <meta property="og:description" content="Entrenamiento de Alto Rendimiento. 27-28 FEB. Validación Oficial.">
+    <meta property="og:image" content="https://teatro-de-operaciones-dba2026.vercel.app/preview-flyer.jpg">
+    <meta property="og:url" content="https://teatro-de-operaciones-dba2026.vercel.app/">
+    <meta property="og:type" content="website">
+
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;500;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -128,7 +134,7 @@
         .sticky-cta { position: fixed; bottom: 20px; right: 20px; z-index: 900; display: none; }
         @media (max-width: 768px) { .sticky-cta { display: block; } h1 { font-size: 3rem; } .hero { padding-top: 120px; } }
 
-        /* MODAL & ADMIN */
+        /* MODAL PAGO */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 500px; text-align: center; border-radius: 8px; position: relative; box-shadow: 0 0 50px rgba(0,229,255,0.2); }
         .gocuotas-box { border: 1px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.05); padding: 15px; border-radius: 8px; margin-top: 15px; position: relative; overflow: hidden; }
@@ -136,6 +142,7 @@
         .counter-bar { height: 6px; background: #333; border-radius: 3px; margin: 10px 0; overflow: hidden; }
         .counter-fill { height: 100%; background: var(--hydro-cyan); width: 100%; transition: width 1s; }
 
+        /* MODAL ADMIN */
         #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
         .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
         .tab-btn { padding: 8px 15px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; font-weight: bold; border-radius: 4px; }
@@ -145,6 +152,14 @@
         .preview-list { margin-top: 15px; display: grid; gap: 10px; }
         .preview-item { display: flex; align-items: center; background: #222; padding: 10px; justify-content: space-between; border-radius: 4px; }
         .preview-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; background: white; }
+
+        /* === RENAM POPUP (VALIDADOR) === */
+        #renamModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
+        .renam-card { background: #0f1115; border: 2px solid var(--hydro-cyan); padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 0 80px rgba(0, 229, 255, 0.2); }
+        .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: 900; font-size: 0.8rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .badge-active { background: #00e676; color: black; box-shadow: 0 0 20px rgba(0, 230, 118, 0.4); }
+        .badge-error { background: #d50000; color: white; }
+        .renam-photo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--rescue-orange); object-fit: cover; margin: 0 auto 15px; }
 
         @keyframes pulse { 0% {opacity:1;} 50% {opacity:0.6;} 100% {opacity:1;} }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -210,27 +225,27 @@
                 <div class="tier-badge bg-urgency">¡ÚLTIMO LUGAR!</div>
                 <div class="tier-name" style="color:var(--titanium)">TITANIO</div>
                 <div class="tier-price">$1.000.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Stand Físico Exclusivo (Principal)</li><li>Logo GIGANTE en Remera Oficial</li><li>Mención Exclusiva en Videos</li><li>20 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Stand Físico Exclusivo (Principal)</li><li>Logo GIGANTE en Kit Oficial</li><li>Mención Exclusiva en Videos</li><li>10 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('TITANIO')" class="btn-hydro" style="width:100%; border-color:var(--titanium); color:var(--titanium);">SOLICITAR AHORA</button>
             </div>
             <div class="tier-card tier-platino">
                 <div class="tier-badge">SOLO 3 CUPOS</div>
                 <div class="tier-name" style="color:#e5e4e2">PLATINO</div>
                 <div class="tier-price">$750.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Banner en Zona de Estaciones</li><li>Logo Destacado en Remera</li><li>Presencia en Redes (5 Posts)</li><li>10 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Banner en Zona de Estaciones</li><li>Logo Destacado en Kit Oficial</li><li>Presencia en Redes (5 Posts)</li><li>7 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('PLATINO')" class="btn-hydro" style="width:100%; border-color:#e5e4e2; color:#e5e4e2;">CONSULTAR</button>
             </div>
             <div class="tier-card tier-oro">
                 <div class="tier-badge">5 CUPOS</div>
                 <div class="tier-name" style="color:var(--gold)">ORO</div>
                 <div class="tier-price">$500.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Logo en Web y Mailing</li><li>Folletería en Kit</li><li>Mención en Redes</li><li>5 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Logo en Web y Mailing</li><li>Folletería en Kit</li><li>Mención en Redes</li><li>4 Pases de Cortesía</li></ul>
                 <button onclick="contactSponsor('ORO')" class="btn-hydro" style="width:100%; border-color:var(--gold); color:var(--gold);">CONSULTAR</button>
             </div>
             <div class="tier-card tier-plata">
                 <div class="tier-name" style="color:var(--silver)">PLATA</div>
                 <div class="tier-price">$100.000 <small>ARS</small></div>
-                <ul class="tier-list"><li>Presencia Digital Web</li><li>Mención en Agradecimientos</li><li>2 Pases de Cortesía</li></ul>
+                <ul class="tier-list"><li>Presencia Digital Web</li><li>Mención en Agradecimientos</li><li>1 Pase de Cortesía</li></ul>
                 <button onclick="contactSponsor('PLATA')" class="btn-hydro" style="width:100%; border-color:var(--silver); color:var(--silver);">CONSULTAR</button>
             </div>
         </div>
@@ -421,6 +436,32 @@
         </div>
     </div>
 
+    <div id="renamModal">
+        <div class="renam-card">
+            <span onclick="document.getElementById('renamModal').style.display='none'" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
+            <h3 style="color:var(--hydro-cyan); margin-bottom:20px; font-family:'Black Ops One';">VERIFICACIÓN OFICIAL</h3>
+            
+            <div id="renamLoading">
+                <i class="fas fa-circle-notch fa-spin" style="font-size:2rem; color:white;"></i>
+                <p style="color:#aaa; margin-top:10px;">Consultando Base de Datos...</p>
+            </div>
+
+            <div id="renamResult" style="display:none;">
+                <img id="renamPhoto" src="" class="renam-photo">
+                <span id="renamBadge" class="status-badge"></span>
+                <h2 id="renamName" style="color:white; font-size:1.5rem; font-weight:bold; margin-bottom:5px;"></h2>
+                <p id="renamDni" style="color:#888; font-size:0.9rem; margin-bottom:15px;"></p>
+                <p id="renamRole" style="color:var(--rescue-orange); font-weight:bold; letter-spacing:2px;"></p>
+            </div>
+
+            <div id="renamError" style="display:none;">
+                <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:red; margin-bottom:15px;"></i>
+                <h3 style="color:white;">MATRÍCULA NO HALLADA</h3>
+                <p style="color:#aaa;">El DNI escaneado no figura en el registro de alumnos activos.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         const WHATSAPP_NUMBER = "5492213642475"; 
         
@@ -440,10 +481,60 @@
             {title:"PAP",desc:"Psicología",icon:"fas fa-brain",img:"https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400"}
         ];
 
-        document.addEventListener('DOMContentLoaded', () => { loadFromCloud(); startCountdown(); });
+        document.addEventListener('DOMContentLoaded', () => { 
+            loadFromCloud(); 
+            startCountdown();
+            checkUrlForRenam(); // LÓGICA DE ESCANEO
+        });
+
+        // --- LÓGICA DE VALIDACIÓN QR ---
+        async function checkUrlForRenam() {
+            const params = new URLSearchParams(window.location.search);
+            const dni = params.get('dni');
+            
+            if (dni) {
+                document.getElementById('renamModal').style.display = 'flex';
+                document.getElementById('renamLoading').style.display = 'block';
+                document.getElementById('renamResult').style.display = 'none';
+                document.getElementById('renamError').style.display = 'none';
+
+                try {
+                    let { data, error } = await sb
+                        .from('alumnos')
+                        .select('*')
+                        .eq('dni', dni)
+                        .single();
+
+                    document.getElementById('renamLoading').style.display = 'none';
+
+                    if (error || !data) {
+                        document.getElementById('renamError').style.display = 'block';
+                    } else {
+                        document.getElementById('renamResult').style.display = 'block';
+                        document.getElementById('renamName').innerText = data.nombre;
+                        document.getElementById('renamDni').innerText = 'DNI: ' + data.dni;
+                        document.getElementById('renamRole').innerText = data.rol;
+                        
+                        document.getElementById('renamPhoto').src = data.foto || 'https://via.placeholder.com/150?text=FOTO';
+
+                        const badge = document.getElementById('renamBadge');
+                        if (data.estado === 'ACTIVO') {
+                            badge.className = 'status-badge badge-active';
+                            badge.innerText = 'MATRÍCULA ACTIVA';
+                        } else {
+                            badge.className = 'status-badge badge-error';
+                            badge.innerText = 'BAJA / INACTIVO';
+                        }
+                    }
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById('renamLoading').style.display = 'none';
+                    document.getElementById('renamError').style.display = 'block';
+                }
+            }
+        }
 
         function startCountdown() {
-            // FECHA: 27 FEB 2026
             const targetDate = new Date("February 27, 2026 09:00:00").getTime();
             setInterval(() => {
                 const now = new Date().getTime();
@@ -461,7 +552,6 @@
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if (!error && data) DB = { ...DB, ...data.datos };
                 
-                // Si no hay estaciones, usar default
                 if(!DB.stations || !DB.stations.length) DB.stations = DEFAULT_STATIONS;
                 
                 // Cargar Inputs Admin
@@ -469,14 +559,12 @@
                 document.getElementById('linkGO').value = DB.config.go || "";
                 document.getElementById('soldSlots').value = DB.config.sold || 0;
                 
-                // Cargar Fondo
                 if(DB.config.bg) {
                     document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
                 }
                 
                 renderAll();
                 
-                // Quitar Loading Screen
                 setTimeout(() => {
                     const screen = document.getElementById('loading-screen');
                     screen.style.opacity = '0';
