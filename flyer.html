@@ -13,6 +13,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -26,7 +27,6 @@
         }
         body { background-color: #111; font-family: 'Exo 2', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
-        /* CONTENEDOR DEL FLYER (9:16 Vertical) */
         #flyer-container {
             width: 450px; 
             height: 800px;
@@ -37,7 +37,6 @@
             border: 1px solid #333;
         }
 
-        /* CAPAS DE FONDO */
         .flyer-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); 
@@ -55,34 +54,28 @@
             z-index: 2;
         }
 
-        /* CONTENIDO */
         .flyer-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 40px 20px; }
 
-        /* HEADER */
         .f-title { font-family: 'Black Ops One'; font-size: 4rem; color: white; line-height: 0.9; text-shadow: 0 0 20px rgba(0, 229, 255, 0.6); margin-bottom: 5px; }
         .f-title span { color: var(--rescue-orange); }
         .f-subtitle { color: var(--hydro-cyan); font-size: 1rem; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 30px; }
 
-        /* INFO CENTRAL */
         .f-info-box { border-left: 4px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.1); padding: 15px; margin: 20px 0; text-align: left; backdrop-filter: blur(5px); }
         .f-date { font-size: 2rem; font-weight: 900; color: white; line-height: 1; }
         .f-location { color: #ccc; font-size: 1rem; text-transform: uppercase; margin-top: 5px; }
         .f-location i { color: var(--hydro-cyan); margin-right: 5px; }
 
-        /* QR AREA */
         .f-qr-box { background: white; padding: 10px; display: inline-block; border-radius: 10px; margin: 20px auto; box-shadow: 0 0 30px rgba(0, 229, 255, 0.3); }
         .f-cta { color: white; font-size: 0.9rem; margin-top: 10px; font-weight: bold; letter-spacing: 1px; animation: pulse 2s infinite; }
         
-        /* IMAGEN QR (ESTILO) */
+        /* ESTA IMAGEN RECIBIRÁ EL CÓDIGO BASE64 LOCAL */
         .qr-img { width: 150px; height: 150px; display: block; object-fit: contain; }
 
-        /* BANNER DE SPONSORS (Footer) */
         .f-footer { margin-top: auto; border-top: 1px solid #333; padding-top: 20px; }
         .f-section-title { font-size: 0.7rem; color: #888; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; display: block; font-weight: bold; }
         
         .logos-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
         
-        /* LOGOS */
         .logo-img { 
             height: 50px; object-fit: contain; filter: none; opacity: 1; transition: 0.3s;
             background: rgba(255,255,255,0.05); padding: 5px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -114,7 +107,7 @@
 
             <div>
                 <div class="f-qr-box">
-                    <img id="qr-target" class="qr-img" src="" alt="Cargando QR..." crossorigin="anonymous">
+                    <img id="qr-target" class="qr-img" alt="QR Inscripción">
                 </div>
                 <div class="f-cta">ESCANEA PARA INSCRIBIRTE</div>
             </div>
@@ -122,7 +115,6 @@
             <div class="f-footer">
                 <span class="f-section-title" style="color:var(--hydro-cyan);">ORGANIZA & AVALA</span>
                 <div class="logos-row" id="avales-container"></div>
-
                 <span class="f-section-title">NOS ACOMPAÑAN</span>
                 <div class="logos-row" id="sponsors-container"></div>
             </div>
@@ -130,28 +122,30 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE URLS
+        // CONFIGURACIÓN EXACTA
         const WEB_URL = "https://teatro-de-operaciones-dolores-bajo.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadQR();
+            generateLocalQR(); // Generar QR internamente
             loadData();
         });
 
-        // 1. CARGAR QR COMO IMAGEN EXTERNA (INFALIBLE)
-        function loadQR() {
-            // Usamos una API pública y estable que devuelve un PNG directo
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(WEB_URL)}&format=png`;
-            const qrImg = document.getElementById('qr-target');
-            
-            // Forzar recarga para evitar caché
-            qrImg.src = qrApiUrl;
+        // --- SOLUCIÓN DEL FALLO ---
+        // Generamos el QR en memoria y lo convertimos a Base64 inmediatamente.
+        // Esto evita llamadas a servidores externos y problemas de CORS.
+        function generateLocalQR() {
+            var qr = new QRious({
+                value: WEB_URL,
+                size: 500, // Alta calidad
+                level: 'H'
+            });
+            // Asignamos el string Base64 directamente a la imagen
+            document.getElementById('qr-target').src = qr.toDataURL();
         }
 
-        // 2. CARGAR DATOS SUPABASE
         async function loadData() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
@@ -159,6 +153,7 @@
                     const DB = data.datos;
                     if(DB.config.bg) document.getElementById('dynamic-bg-layer').style.backgroundImage = `url('${DB.config.bg}')`;
                     
+                    // Renderizamos logos agregando crossOrigin para evitar problemas similares con los sponsors
                     renderLogos('avales-container', DB.avales, 'logo-aval');
                     renderLogos('sponsors-container', DB.sponsors, '');
                 }
@@ -168,23 +163,21 @@
         function renderLogos(containerId, list, extraClass) {
             const div = document.getElementById(containerId);
             if(list && list.length > 0) {
+                // crossOrigin="anonymous" es vital para imágenes de Supabase
                 div.innerHTML = list.map(item => `<img src="${item.img}" class="logo-img ${extraClass}" crossorigin="anonymous">`).join('');
             } else {
                 div.innerHTML = '<span style="color:#444; font-size:0.8rem;">...</span>';
             }
         }
 
-        // 3. DESCARGAR IMAGEN (CONFIGURACIÓN CORS OPTIMIZADA)
         function downloadFlyer() {
             const node = document.getElementById('flyer-container');
             
-            // Pequeña espera para asegurar que las imágenes externas (QR) estén listas
             html2canvas(node, {
                 scale: 3, 
-                useCORS: true, // Vital para descargar imágenes de Supabase y del QR
+                useCORS: true, // Obligatorio para los sponsors
                 allowTaint: true,
                 backgroundColor: null,
-                logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Flyer_DBA2026_Oficial.jpg';
