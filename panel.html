@@ -18,7 +18,7 @@
         :root { --bg-deep: #020405; --hydro-cyan: #00e5ff; --rescue-orange: #ff4500; }
         body { background-color: #0a0a0a; font-family: 'Exo 2', sans-serif; color: white; }
 
-        /* ESTILOS DEL CARNET */
+        /* CARNET */
         #carnet-container {
             width: 400px; height: 650px; background: #020405; position: relative;
             overflow: hidden; border: 1px solid #333; box-shadow: 0 0 50px rgba(0,0,0,0.5);
@@ -28,10 +28,23 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('inundacion2.jpg'); background-size: cover; opacity: 0.25; filter: grayscale(100%); z-index: 1;
         }
-        .c-header, .c-footer { position: relative; z-index: 10; background: rgba(5,8,10, 0.95); display: flex; justify-content: center; align-items: center; padding: 5px; }
-        .c-header { height: 70px; border-bottom: 2px solid var(--hydro-cyan); }
-        .c-footer { height: 70px; border-top: 2px solid var(--rescue-orange); }
-        .logo-img { height: 35px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 3px; margin: 0 5px; }
+        
+        /* LOGOS CENTRADOS Y AJUSTADOS */
+        .c-header, .c-footer { 
+            position: relative; z-index: 10; background: rgba(5,8,10, 0.95); 
+            min-height: 70px; padding: 5px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .c-header { border-bottom: 2px solid var(--hydro-cyan); }
+        .c-footer { border-top: 2px solid var(--rescue-orange); }
+
+        .logo-row { 
+            display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; width: 100%; 
+        }
+        .logo-img { 
+            height: 35px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 3px; 
+        }
+
         .c-body { position: relative; z-index: 10; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; text-align: center; }
         .student-photo-frame { width: 140px; height: 140px; border: 3px solid var(--rescue-orange); background: #111; margin-bottom: 15px; overflow: hidden; box-shadow: 0 0 20px rgba(255, 69, 0, 0.2); }
         #preview-img { width: 100%; height: 100%; object-fit: cover; }
@@ -40,77 +53,78 @@
         .c-data-box { background: rgba(255,255,255,0.05); padding: 8px 20px; border-radius: 4px; border-left: 3px solid var(--hydro-cyan); width: 90%; margin-bottom: 15px; }
         .c-name { font-size: 1.2rem; font-weight: bold; text-transform: uppercase; line-height: 1.1; }
         .c-dni { color: #aaa; font-size: 0.9rem; margin-top: 2px; }
-        .c-qr-frame { background: white; padding: 5px; border-radius: 4px; display: inline-block; }
+        
+        .c-qr-frame { background: white; padding: 5px; border-radius: 4px; display: inline-block; margin-top: 10px; }
         #qr-img-render { width: 80px; height: 80px; display: block; object-fit: contain; }
         
-        /* INPUTS BLOQUEADOS */
         .input-tactical { background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 10px; width: 100%; border-radius: 4px; margin-bottom: 10px; }
-        .input-locked { opacity: 0.6; cursor: not-allowed; border-color: #444; background: #111; color: #aaa; font-weight: bold; }
+        .input-locked { opacity: 0.6; cursor: not-allowed; background: #111; color: #888; border-color: #444; }
     </style>
 </head>
 <body class="flex flex-col md:flex-row h-screen overflow-hidden">
 
     <div class="w-full md:w-1/3 bg-gray-900 p-6 overflow-y-auto border-r border-gray-800">
-        <h2 class="text-2xl font-bold mb-2 text-cyan-400 font-[Black Ops One]">CREDENCIAL OFICIAL</h2>
-        <p class="text-gray-400 text-sm mb-6">Tus datos han sido validados por el sistema.</p>
+        <h2 class="text-2xl font-bold mb-6 text-orange-500 font-[Black Ops One]">PANEL DE ALUMNO</h2>
         
         <div class="space-y-4">
             <div>
-                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> Nombre Completo</label>
-                <input type="text" id="inp-name" class="input-tactical input-locked" placeholder="CARGANDO..." readonly>
+                <label class="text-xs text-gray-500 uppercase font-bold">Nombre Completo</label>
+                <input type="text" id="inp-name" class="input-tactical input-locked" readonly>
             </div>
             
             <div>
-                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> DNI / ID</label>
-                <input type="text" id="inp-dni" class="input-tactical input-locked" placeholder="CARGANDO..." readonly>
+                <label class="text-xs text-gray-500 uppercase font-bold">DNI / ID</label>
+                <input type="text" id="inp-dni" class="input-tactical input-locked" readonly>
             </div>
 
             <div>
-                <label class="text-xs text-gray-500 uppercase font-bold"><i class="fas fa-lock mr-1"></i> Rol Asignado</label>
+                <label class="text-xs text-gray-500 uppercase font-bold">Rol Asignado</label>
                 <input type="text" id="inp-role" class="input-tactical input-locked" value="ASISTENTE" readonly>
             </div>
 
-            <div class="bg-gray-800 p-4 rounded border border-orange-900/50 shadow-[0_0_15px_rgba(255,69,0,0.1)]">
-                <label class="text-xs text-orange-500 uppercase font-bold mb-2 block animate-pulse">👉 PASO ÚNICO: Subir Foto Selfie</label>
-                <input type="file" id="inp-photo" class="text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-600 file:text-white hover:file:bg-orange-500 cursor-pointer" accept="image/*" onchange="loadPhoto(event)">
+            <div class="bg-gray-800 p-4 rounded border border-orange-900/50">
+                <label class="text-xs text-orange-500 uppercase font-bold mb-2 block">👉 1. Subir Foto Selfie</label>
+                <input type="file" id="inp-photo" class="text-sm text-gray-300" accept="image/*" onchange="loadPhoto(event)">
             </div>
 
             <hr class="border-gray-700 my-4">
 
-            <button onclick="processAndDownload()" id="btn-action" class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-4 px-4 rounded shadow-lg flex items-center justify-center gap-2 transform transition hover:scale-[1.02]">
+            <button onclick="processAndDownload()" id="btn-action" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-4 rounded shadow-lg flex items-center justify-center gap-2">
                 <i class="fas fa-id-card"></i> GENERAR Y DESCARGAR
             </button>
-            <p class="text-center text-xs text-gray-500 mt-2">Al descargar, se activará tu QR en el sistema.</p>
         </div>
     </div>
 
     <div class="w-full md:w-2/3 bg-black flex justify-center items-center p-10 overflow-y-auto">
         <div id="carnet-container">
             <div class="carnet-bg" id="dynamic-bg"></div>
+            
             <div class="c-header"><div class="logo-row" id="avales-container"></div></div>
+
             <div class="c-body">
                 <div class="c-title">DBA 2026</div>
                 <div class="c-role" id="view-role">ASISTENTE</div>
-                
+
                 <div class="student-photo-frame">
-                    <img id="preview-img" src="https://via.placeholder.com/150?text=FOTO+PENDIENTE" alt="Foto">
+                    <img id="preview-img" src="https://via.placeholder.com/150?text=FOTO" alt="Foto">
                 </div>
-                
+
                 <div class="c-data-box">
                     <div class="c-name" id="view-name">---</div>
                     <div class="c-dni" id="view-dni">DNI: ---</div>
                 </div>
-                
+
                 <div class="c-qr-frame">
-                    <img id="qr-img-render" src="https://via.placeholder.com/200x200/ffffff/000000?text=..." alt="QR Pendiente">
+                    <img id="qr-img-render" src="https://via.placeholder.com/80?text=QR" alt="QR">
                 </div>
             </div>
+
             <div class="c-footer"><div class="logo-row" id="sponsors-container"></div></div>
         </div>
     </div>
 
     <script>
-        // === CONFIGURACIÓN ===
+        // CONFIGURACIÓN
         const BASE_URL = "https://teatro-de-operaciones-dba2026.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
@@ -119,87 +133,71 @@
         let currentPhotoBase64 = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. LEER DATOS DE LA URL (NO SE PUEDEN EDITAR)
             const params = new URLSearchParams(window.location.search);
             const nameUrl = params.get('name');
             const dniUrl = params.get('dni');
 
             if(nameUrl && dniUrl) {
-                // Rellenar inputs
                 document.getElementById('inp-name').value = decodeURIComponent(nameUrl).toUpperCase();
                 document.getElementById('inp-dni').value = dniUrl;
-                
-                // Actualizar carnet visual (TEXTO SOLAMENTE)
                 document.getElementById('view-name').innerText = decodeURIComponent(nameUrl).toUpperCase();
                 document.getElementById('view-dni').innerText = 'DNI: ' + dniUrl;
             } else {
-                Swal.fire({ 
-                    icon: 'error', 
-                    title: 'Acceso Denegado', 
-                    text: 'Debes ingresar desde el link oficial enviado a tu correo/whatsapp.', 
-                    showConfirmButton: false,
-                    allowOutsideClick: false
-                });
-                document.getElementById('btn-action').disabled = true;
-                document.getElementById('btn-action').classList.add('opacity-50');
+                Swal.fire({icon:'error', title:'Error', text:'Ingresa desde el link oficial.'});
             }
-
-            loadData(); // Cargar logos
+            loadData();
         });
 
-        // 2. CARGAR Y OPTIMIZAR FOTO
         function loadPhoto(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('preview-img').src = e.target.result;
-                    // Reducir tamaño de foto para la BD
-                    resizeImage(e.target.result, 200).then(resized => { 
-                        currentPhotoBase64 = resized; 
-                    });
+                    // Reducir foto
+                    resizeImage(e.target.result, 200).then(resized => { currentPhotoBase64 = resized; });
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        // 3. PROCESO MAESTRO: GUARDAR -> GENERAR QR -> DESCARGAR
         async function processAndDownload() {
             const btn = document.getElementById('btn-action');
             const name = document.getElementById('inp-name').value;
             const dni = document.getElementById('inp-dni').value;
-            const role = 'ASISTENTE'; // SIEMPRE ASISTENTE
 
-            // Validaciones
-            if(!name || !dni) return Swal.fire('Error', 'Faltan datos del alumno.', 'error');
-            if(!currentPhotoBase64) return Swal.fire('Atención', 'Debes subir una foto tuya para la credencial.', 'warning');
+            if(!name || !dni || !currentPhotoBase64) return Swal.fire('Atención', 'Falta la foto.', 'warning');
 
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> REGISTRANDO...';
+            btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> GUARDANDO...';
             btn.disabled = true;
 
             try {
-                // A. GUARDAR EN SUPABASE
+                // 1. GUARDAR EN SUPABASE (Con los nombres de columna EXACTOS)
                 const { error } = await sb.from('alumnos').upsert([
-                    { dni: dni, nombre: name, rol: role, foto: currentPhotoBase64, estado: 'ACTIVO' }
+                    { 
+                        dni: dni, 
+                        nombrecompleto: name, // Corregido: sin espacios
+                        matricula_arg: dni,   // Corregido: matricula_arg
+                        url_de_la_foto: currentPhotoBase64 // Corregido: url_de_la_foto
+                        // Eliminados: rol, estado (para evitar error)
+                    }
                 ], { onConflict: 'dni' });
 
-                if (error) throw new Error(error.message);
+                if (error) throw error;
 
-                // B. GENERAR EL QR (AHORA SÍ)
-                btn.innerHTML = '<i class="fas fa-qrcode"></i> GENERANDO QR...';
-                
+                // 2. GENERAR QR
+                btn.innerHTML = 'GENERANDO QR...';
                 const cleanDni = dni.replace(/\D/g,'');
-                const validationUrl = `${BASE_URL}?dni=${cleanDni}`; // QR apunta al Index verificador
+                const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
                 var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
                 document.getElementById('qr-img-render').src = qr.toDataURL();
 
-                // Pausa breve para que el QR se pinte en pantalla antes de la foto
-                await new Promise(r => setTimeout(r, 1200));
+                // 3. PAUSA RENDER
+                await new Promise(r => setTimeout(r, 1000));
 
-                // C. CAPTURAR Y DESCARGAR
-                btn.innerHTML = '<i class="fas fa-camera"></i> DESCARGANDO...';
-                
+                // 4. DESCARGAR
+                btn.innerHTML = 'DESCARGANDO...';
                 const canvas = await html2canvas(document.getElementById('carnet-container'), {
                     scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#020405', logging: false
                 });
@@ -211,24 +209,23 @@
                 link.click();
                 document.body.removeChild(link);
 
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Felicitaciones!',
-                    text: 'Tu credencial ha sido generada y tu matrícula activada.',
-                    confirmButtonColor: '#00e5ff'
-                });
+                Swal.fire({icon:'success', title:'¡Correcto!', text:'Datos guardados y credencial generada.'});
 
             } catch (err) {
                 console.error(err);
-                Swal.fire('Error de Conexión', 'No se pudo guardar en la base de datos. Verifica tu internet.', 'error');
+                Swal.fire({
+                    icon: 'error', 
+                    title: 'Error Base de Datos', 
+                    text: 'Detalle: ' + (err.message || err),
+                    footer: 'Verifica en Supabase que las columnas: dni, nombrecompleto, matricula_arg, url_de_la_foto existan.'
+                });
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
 
-        // Utils
-        function resizeImage(base64Str, maxWidth = 200) {
+        function resizeImage(base64Str, maxWidth) {
             return new Promise((resolve) => {
                 let img = new Image();
                 img.src = base64Str;
@@ -239,7 +236,7 @@
                     canvas.width = width; canvas.height = height;
                     let ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.8));
+                    resolve(canvas.toDataURL('image/jpeg', 0.7));
                 }
             });
         }
