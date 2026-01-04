@@ -681,11 +681,6 @@
                 window.location.href = `panel.html?dni=${dni}&name=${encodeURIComponent(document.getElementById('payName').value)}&auth=${code}`;
             } else alert("Código incorrecto");
         }
-        function toggleAdmin() {
-            const p = document.getElementById('adminPanel');
-            if(p.style.display==='block') p.style.display='none';
-            else if(prompt("Clave Admin:")==="admin2026") p.style.display='block';
-        }
         function showTab(id) {
             document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
