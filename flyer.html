@@ -89,14 +89,13 @@
             align-items: center;
             padding: 10px 20px;
             text-align: center;
-            /* SOLUCIÓN ALINEACIÓN: Usamos gap en vez de margin negativo */
             gap: 20px; 
         }
 
-        /* TÍTULOS NUEVOS */
+        /* --- CORRECCIÓN DE TEXTOS SUPERPUESTOS --- */
         .f-title-main { 
             font-family: 'Black Ops One'; 
-            font-size: 3rem; /* Ajustado para que entre "TEATRO DE OPERACIONES" */
+            font-size: 3rem;
             color: white; 
             line-height: 1; 
             text-shadow: 0 5px 25px rgba(0,0,0,0.9); 
@@ -106,10 +105,11 @@
         .f-title-sub { 
             font-family: 'Black Ops One';
             color: var(--rescue-orange); 
-            font-size: 2.2rem; /* DBA 2026 grande */
-            line-height: 1;
+            font-size: 2.2rem;
+            line-height: 1.1; /* Un poco más de aire */
             text-transform: uppercase;
             margin-top: 5px;
+            margin-bottom: 5px; /* Separación extra abajo */
         }
         .f-subtitle-badge { 
             color: var(--hydro-cyan); 
@@ -119,10 +119,10 @@
             text-transform: uppercase; 
             background: rgba(0, 229, 255, 0.1);
             border: 1px solid var(--hydro-cyan);
-            padding: 4px 12px;
+            padding: 5px 15px;
             border-radius: 4px;
             display: inline-block;
-            margin-top: 5px;
+            margin-top: 15px; /* AUMENTADO: Separación crítica para evitar superposición */
         }
 
         /* FECHA */
@@ -147,7 +147,7 @@
             display: inline-block;
             margin-bottom: 5px;
         }
-        /* ELEMENTO CLAVE: IMAGEN REAL, NO CANVAS */
+        /* IMAGEN REAL */
         #qr-image-render { 
             width: 160px; height: 160px; 
             display: block; 
@@ -228,18 +228,17 @@
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            createQRImage(); // Crear imagen real
+            createQRImage(); 
             loadData();
         });
 
-        // GENERAR QR COMO IMAGEN (CRÍTICO)
+        // GENERAR QR
         function createQRImage() {
             var qr = new QRious({
                 value: WEB_URL,
                 size: 500,
                 level: 'H'
             });
-            // Asignar Base64 al SRC de la imagen
             document.getElementById('qr-image-render').src = qr.toDataURL();
         }
 
@@ -268,12 +267,14 @@
         function downloadFlyer() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> GENERANDO...';
+            // Mensaje claro de espera
+            btn.innerHTML = '<i class="fas fa-clock"></i> ESPERE UN MOMENTO...';
             btn.disabled = true;
 
             const node = document.getElementById('flyer-container');
             
-            // Pausa de seguridad para asegurar renderizado de imagen
+            // CORRECCIÓN CRÍTICA: 2.5 SEGUNDOS DE ESPERA
+            // Esto asegura que el QR se haya renderizado completamente antes de capturar
             setTimeout(() => {
                 html2canvas(node, {
                     scale: 3, 
@@ -296,7 +297,7 @@
                     btn.innerHTML = 'REINTENTAR';
                     btn.disabled = false;
                 });
-            }, 800); // 800ms de espera
+            }, 2500); // 2500ms = 2.5 Segundos (Tiempo suficiente para el QR)
         }
     </script>
 </body>
