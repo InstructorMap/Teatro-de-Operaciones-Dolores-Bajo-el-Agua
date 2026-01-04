@@ -54,20 +54,20 @@
         }
         .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. TÍTULO "DBA" (SUBIDO MUCHO MÁS) */
+        /* 2. TÍTULO "DBA" (AJUSTE VERTICAL AGRESIVO) */
         .c-main-header { 
             position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
             background: rgba(0, 229, 255, 0.05); 
             border-bottom: 2px solid var(--hydro-cyan); 
             display: flex; align-items: center; justify-content: center; z-index: 20; 
             
-            /* CAMBIO CLAVE: Padding bottom aumentado drásticamente para subir el texto */
-            padding-bottom: 40px; 
+            /* Padding aumentado drásticamente para subir el texto mucho más */
+            padding-bottom: 75px; 
         }
         .c-logo { 
             font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
             text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            margin-top: 0; /* Reseteado */
+            margin-top: 0; 
         }
         .c-logo span { color: var(--rescue-orange); text-shadow: none; }
 
@@ -85,7 +85,7 @@
         }
         .c-photo { width: 100%; height: 100%; object-fit: cover; }
         
-        /* 3. NOMBRE */
+        /* 3. NOMBRE (FIXED) */
         .c-name-wrapper {
             width: 90%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -107,7 +107,7 @@
             margin-bottom: 30px; text-shadow: 2px 2px 0px black; 
         }
         
-        /* 4. CARTEL ASISTENTE */
+        /* 4. CARTEL ASISTENTE (FIX: Centrado Vertical) */
         .c-role-badge { 
             background: var(--hydro-cyan); color: #05080a; 
             width: 58%; height: 70px; 
@@ -124,7 +124,8 @@
             display: inline-block; 
             line-height: normal; 
             vertical-align: middle; 
-            margin-top: -3px; 
+            /* Margen negativo fuerte para subir el texto dentro de la caja */
+            margin-top: -18px; 
         }
 
         /* FOOTER */
@@ -143,7 +144,7 @@
             flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
         }
         
-        /* 5. QR */
+        /* 5. QR (FIXED) */
         .c-qr { 
             position: absolute; 
             bottom: 145px; right: 15px;   
