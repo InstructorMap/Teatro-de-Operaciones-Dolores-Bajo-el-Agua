@@ -3,484 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador Oficial - Dolores 2026</title>
+    <title>Panel de Comando | Teatro de Operaciones DBA2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root { 
-            --bg-deep: #05080a;
-            --hydro-cyan: #00e5ff;
-            --rescue-orange: #ff4500;
+            --bg-deep: #020405; 
+            --hydro-cyan: #00e5ff; 
+            --rescue-orange: #ff4500; 
         }
-        body { font-family: 'Roboto', sans-serif; background: #020405; color: white; }
+        body { background-color: #0a0a0a; font-family: 'Exo 2', sans-serif; color: white; }
 
-        /* LOGIN */
-        #access-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020405; z-index: 9999; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, #020405 70%); }
-        .login-card { background: #0d1114; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 0 50px rgba(0, 229, 255, 0.1); }
-        .login-input { width: 100%; padding: 15px; background: #05080a; border: 1px solid #333; color: white; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
-        .login-input:focus { border-color: var(--hydro-cyan); outline: none; }
-
-        /* MODAL ADMIN LOGIN (NUEVO) */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 400px; text-align: center; border-radius: 8px; position: relative; box-shadow: 0 0 50px rgba(0,229,255,0.2); }
-        .input-dark { width: 100%; padding: 12px; background: #080c0f; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 4px; }
-        .btn-modal { width:100%; padding:12px; background:var(--rescue-orange); color:white; font-weight:bold; border-radius:4px; margin-top:10px; cursor:pointer; border:none; }
-
-        /* CARNET 10x15 CM */
-        #download-area { transform: scale(0.85); transform-origin: top center; margin-bottom: -150px; }
-        
-        .carnet-box { 
-            width: 600px; height: 900px; 
-            position: relative; overflow: hidden; 
-            background-color: #000;
+        /* INPUTS */
+        .input-tactical {
+            background: rgba(255,255,255,0.05);
             border: 1px solid #333;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .input-tactical:focus { border-color: var(--hydro-cyan); outline: none; }
+
+        /* CARNET PREVIEW (Estilo Vertical ID) */
+        #carnet-container {
+            width: 400px; 
+            height: 650px;
+            background: #020405;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        /* 1. FONDO */
-        .c-watermark-layer {
+        .carnet-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; 
-            background: linear-gradient(to bottom, rgba(5,8,10,0.80) 0%, rgba(5,8,10,0.98) 100%), url('inundacion2.jpg');
-            background-size: cover; 
-            background-position: center;
+            background-image: url('inundacion2.jpg'); 
+            background-size: cover; background-position: center;
+            opacity: 0.25; filter: grayscale(100%);
+            z-index: 1;
         }
-        
-        /* HEADER AVALES */
-        .c-header-strip { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 90px; 
-            background: white; display: flex; align-items: center; justify-content: center; gap: 30px; 
-            z-index: 20; padding: 0 20px; 
-        }
-        .c-aval-logo { max-height: 60px; max-width: 140px; object-fit: contain; }
 
-        /* 2. TÍTULO */
-        .c-main-header { 
-            position: absolute; top: 90px; left: 0; width: 100%; height: 110px; 
-            background: rgba(0, 229, 255, 0.05); 
-            border-bottom: 2px solid var(--hydro-cyan); 
-            display: flex; align-items: center; justify-content: center; z-index: 20; 
-            padding-bottom: 75px; 
+        /* HEADER & FOOTER STRIPS */
+        .c-header, .c-footer {
+            position: relative; z-index: 10;
+            background: rgba(5,8,10, 0.95);
+            display: flex; justify-content: center; align-items: center;
+            padding: 5px;
         }
-        .c-logo { 
-            font-family: 'Black Ops One'; font-size: 3.8rem; color: white; 
-            text-shadow: 0 0 20px var(--hydro-cyan); letter-spacing: 2px;
-            margin-top: 0; 
-        }
-        .c-logo span { color: var(--rescue-orange); text-shadow: none; }
+        .c-header { height: 70px; border-bottom: 2px solid var(--hydro-cyan); }
+        .c-footer { height: 70px; border-top: 2px solid var(--rescue-orange); }
 
-        /* CUERPO */
-        .c-body { 
-            position: absolute; top: 220px; width: 100%; text-align: center; z-index: 10; 
-            display: flex; flex-direction: column; align-items: center;
-        }
-        
-        .c-photo-frame { 
-            width: 270px; height: 270px; 
-            border: 5px solid var(--rescue-orange); border-radius: 25px; 
-            overflow: hidden; box-shadow: 0 0 40px rgba(255, 69, 0, 0.4); 
-            background: #000; margin-bottom: 20px;
-        }
-        .c-photo { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* 3. NOMBRE */
-        .c-name-wrapper {
-            width: 90%; 
+        /* LOGOS */
+        .logo-row { display: flex; gap: 10px; }
+        .logo-img { height: 35px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 3px; }
+
+        /* BODY CARNET */
+        .c-body {
+            position: relative; z-index: 10;
+            flex-grow: 1;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            margin-bottom: 15px; 
-        }
-        .c-name { 
-            font-family: 'Exo 2'; font-weight: 900; text-transform: uppercase; 
-            line-height: 1.4; font-size: 1.9rem; letter-spacing: 2px; 
-            color: white; text-shadow: 2px 2px 0px rgba(0,0,0,1); 
-            text-align: center; word-wrap: break-word;
-        }
-        
-        .c-dni { 
-            font-size: 1.6rem; color: #ccc; letter-spacing: 3px; font-weight: 700; 
-            margin-bottom: 30px; text-shadow: 2px 2px 0px black; 
-        }
-        
-        /* 4. CARTEL */
-        .c-role-badge { 
-            background: var(--hydro-cyan); color: #05080a; 
-            width: 58%; height: 70px; line-height: 70px; text-align: center;
-            font-family: 'Black Ops One'; font-size: 2.4rem; 
-            transform: skew(-12deg); 
-            box-shadow: 0 0 30px var(--hydro-cyan), inset 0 0 0 3px white; 
-            margin-bottom: 10px; margin-left: auto; margin-right: auto;
-        }
-        .c-role-badge span { 
-            transform: skew(12deg); display: inline-block; line-height: normal; 
-            vertical-align: middle; margin-top: -18px; 
+            padding: 10px; text-align: center;
         }
 
-        /* FOOTER */
-        .c-footer { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 130px; 
-            background: white; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 20; 
+        /* FOTO ALUMNO */
+        .student-photo-frame {
+            width: 140px; height: 140px;
+            border: 3px solid var(--rescue-orange);
+            background: #111;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2);
         }
-        .c-footer-title {
-            color: #333; font-size: 10px; font-weight: bold; margin-bottom: 5px; 
-            text-transform: uppercase; letter-spacing: 2px;
-        }
-        .c-logos-row { 
-            display: flex; gap: 30px; justify-content: center; align-items: center; 
-            flex-wrap: wrap; width: 100%; height: 70px; overflow: hidden; 
-        }
-        
-        /* 5. QR */
-        .c-qr { 
-            position: absolute; bottom: 145px; right: 15px; background: white; 
-            padding: 5px; border-radius: 4px; width: 88px; height: 88px; 
-            z-index: 30; box-shadow: 0 5px 15px rgba(0,0,0,0.9); border: 2px solid #fff;
-        }
+        #preview-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ADMIN PANEL STYLES */
-        #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
-        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
-        .tab-btn { padding: 8px 15px; background: #222; color: #888; border: none; cursor: pointer; white-space: nowrap; font-weight: bold; border-radius: 4px; }
-        .tab-btn.active { background: var(--rescue-orange); color: white; }
-        .admin-section { display: none; animation: fadeIn 0.3s; } .admin-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* DATOS TEXTO */
+        .c-title { font-family: 'Black Ops One'; font-size: 1.8rem; line-height: 1; margin-bottom: 5px; text-transform: uppercase; }
+        .c-role { color: var(--hydro-cyan); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 15px; }
+        
+        .c-data-box { background: rgba(255,255,255,0.05); padding: 8px 20px; border-radius: 4px; border-left: 3px solid var(--hydro-cyan); width: 90%; margin-bottom: 15px; }
+        .c-name { font-size: 1.2rem; font-weight: bold; text-transform: uppercase; line-height: 1.1; }
+        .c-dni { color: #aaa; font-size: 0.9rem; margin-top: 2px; }
+
+        /* QR */
+        .c-qr-frame {
+            background: white; padding: 5px; border-radius: 4px;
+            display: inline-block;
+        }
+        #qr-img-render { width: 80px; height: 80px; display: block; }
+
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
 
-    <div id="access-screen">
-        <div class="login-card">
-            <h2 class="text-white text-2xl font-black mb-2 uppercase">Área Restringida</h2>
-            <form onsubmit="validateAccess(event)">
-                <input type="text" id="loginDNI" class="login-input" placeholder="SU DNI" required>
-                <input type="text" id="loginCode" class="login-input" placeholder="CÓDIGO ÚNICO" required>
-                <button type="submit" class="w-full bg-orange-600 text-white font-bold py-3 rounded hover:bg-orange-700 transition">ENTRAR</button>
-            </form>
-            <p id="errorMsg" class="text-red-500 text-sm mt-4 hidden font-bold">⛔ CÓDIGO INCORRECTO</p>
-            <a href="index.html" class="block mt-4 text-gray-500 text-xs hover:text-white">Volver al Inicio</a>
-        </div>
-    </div>
-
-    <div id="main-content" class="max-w-7xl mx-auto w-full p-4 hidden">
-        <header class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
-            <div><h1 class="text-2xl font-black text-white italic">DOLORES <span class="text-cyan-400">2026</span></h1><p class="text-gray-500 text-xs">SISTEMA DE ACREDITACIÓN</p></div>
-            <div class="flex gap-4">
-                <button onclick="checkAuthAndAction('export')" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded text-gray-300 border border-gray-600"><i class="fas fa-file-excel"></i> LISTA ADMIN</button>
-                <a href="index.html" class="text-xs bg-red-900 hover:bg-red-800 px-3 py-2 rounded text-white font-bold">SALIR</a>
+    <div class="w-full md:w-1/3 bg-gray-900 p-6 overflow-y-auto border-r border-gray-800">
+        <h2 class="text-2xl font-bold mb-6 text-orange-500 font-[Black Ops One]">PANEL DE COMANDO</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="text-xs text-gray-400 uppercase">Nombre Completo</label>
+                <input type="text" id="inp-name" class="input-tactical" placeholder="EJ: MARCELO PATRI" onkeyup="updateCarnet()">
             </div>
-        </header>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-            <section class="bg-gray-900 p-8 rounded-xl border border-gray-800">
-                <h3 class="text-cyan-400 font-bold mb-4 uppercase tracking-widest text-sm border-l-4 border-orange-500 pl-3">Datos del Asistente</h3>
-                <form id="carnet-form" class="space-y-5">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-xs font-bold text-gray-500 uppercase">DNI (Fijo)</label><input type="text" id="dni" class="w-full p-3 bg-black rounded text-white font-bold border border-gray-700 cursor-not-allowed" readonly></div>
-                        <div><label class="text-xs font-bold text-gray-500 uppercase">Nombre (Fijo)</label><input type="text" id="nombre" class="w-full p-3 bg-black rounded text-white font-bold uppercase border border-gray-700 cursor-not-allowed" readonly></div>
-                    </div>
-                    <div class="p-6 border-2 border-dashed border-gray-700 rounded-xl bg-black text-center hover:border-cyan-400 transition cursor-pointer relative group">
-                        <input type="file" id="photo-upload" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
-                        <div class="text-gray-400 group-hover:text-cyan-400 transition"><i class="fas fa-camera text-3xl mb-2"></i><p class="text-xs font-bold uppercase">Click para subir Selfie</p></div>
-                    </div>
-                    <button type="submit" id="submit-btn" class="w-full bg-cyan-600 text-black py-4 rounded font-black text-lg hover:bg-cyan-500 transition shadow-[0_0_20px_rgba(0,229,255,0.4)] uppercase">GENERAR CREDENCIAL</button>
-                </form>
-            </section>
-
-            <section class="flex flex-col items-center">
-                <div id="download-area">
-                    <div id="preview-container" class="carnet-box">
-                        <div id="bg-watermark" class="c-watermark-layer"></div>
-                        <div class="c-header-strip" id="header-avales-container"></div>
-                        <div class="c-main-header"><div class="c-logo">DBA <span>2026</span></div></div>
-                        <div class="c-body">
-                            <div class="c-photo-frame"><img id="photo-preview" class="c-photo" src="https://placehold.co/400x400/111/333?text=FOTO" alt="Foto"></div>
-                            <div class="c-name-wrapper"><div class="c-name" id="nombre-preview">NOMBRE ALUMNO</div></div>
-                            <div class="c-dni" id="dni-container">DNI: 00.000.000</div>
-                            <div class="c-role-badge"><span>ASISTENTE</span></div>
-                        </div>
-                        <div class="c-qr"><canvas id="qr-code-preview" style="width:100%; height:100%;"></canvas></div>
-                        <div class="c-footer">
-                            <p class="c-footer-title">SPONSORS OFICIALES:</p>
-                            <div class="c-logos-row" id="footer-sponsors-container"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="actions" class="mt-4 hidden text-center">
-                    <button onclick="downloadImage()" class="bg-orange-600 text-white px-10 py-3 rounded font-bold shadow-lg hover:bg-orange-500 transition"><i class="fas fa-download"></i> DESCARGAR IMAGEN</button>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="adminLoginModal">
-        <div class="modal-content">
-            <span onclick="document.getElementById('adminLoginModal').style.display='none'" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
-            <h3 style="color:var(--rescue-orange); margin-bottom:20px;">ACCESO COMANDO</h3>
-            <input type="email" id="adminEmail" class="input-dark" placeholder="Correo Oficial">
-            <input type="password" id="adminPass" class="input-dark" placeholder="Clave de Acceso">
-            <button onclick="loginSupabase()" class="btn-modal">INICIAR SESIÓN</button>
-            <p id="loginError" style="color:red; font-size:0.8rem; margin-top:10px; display:none;"></p>
-        </div>
-    </div>
-
-    <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:10px;">
-            <h3>PANEL DE CONTROL</h3>
-            <div style="display:flex; gap:15px;">
-                <button onclick="logoutAdmin()" style="color:#aaa; background:none; border:none; cursor:pointer; font-size:0.8rem;">LOGOUT</button>
-                <button onclick="document.getElementById('adminPanel').style.display='none'" style="color:red; background:none; border:none; cursor:pointer;">CERRAR</button>
+            
+            <div>
+                <label class="text-xs text-gray-400 uppercase">DNI / ID (Para el QR)</label>
+                <input type="text" id="inp-dni" class="input-tactical" placeholder="EJ: 20300400" onkeyup="updateCarnet()">
             </div>
-        </div>
-        <div class="admin-nav">
-            <button class="tab-btn active" onclick="showTab('tabKeys')">CLAVES</button>
-            <button class="tab-btn" onclick="showTab('tabConfig')">CONFIG</button>
-            <button class="tab-btn" onclick="showTab('tabAvales')">AVALES</button>
-            <button class="tab-btn" onclick="showTab('tabSponsors')">SPONSORS</button>
-            <button class="tab-btn" onclick="showTab('tabStations')">ESTACIONES</button>
-            <button class="tab-btn" onclick="showTab('tabInst')">INSTRUCTORES</button>
-            <button class="tab-btn" onclick="showTab('tabGal')">GALERÍA</button>
-            <button class="tab-btn" onclick="showTab('tabAcc')">ALOJAMIENTO</button>
-        </div>
 
-        <div id="tabKeys" class="admin-section active">
-            <div style="background:#222; padding:20px; border-radius:8px; text-align:center;">
-                <h4 style="color:var(--rescue-orange); margin-bottom:10px;">GENERADOR DE ACCESO</h4>
-                <input type="number" id="keyDNI" class="input-dark" placeholder="DNI Alumno" style="text-align:center; font-size:1.2rem;">
-                <button onclick="generateUniqueKey()" class="btn-modal" style="background:white; color:black;">GENERAR CÓDIGO</button>
-                <div id="keyResult" style="margin-top:20px; padding:15px; border:2px dashed var(--hydro-cyan); display:none;">
-                    <h2 id="finalKey" style="color:var(--hydro-cyan); font-size:2rem; font-family:'Black Ops One'; margin:10px 0; user-select:all; cursor:pointer;" onclick="copyKey()"></h2>
-                    <p id="copyMsg" style="color:#00c853; font-size:0.8rem; display:none;">¡Copiado!</p>
+            <div>
+                <label class="text-xs text-gray-400 uppercase">Rol / Rango</label>
+                <input type="text" id="inp-role" class="input-tactical" value="OPERADOR TÁCTICO" onkeyup="updateCarnet()">
+            </div>
+
+            <div>
+                <label class="text-xs text-gray-400 uppercase">Foto de Perfil</label>
+                <input type="file" id="inp-photo" class="input-tactical" accept="image/*" onchange="loadPhoto(event)">
+            </div>
+
+            <hr class="border-gray-700 my-4">
+
+            <button onclick="downloadCarnet()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded transition shadow-lg">
+                <i class="fas fa-download mr-2"></i> DESCARGAR CREDENCIAL
+            </button>
+        </div>
+    </div>
+
+    <div class="w-full md:w-2/3 bg-black flex justify-center items-center p-10 overflow-y-auto">
+        
+        <div id="carnet-container">
+            <div class="carnet-bg" id="dynamic-bg"></div>
+            
+            <div class="c-header">
+                <div class="logo-row" id="avales-container">Loading...</div>
+            </div>
+
+            <div class="c-body">
+                <div class="c-title">DBA 2026</div>
+                <div class="c-role" id="view-role">OPERADOR TÁCTICO</div>
+
+                <div class="student-photo-frame">
+                    <img id="preview-img" src="https://via.placeholder.com/150?text=FOTO" alt="Foto Alumno">
                 </div>
+
+                <div class="c-data-box">
+                    <div class="c-name" id="view-name">NOMBRE DEL ALUMNO</div>
+                    <div class="c-dni" id="view-dni">DNI: ---</div>
+                </div>
+
+                <div class="c-qr-frame">
+                    <img id="qr-img-render" alt="QR Validación">
+                </div>
+            </div>
+
+            <div class="c-footer">
+                <div class="logo-row" id="sponsors-container">Loading...</div>
             </div>
         </div>
 
-        <div id="tabConfig" class="admin-section">
-            <p style="color:#aaa; text-align:center;">La configuración visual se gestiona desde la Landing Page.</p>
-        </div>
-        <div id="tabAvales" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
-        <div id="tabSponsors" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
-        <div id="tabStations" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
-        <div id="tabInst" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
-        <div id="tabGal" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
-        <div id="tabAcc" class="admin-section"><p style="color:#aaa; text-align:center;">Gestionar en Landing.</p></div>
     </div>
-
-    <footer style="background: black; padding: 40px 10%; text-align: center; border-top: 1px solid #222;">
-        <p style="color: #555; margin-bottom: 20px;">© 2026 Dolores Bajo el Agua.</p>
-        <p style="color:#333; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px; text-transform:uppercase;">NOS ACOMPAÑAN:</p>
-        <div id="footer-sponsors-container" class="c-logos-row" style="margin-top:20px;"></div>
-        <button onclick="checkAuthAndAction('panel')" style="background:none; border:none; color:#333; font-size:0.8rem; margin-top:40px; cursor:pointer;">Admin Login</button>
-    </footer>
 
     <script>
-        const CONFIG = {
-            supabaseUrl: 'https://bqhitoqdfzjzqfcltgap.supabase.co',
-            supabaseKey: 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6', 
-            repoUrl: 'https://instructormap.github.io/verificador-Carnet-Oficial/' 
-        };
-        const sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
+        // === CONFIGURACIÓN CRÍTICA ===
+        // Aquí definimos el nuevo dominio para que el QR funcione bien
+        const BASE_URL = "https://teatro-de-operaciones-dba2026.vercel.app/";
+        
+        const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
+        const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
+        const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const urlDni = params.get('dni');
-            const urlName = params.get('name');
-            const urlAuth = params.get('auth');
-            if(urlDni && urlAuth) {
-                if(isValidCode(urlDni, urlAuth)) { grantAccess(urlDni, urlName); return; }
-            }
-            if(urlDni) document.getElementById('loginDNI').value = urlDni;
+            updateCarnet(); // Generar QR inicial
+            loadData();     // Cargar logos
         });
 
-        // 1. VALIDAR ACCESO USUARIO
-        async function validateAccess(e) {
-            e.preventDefault();
-            const dni = document.getElementById('loginDNI').value;
-            const code = document.getElementById('loginCode').value;
-            if (isValidCode(dni, code)) {
-                try {
-                    const { data } = await sb.from('alumnos').select('*').eq('dni', dni);
-                    if(data && data.length > 0) return alert("⚠️ CREDENCIAL YA GENERADA.");
-                    grantAccess(dni, null);
-                } catch(err) { console.error(err); alert("Error conexión DB"); }
-            } else {
-                const err = document.getElementById('errorMsg');
-                err.classList.remove('hidden'); setTimeout(() => err.classList.add('hidden'), 3000);
-            }
+        // 1. ACTUALIZAR DATOS EN TIEMPO REAL
+        function updateCarnet() {
+            const name = document.getElementById('inp-name').value || 'NOMBRE DEL ALUMNO';
+            const dni = document.getElementById('inp-dni').value || '---';
+            const role = document.getElementById('inp-role').value || 'OPERADOR TÁCTICO';
+
+            document.getElementById('view-name').innerText = name.toUpperCase();
+            document.getElementById('view-dni').innerText = 'DNI: ' + dni;
+            document.getElementById('view-role').innerText = role.toUpperCase();
+
+            generateQR(dni);
         }
 
-        function isValidCode(dniInput, codeInput) {
-            if(!dniInput || !codeInput) return false;
-            const salt = "DOLORES26"; 
-            const expected = btoa(dniInput.toString().trim() + salt).substring(0, 8).toUpperCase();
-            return codeInput.toString().trim().toUpperCase() === expected;
+        // 2. GENERAR QR CON EL NUEVO DOMINIO
+        function generateQR(dni) {
+            // Limpia caracteres no numéricos para la URL
+            const cleanDni = dni.replace(/\D/g,'');
+            // URL de validación (apunta a tu nuevo Vercel)
+            const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
+            
+            var qr = new QRious({
+                value: validationUrl,
+                size: 200,
+                level: 'H'
+            });
+            
+            // Inyectar en la imagen
+            document.getElementById('qr-img-render').src = qr.toDataURL();
         }
 
-        function grantAccess(dni, name) {
-            document.getElementById('access-screen').style.display = 'none';
-            document.getElementById('main-content').classList.remove('hidden');
-            document.getElementById('dni').value = dni;
-            document.getElementById('dni-container').textContent = `DNI: ${dni}`;
-            if(name) {
-                const decoded = decodeURIComponent(name);
-                document.getElementById('nombre').value = decoded;
-                document.getElementById('nombre-preview').textContent = decoded;
-            }
-            loadDynamicAssets();
-        }
-
-        // 2. CARGA DE ASSETS
-        async function loadDynamicAssets() {
-            try {
-                let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
-                let bg = null; let avales = []; let sponsors = [];
-                if (data && data.datos) {
-                    bg = data.datos.config.bg;
-                    avales = data.datos.avales || [];
-                    sponsors = data.datos.sponsors || [];
-                }
-                if(bg) {
-                    document.getElementById('bg-watermark').style.backgroundImage = `linear-gradient(to bottom, rgba(5,8,10,0.80) 0%, rgba(5,8,10,0.98) 100%), url('${bg}')`;
-                }
-                const headerCont = document.getElementById('header-avales-container');
-                if(avales.length) headerCont.innerHTML = avales.map(a => `<img src="${a.img}" class="c-aval-logo">`).join('');
-                
-                // Footer Sponsors en Preview
-                const footerContPreview = document.querySelector('#preview-container .c-logos-row');
-                if(sponsors.length) footerContPreview.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo">`).join('');
-                
-                // Footer Sponsors en la página real (abajo del todo)
-                const footerContPage = document.getElementById('footer-sponsors-container');
-                if(sponsors.length) footerContPage.innerHTML = sponsors.map(s => `<img src="${s.img}" class="c-aval-logo" style="max-height:50px;">`).join('');
-
-            } catch (err) { console.error("Error assets:", err); }
-        }
-
-        // 3. COMPRESOR
-        const resize = (file, w=400) => new Promise(res => {
-            const r = new FileReader();
-            r.onload = e => { const i = new Image(); i.onload = () => { const c = document.createElement('canvas'); const rat = w/i.width; c.width = w; c.height = i.height*rat; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/jpeg', 0.5)); }; i.src = e.target.result; }; r.readAsDataURL(file);
-        });
-
-        document.getElementById('photo-upload').onchange = (e) => {
-            const file = e.target.files[0];
-            if(file) {
+        // 3. CARGAR FOTO DE USUARIO
+        function loadPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
                 const reader = new FileReader();
-                reader.onload = (ev) => document.getElementById('photo-preview').src = ev.target.result;
+                reader.onload = function(e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                }
                 reader.readAsDataURL(file);
             }
-        };
+        }
 
-        // 4. GUARDAR
-        document.getElementById('carnet-form').onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            const dni = document.getElementById('dni').value;
-            const name = document.getElementById('nombre').value;
-            const photoInput = document.getElementById('photo-upload');
-
-            if(photoInput.files.length === 0) return alert("Falta la foto");
-            btn.disabled = true; btn.textContent = "GUARDANDO...";
-
+        // 4. CARGAR LOGOS DESDE SUPABASE
+        async function loadData() {
             try {
-                const photoBase64 = await resize(photoInput.files[0], 400);
-                const matricula = `DOL26-${Math.floor(1000+Math.random()*9000)}`;
-                await sb.from('alumnos').insert([{ dni: dni, nombre_completo: name, matricula_arg: matricula, foto_url: photoBase64 }]);
-                new QRious({ element: document.getElementById('qr-code-preview'), value: `${CONFIG.repoUrl}?id=${matricula}`, size: 200, level: 'H' });
-                document.getElementById('actions').classList.remove('hidden');
-                btn.textContent = "¡ÉXITO!"; btn.classList.replace('bg-cyan-600', 'bg-green-600');
-            } catch (err) { console.error(err); alert("Error de conexión"); btn.disabled = false; btn.textContent = "REINTENTAR"; }
-        };
+                let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
+                if (data && data.datos) {
+                    const DB = data.datos;
+                    if(DB.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
+                    
+                    renderLogos('avales-container', DB.avales);
+                    renderLogos('sponsors-container', DB.sponsors);
+                }
+            } catch (err) { console.error(err); }
+        }
 
-        window.downloadImage = () => {
-            const node = document.getElementById('preview-container');
-            html2canvas(node, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Credencial_Dolores_${document.getElementById('dni').value}.jpg`;
-                link.href = canvas.toDataURL("image/jpeg", 0.9);
-                link.click();
-            });
-        };
-
-        // --- SISTEMA ADMIN SEGURO ---
-        let currentAction = '';
-
-        async function checkAuthAndAction(action) {
-            currentAction = action;
-            const { data: { session } } = await sb.auth.getSession();
-            
-            if (session) {
-                // Si ya está logueado, ejecutar acción
-                if(action === 'export') exportDB();
-                else if(action === 'panel') document.getElementById('adminPanel').style.display = 'block';
-            } else {
-                // Si no, mostrar login
-                document.getElementById('adminLoginModal').style.display = 'flex';
+        function renderLogos(containerId, list) {
+            const div = document.getElementById(containerId);
+            if(list && list.length > 0) {
+                div.innerHTML = list.map(item => `<img src="${item.img}" class="logo-img" crossorigin="anonymous">`).join('');
             }
         }
 
-        async function loginSupabase() {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPass').value;
-            const errorText = document.getElementById('loginError');
+        // 5. DESCARGAR IMAGEN (CON PAUSA DE SEGURIDAD)
+        function downloadCarnet() {
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...';
+            btn.disabled = true;
+
+            const node = document.getElementById('carnet-container');
             
-            errorText.style.display = 'none';
-            
-            try {
-                const { data, error } = await sb.auth.signInWithPassword({ email, password });
-                if (error) throw error;
+            // Pausa de 800ms para asegurar renderizado de QR y Foto
+            setTimeout(() => {
+                html2canvas(node, {
+                    scale: 3, 
+                    useCORS: true, 
+                    allowTaint: true,
+                    backgroundColor: '#020405',
+                    logging: false
+                }).then(canvas => {
+                    const nameFile = document.getElementById('inp-name').value.replace(/\s+/g, '_') || 'Carnet';
+                    const link = document.createElement('a');
+                    link.download = `Credencial_${nameFile}.jpg`;
+                    link.href = canvas.toDataURL("image/jpeg", 0.95);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
 
-                document.getElementById('adminLoginModal').style.display = 'none';
-                
-                // Ejecutar acción pendiente
-                if(currentAction === 'export') exportDB();
-                else if(currentAction === 'panel') document.getElementById('adminPanel').style.display = 'block';
-                
-                alert("BIENVENIDO ADMIN");
-            } catch (err) {
-                errorText.textContent = "ERROR: " + err.message;
-                errorText.style.display = 'block';
-            }
-        }
-
-        function logoutAdmin() {
-            sb.auth.signOut();
-            document.getElementById('adminPanel').style.display = 'none';
-            alert("SESIÓN CERRADA");
-        }
-
-        async function exportDB() {
-            // Verificar sesión nuevamente por seguridad
-            const { data: { session } } = await sb.auth.getSession();
-            if(!session) return alert("Acceso Denegado");
-
-            const { data } = await sb.from('alumnos').select('*');
-            if(!data || !data.length) return alert("Sin datos");
-            const csv = "data:text/csv;charset=utf-8," + Object.keys(data[0]).join(",") + "\n" + data.map(o => Object.values(o).join(",")).join("\n");
-            const link = document.createElement("a"); link.href = encodeURI(csv); link.download = "asistentes.csv"; link.click();
-        }
-
-        // GENERADOR CLAVES (Solo en Panel Admin)
-        function generateUniqueKey() {
-            const dni = document.getElementById('keyDNI').value.trim();
-            if(!dni || dni.length < 6) return alert("DNI inválido");
-            const code = btoa(dni + "DOLORES26").substring(0, 8).toUpperCase(); 
-            document.getElementById('finalKey').innerText = code;
-            document.getElementById('keyResult').style.display = 'block';
-        }
-        function copyKey() { navigator.clipboard.writeText(document.getElementById('finalKey').innerText); }
-        
-        function toggleAdmin() { document.getElementById('adminPanel').style.display='none'; } // Helper para cerrar
-        function showTab(id) {
-            document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-            document.getElementById(id).classList.add('active'); event.target.classList.add('active');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    console.error("Error descarga:", err);
+                    btn.innerHTML = 'ERROR';
+                    setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+                });
+            }, 800);
         }
     </script>
 </body>
