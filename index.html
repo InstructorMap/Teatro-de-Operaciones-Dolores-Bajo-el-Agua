@@ -439,25 +439,28 @@
     <div id="renamModal">
         <div class="renam-card">
             <span onclick="document.getElementById('renamModal').style.display='none'" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
-            <h3 style="color:var(--hydro-cyan); margin-bottom:20px; font-family:'Black Ops One';">VERIFICACIÓN OFICIAL</h3>
+            
+            <h3 style="color:var(--hydro-cyan); margin-bottom:20px; font-family:'Black Ops One'; font-size: 1.5rem;">RENAM DIGITAL</h3>
             
             <div id="renamLoading">
-                <i class="fas fa-circle-notch fa-spin" style="font-size:2rem; color:white;"></i>
-                <p style="color:#aaa; margin-top:10px;">Consultando Base de Datos...</p>
+                <i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:white;"></i>
+                <p style="color:#aaa; margin-top:20px;">Verificando Matrícula...</p>
             </div>
 
             <div id="renamResult" style="display:none;">
                 <img id="renamPhoto" src="" class="renam-photo">
-                <span id="renamBadge" class="status-badge"></span>
-                <h2 id="renamName" style="color:white; font-size:1.5rem; font-weight:bold; margin-bottom:5px;"></h2>
-                <p id="renamDni" style="color:#888; font-size:0.9rem; margin-bottom:15px;"></p>
-                <p id="renamRole" style="color:var(--rescue-orange); font-weight:bold; letter-spacing:2px;"></p>
+                
+                <div class="status-badge badge-active">MATRÍCULA ACTIVA</div>
+                
+                <h2 id="renamName" style="color:white; font-size:1.8rem; font-weight:bold; line-height:1.1; margin-bottom:10px;"></h2>
+                <p id="renamDni" style="color:#aaa; font-size:1.2rem; margin-bottom:5px; font-family: monospace;"></p>
+                <p id="renamRole" style="color:var(--rescue-orange); font-weight:bold; letter-spacing:3px; font-size:1.2rem; margin-top:10px;"></p>
             </div>
 
             <div id="renamError" style="display:none;">
-                <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:red; margin-bottom:15px;"></i>
-                <h3 style="color:white;">MATRÍCULA NO HALLADA</h3>
-                <p style="color:#aaa;">El DNI escaneado no figura en el registro de alumnos activos.</p>
+                <i class="fas fa-exclamation-triangle" style="font-size:4rem; color:red; margin-bottom:20px;"></i>
+                <h3 style="color:white; font-size:1.5rem;">NO REGISTRADO</h3>
+                <p style="color:#aaa;">Este DNI no figura en la base de datos.</p>
             </div>
         </div>
     </div>
@@ -484,10 +487,10 @@
         document.addEventListener('DOMContentLoaded', () => { 
             loadFromCloud(); 
             startCountdown();
-            checkUrlForRenam(); // LÓGICA DE ESCANEO
+            checkUrlForRenam(); 
         });
 
-        // --- LÓGICA DE VALIDACIÓN QR ---
+        // --- LÓGICA DE VALIDACIÓN QR CORREGIDA ---
         async function checkUrlForRenam() {
             const params = new URLSearchParams(window.location.search);
             const dni = params.get('dni');
@@ -511,20 +514,15 @@
                         document.getElementById('renamError').style.display = 'block';
                     } else {
                         document.getElementById('renamResult').style.display = 'block';
-                        document.getElementById('renamName').innerText = data.nombre;
-                        document.getElementById('renamDni').innerText = 'DNI: ' + data.dni;
-                        document.getElementById('renamRole').innerText = data.rol;
                         
+                        // CORRECCIÓN DE NOMBRES DE COLUMNA
+                        document.getElementById('renamName').innerText = data.nombre_completo || "SIN NOMBRE";
+                        document.getElementById('renamDni').innerText = 'DNI: ' + data.dni;
+                        // ROL FIJO
+                        document.getElementById('renamRole').innerText = "ASISTENTE";
+                        
+                        // FOTO (Ahora busca data.foto, que es lo que manda el panel)
                         document.getElementById('renamPhoto').src = data.foto || 'https://via.placeholder.com/150?text=FOTO';
-
-                        const badge = document.getElementById('renamBadge');
-                        if (data.estado === 'ACTIVO') {
-                            badge.className = 'status-badge badge-active';
-                            badge.innerText = 'MATRÍCULA ACTIVA';
-                        } else {
-                            badge.className = 'status-badge badge-error';
-                            badge.innerText = 'BAJA / INACTIVO';
-                        }
                     }
                 } catch (err) {
                     console.error(err);
@@ -554,7 +552,6 @@
                 
                 if(!DB.stations || !DB.stations.length) DB.stations = DEFAULT_STATIONS;
                 
-                // Cargar Inputs Admin
                 document.getElementById('linkMP').value = DB.config.mp || "";
                 document.getElementById('linkGO').value = DB.config.go || "";
                 document.getElementById('soldSlots').value = DB.config.sold || 0;
@@ -581,7 +578,6 @@
             finally { btn.textContent=txt; btn.disabled=false; checkSlots(); }
         }
 
-        // --- AUTH & LOGIN SYSTEM ---
         async function toggleAdmin() {
             const { data: { session } } = await sb.auth.getSession();
             if (session) {
@@ -627,13 +623,11 @@
             alert("SESIÓN CERRADA");
         }
 
-        // COMPRESOR
         const resize = (file, w=400) => new Promise(res => {
             const r = new FileReader();
             r.onload = e => { const i = new Image(); i.onload = () => { const c = document.createElement('canvas'); const rat = w/i.width; c.width = w; c.height = i.height*rat; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/jpeg', 0.5)); }; i.src = e.target.result; }; r.readAsDataURL(file);
         });
 
-        // GENERADOR DE CLAVES
         function generateUniqueKey() {
             const dni = document.getElementById('keyDNI').value.trim();
             if(!dni || dni.length < 6) return alert("DNI inválido");
@@ -644,7 +638,6 @@
         }
         function copyKey() { navigator.clipboard.writeText(document.getElementById('finalKey').innerText); }
 
-        // FUNCIONES ADMIN
         async function saveConfig() {
             DB.config.mp = document.getElementById('linkMP').value;
             DB.config.go = document.getElementById('linkGO').value;
@@ -709,7 +702,6 @@
             renderAll(); saveToCloud();
         }
 
-        // RENDERIZADO
         function renderAll() {
             document.getElementById('publicAvales').innerHTML = DB.avales.map(i => `<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('') || '<p style="color:#444">Avales</p>';
             document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, 'avales', x)).join('');
@@ -740,7 +732,6 @@
             if(remaining <= 0) document.getElementById('goCuotasContainer').style.display = 'none';
         }
 
-        // PAGO
         function contactSponsor(tier) { window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa ser sponsor nivel '+tier)}`, '_blank'); }
         function openModal() { document.getElementById('paymentModal').style.display='flex'; }
         function closeModal() { document.getElementById('paymentModal').style.display='none'; }
