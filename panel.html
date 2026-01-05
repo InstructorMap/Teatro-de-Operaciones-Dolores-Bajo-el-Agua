@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Credencial | DBA2026</title>
+    <title>Panel de Alumno | DBA2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,260 +11,386 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;600;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --bg-deep: #020405; --hydro-cyan: #00e5ff; --rescue-orange: #ff4500; }
-        body { background-color: #0a0a0a; font-family: 'Exo 2', sans-serif; color: white; }
+        :root { 
+            --bg-deep: #020405; 
+            --hydro-cyan: #00e5ff; 
+            --rescue-orange: #ff4500; 
+            --gold-diploma: #d4af37;
+        }
+        body { background-color: #0a0a0a; font-family: 'Exo 2', sans-serif; color: white; overflow-x: hidden; }
 
-        /* CARNET 10x15 (400x600px) */
+        /* === CONTENEDOR CARNET (Vertical 10x15) === */
         #carnet-container {
-            width: 400px; 
-            height: 600px; 
-            background: #020405; 
-            position: relative;
-            overflow: hidden; 
-            border: 1px solid #333; 
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            width: 400px; height: 600px; 
+            background: #020405; position: relative; overflow: hidden; 
+            border: 1px solid #333; box-shadow: 0 0 50px rgba(0,0,0,0.5);
             display: flex; flex-direction: column; justify-content: space-between;
+            margin: 0 auto; /* Centrado en móvil */
         }
         .carnet-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('inundacion2.jpg'); background-size: cover; opacity: 0.25; filter: grayscale(100%); z-index: 1;
+            background-image: url('inundacion2.jpg'); background-size: cover; background-position: center;
+            opacity: 0.25; filter: grayscale(100%); z-index: 1;
         }
         
-        /* CABECERA Y PIE (Logos Centrados) */
+        /* CABECERA Y PIE */
         .c-header, .c-footer { 
             position: relative; z-index: 10; background: rgba(5,8,10, 0.95); 
-            min-height: 70px; padding: 5px;
-            display: flex; justify-content: center; align-items: center;
+            min-height: 70px; padding: 5px; display: flex; justify-content: center; align-items: center;
         }
         .c-header { border-bottom: 2px solid var(--hydro-cyan); }
         .c-footer { border-top: 2px solid var(--rescue-orange); }
 
-        .logo-row { 
-            display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; width: 100%; 
-        }
-        .logo-img { 
-            height: 35px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 3px; 
-        }
+        .logo-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; width: 100%; }
+        .logo-img { height: 35px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 3px; }
 
-        /* CUERPO DEL CARNET */
+        /* CUERPO CARNET */
         .c-body { position: relative; z-index: 10; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; text-align: center; }
-        
-        .student-photo-frame { 
-            width: 130px; height: 130px; 
-            border: 3px solid var(--rescue-orange); 
-            background: #111; margin-bottom: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(255, 69, 0, 0.2); 
-        }
+        .student-photo-frame { width: 130px; height: 130px; border: 3px solid var(--rescue-orange); background: #111; margin-bottom: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(255, 69, 0, 0.2); }
         #preview-img { width: 100%; height: 100%; object-fit: cover; }
-        
         .c-title { font-family: 'Black Ops One'; font-size: 1.8rem; line-height: 1; margin-bottom: 5px; text-transform: uppercase; }
         .c-role { color: var(--hydro-cyan); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 10px; }
         .c-data-box { background: rgba(255,255,255,0.05); padding: 5px 20px; border-radius: 4px; border-left: 3px solid var(--hydro-cyan); width: 90%; margin-bottom: 10px; }
         .c-name { font-size: 1.1rem; font-weight: bold; text-transform: uppercase; line-height: 1.1; }
         .c-dni { color: #aaa; font-size: 0.9rem; margin-top: 2px; }
-        
-        /* QR */
         .c-qr-frame { background: white; padding: 5px; border-radius: 4px; display: inline-block; margin-top: 5px; }
         #qr-img-render { width: 80px; height: 80px; display: block; object-fit: contain; }
+
+        /* === CONTENEDOR DIPLOMA (Oculto - Landscape A4) === */
+        /* Usamos escala proporcional para renderizado en pantalla: 800px ancho x 566px alto (A4 Ratio) */
+        #diploma-wrapper { position: absolute; left: -9999px; top: -9999px; } /* Oculto visualmente pero renderizable */
         
-        /* INPUTS */
+        #diploma-container {
+            width: 1123px; height: 794px; /* A4 Landscape a 96dpi aprox */
+            position: relative; overflow: hidden; background: white; color: black;
+        }
+        .diploma-bg-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
+        }
+        .dip-content {
+            position: relative; z-index: 10; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .dip-header {
+            margin-top: 30px; width: 90%; height: 100px;
+            display: flex; justify-content: center; align-items: center; gap: 30px;
+        }
+        .dip-logo { height: 80px; object-fit: contain; }
+        
+        /* Ajuste de posición del texto para encajar en el hueco de la plantilla */
+        .dip-text-area {
+            position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; width: 80%;
+        }
+        .dip-name {
+            font-family: 'Arial', sans-serif; font-weight: 900; font-size: 3rem; 
+            text-transform: uppercase; color: #003366; /* Azul Institucional */
+            margin-bottom: 10px;
+        }
+        .dip-meta {
+            font-family: 'Arial', sans-serif; font-size: 1.5rem; color: #333; font-weight: bold;
+        }
+
+        /* INPUTS & UI */
         .input-tactical { background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 10px; width: 100%; border-radius: 4px; margin-bottom: 10px; }
-        .input-locked { opacity: 0.6; cursor: not-allowed; background: #111; color: #888; border-color: #444; font-weight: bold; }
+        .input-locked { opacity: 0.6; cursor: not-allowed; background: #111; color: #888; border-color: #444; }
+        
+        .btn-action { width: 100%; padding: 15px; font-weight: bold; border-radius: 5px; margin-bottom: 10px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn-blue { background: #00e5ff; color: black; } .btn-blue:hover { background: #00b8cc; }
+        .btn-gold { background: linear-gradient(135deg, #ffd700, #b8860b); color: black; border: 1px solid #fff; }
+        .btn-disabled { background: #333; color: #666; cursor: not-allowed; }
     </style>
 </head>
 <body class="flex flex-col md:flex-row h-screen overflow-hidden">
 
-    <div class="w-full md:w-1/3 bg-gray-900 p-6 overflow-y-auto border-r border-gray-800">
-        <h2 class="text-2xl font-bold mb-6 text-orange-500 font-[Black Ops One]">PANEL DE ALUMNO</h2>
+    <div class="w-full md:w-1/3 bg-gray-900 p-6 overflow-y-auto border-r border-gray-800 scrollbar-hide">
+        <h2 class="text-2xl font-bold mb-2 text-cyan-400 font-[Black Ops One]">PANEL DE COMANDO</h2>
+        <p class="text-gray-400 text-sm mb-6">Estado Operativo del Alumno</p>
         
         <div class="space-y-4">
-            <div>
-                <label class="text-xs text-gray-500 uppercase font-bold">Nombre Completo</label>
-                <input type="text" id="inp-name" class="input-tactical input-locked" readonly>
-            </div>
+            <div><label class="text-xs text-gray-500 font-bold">NOMBRE</label><input type="text" id="inp-name" class="input-tactical input-locked" readonly></div>
+            <div><label class="text-xs text-gray-500 font-bold">DNI / MATRÍCULA</label><input type="text" id="inp-dni" class="input-tactical input-locked" readonly></div>
             
-            <div>
-                <label class="text-xs text-gray-500 uppercase font-bold">DNI / ID</label>
-                <input type="text" id="inp-dni" class="input-tactical input-locked" readonly>
+            <div id="upload-container" class="bg-gray-800 p-4 rounded border border-orange-900/50">
+                <label class="text-xs text-orange-500 uppercase font-bold mb-2 block">👉 1. FOTO OBLIGATORIA</label>
+                <input type="file" id="inp-photo" class="text-sm text-gray-300 w-full" accept="image/*" onchange="loadPhoto(event)">
+                <button onclick="savePhotoOnly()" id="btn-save-photo" class="mt-2 w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">GUARDAR FOTO</button>
             </div>
 
-            <div>
-                <label class="text-xs text-gray-500 uppercase font-bold">Rol Asignado</label>
-                <input type="text" id="inp-role" class="input-tactical input-locked" value="ASISTENTE" readonly>
-            </div>
-
-            <div class="bg-gray-800 p-4 rounded border border-orange-900/50">
-                <label class="text-xs text-orange-500 uppercase font-bold mb-2 block">👉 1. Subir Foto Selfie</label>
-                <input type="file" id="inp-photo" class="text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-600 file:text-white hover:file:bg-orange-500 cursor-pointer" accept="image/*" onchange="loadPhoto(event)">
+            <div id="photo-locked-msg" style="display:none;" class="p-3 bg-green-900/30 border border-green-600 rounded text-center">
+                <p class="text-green-400 text-sm font-bold"><i class="fas fa-check-circle"></i> IDENTIDAD VERIFICADA</p>
             </div>
 
             <hr class="border-gray-700 my-4">
 
-            <button onclick="processAndDownload()" id="btn-action" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-4 rounded shadow-lg flex items-center justify-center gap-2 transition hover:scale-105">
-                <i class="fas fa-id-card"></i> GENERAR Y DESCARGAR
-            </button>
-            <p class="text-center text-xs text-gray-500 mt-2">Al descargar, quedarás registrado oficialmente.</p>
+            <div class="space-y-3">
+                <button id="btn-download-carnet" onclick="downloadCarnet()" class="btn-action btn-disabled" disabled>
+                    <i class="fas fa-lock"></i> <span>CARNET EN PROCESO...</span>
+                </button>
+                <p id="carnet-status-text" class="text-xs text-center text-gray-500">La descarga se habilita 48hs antes.</p>
+
+                <div id="diploma-section" style="display:none; border-top:1px solid #333; padding-top:15px; margin-top:15px;">
+                    <button onclick="downloadDiploma()" class="btn-action btn-gold">
+                        <i class="fas fa-certificate"></i> DESCARGAR DIPLOMA OFICIAL
+                    </button>
+                    <p class="text-xs text-center text-yellow-500">Certificación de aprobación disponible.</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="w-full md:w-2/3 bg-black flex justify-center items-center p-10 overflow-y-auto">
+    <div class="w-full md:w-2/3 bg-black flex justify-center items-center p-10 overflow-y-auto bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
         
         <div id="carnet-container">
             <div class="carnet-bg" id="dynamic-bg"></div>
-            
-            <div class="c-header">
-                <div class="logo-row" id="avales-container">Loading...</div>
-            </div>
-
+            <div class="c-header"><div class="logo-row" id="avales-container"></div></div>
             <div class="c-body">
                 <div class="c-title">DBA 2026</div>
                 <div class="c-role" id="view-role">ASISTENTE</div>
-
-                <div class="student-photo-frame">
-                    <img id="preview-img" src="https://via.placeholder.com/150?text=FOTO" alt="Foto">
-                </div>
-
+                <div class="student-photo-frame"><img id="preview-img" src="https://via.placeholder.com/150?text=FOTO" alt="Foto"></div>
                 <div class="c-data-box">
                     <div class="c-name" id="view-name">---</div>
                     <div class="c-dni" id="view-dni">DNI: ---</div>
                 </div>
-
-                <div class="c-qr-frame">
-                    <img id="qr-img-render" src="https://via.placeholder.com/80?text=QR" alt="QR">
-                </div>
+                <div class="c-qr-frame"><img id="qr-img-render" src="" alt="QR"></div>
             </div>
-
-            <div class="c-footer">
-                <div class="logo-row" id="sponsors-container">Loading...</div>
-            </div>
+            <div class="c-footer"><div class="logo-row" id="sponsors-container"></div></div>
         </div>
 
     </div>
 
+    <div id="diploma-wrapper">
+        <div id="diploma-container">
+            <img id="diploma-bg-img" class="diploma-bg-img" src="" crossorigin="anonymous">
+            <div class="dip-content">
+                <div class="dip-header" id="dip-avales-container"></div>
+                
+                <div class="dip-text-area">
+                    <h1 class="dip-name" id="dip-name">NOMBRE ALUMNO</h1>
+                    <p class="dip-meta" id="dip-meta">DNI: 00.000.000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // === CONFIGURACIÓN ===
         const BASE_URL = "https://teatro-de-operaciones-dba2026.vercel.app/"; 
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
+        let USER_DATA = null;
+        let CONFIG = null;
         let currentPhotoBase64 = null;
 
-        // INICIALIZACIÓN
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Leer datos de la URL (Seguridad: Solo lectura)
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Obtener DNI de URL
             const params = new URLSearchParams(window.location.search);
+            const dni = params.get('dni');
             const nameUrl = params.get('name');
-            const dniUrl = params.get('dni');
 
-            if(nameUrl && dniUrl) {
-                // Rellenar Inputs
-                document.getElementById('inp-name').value = decodeURIComponent(nameUrl).toUpperCase();
-                document.getElementById('inp-dni').value = dniUrl;
-                // Rellenar Carnet
-                document.getElementById('view-name').innerText = decodeURIComponent(nameUrl).toUpperCase();
-                document.getElementById('view-dni').innerText = 'DNI: ' + dniUrl;
-            } else {
-                // Bloquear si no hay datos
-                Swal.fire({
-                    icon:'error', 
-                    title:'Acceso Denegado', 
-                    text:'Debes ingresar desde el link oficial recibido por WhatsApp/Email.',
-                    allowOutsideClick: false,
-                    showConfirmButton: false
-                });
-                document.getElementById('btn-action').disabled = true;
-                document.getElementById('btn-action').classList.add('opacity-50');
+            if(!dni) {
+                Swal.fire({icon:'error', title:'Error', text:'Enlace inválido.'});
+                return;
             }
-            loadData(); // Cargar logos
+
+            // 2. Cargar Configuración Global (Avales, Flags)
+            await loadConfig();
+
+            // 3. Buscar Usuario en DB (o usar datos URL si es nuevo)
+            await loadUser(dni, nameUrl);
+
+            // 4. Configurar UI según estado
+            updateUI();
         });
 
-        // CARGA DE FOTO
+        // --- CARGA DE DATOS ---
+        async function loadConfig() {
+            try {
+                let { data } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
+                if(data) {
+                    CONFIG = data.datos;
+                    // Render Avales/Sponsors en Carnet
+                    renderLogos('avales-container', CONFIG.avales);
+                    renderLogos('sponsors-container', CONFIG.sponsors);
+                    
+                    // Render Avales en Diploma
+                    renderLogos('dip-avales-container', CONFIG.avales, 'dip-logo');
+
+                    // Setear Fondos
+                    if(CONFIG.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${CONFIG.config.bg}')`;
+                    if(CONFIG.config.diploma_bg) document.getElementById('diploma-bg-img').src = CONFIG.config.diploma_bg;
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        async function loadUser(dni, nameUrl) {
+            // Rellenar inputs visuales iniciales
+            document.getElementById('inp-dni').value = dni;
+            if(nameUrl) document.getElementById('inp-name').value = decodeURIComponent(nameUrl).toUpperCase();
+
+            // Consultar DB real
+            let { data, error } = await sb.from('alumnos').select('*').eq('dni', dni).single();
+            
+            if(data) {
+                USER_DATA = data;
+                // Si ya existe en DB, usamos esos datos (más seguros)
+                document.getElementById('inp-name').value = data.nombre_completo;
+                document.getElementById('view-name').innerText = data.nombre_completo;
+                document.getElementById('view-dni').innerText = 'DNI: ' + data.dni;
+                document.getElementById('view-role').innerText = data.rol || "ASISTENTE";
+                
+                // Diploma Data
+                document.getElementById('dip-name').innerText = data.nombre_completo;
+                document.getElementById('dip-meta').innerText = `DNI: ${data.dni} - ${data.rol || 'ASISTENTE'}`;
+
+                // Foto y QR
+                if(data.foto) {
+                    document.getElementById('preview-img').src = data.foto;
+                    currentPhotoBase64 = data.foto; // Para re-guardado si hace falta
+                }
+                generateQR(dni);
+            } else {
+                // Usuario Nuevo (Primera vez)
+                USER_DATA = { dni: dni, nombre_completo: decodeURIComponent(nameUrl).toUpperCase(), foto: null, asistio: false };
+                updateVisuals(USER_DATA.nombre_completo, dni);
+                generateQR(dni);
+            }
+        }
+
+        function updateUI() {
+            // A. Estado de la Foto
+            if(USER_DATA && USER_DATA.foto) {
+                document.getElementById('upload-container').style.display = 'none';
+                document.getElementById('photo-locked-msg').style.display = 'block';
+            }
+
+            // B. Estado Descarga Carnet
+            const btnCarnet = document.getElementById('btn-download-carnet');
+            const txtCarnet = document.getElementById('carnet-status-text');
+            
+            if(CONFIG && CONFIG.config.enable_download) {
+                btnCarnet.classList.remove('btn-disabled');
+                btnCarnet.classList.add('btn-blue');
+                btnCarnet.disabled = false;
+                btnCarnet.innerHTML = '<i class="fas fa-download"></i> DESCARGAR CREDENCIAL';
+                txtCarnet.innerText = "Descarga habilitada. Formato Oficial.";
+                txtCarnet.classList.add('text-green-500');
+            }
+
+            // C. Estado Diploma (Solo si asistió Y está habilitado)
+            if(CONFIG && CONFIG.config.enable_diploma && USER_DATA.asistio) {
+                document.getElementById('diploma-section').style.display = 'block';
+            }
+        }
+
+        // --- ACCIONES DEL ALUMNO ---
+
+        // 1. Guardar Foto (Onboarding)
+        async function savePhotoOnly() {
+            if(!currentPhotoBase64) return Swal.fire('Falta Foto', 'Selecciona una imagen.', 'warning');
+            
+            const btn = document.getElementById('btn-save-photo');
+            btn.innerText = "SUBIENDO..."; btn.disabled = true;
+
+            try {
+                const { error } = await sb.from('alumnos').upsert([{
+                    dni: USER_DATA.dni,
+                    nombre_completo: USER_DATA.nombre_completo,
+                    matricula_arg: USER_DATA.dni,
+                    foto: currentPhotoBase64
+                }], { onConflict: 'dni' });
+
+                if(error) throw error;
+
+                Swal.fire('¡Foto Guardada!', 'Tu identidad ha sido registrada.', 'success');
+                USER_DATA.foto = currentPhotoBase64;
+                updateUI();
+
+            } catch(e) {
+                Swal.fire('Error', e.message, 'error');
+                btn.innerText = "REINTENTAR"; btn.disabled = false;
+            }
+        }
+
+        // 2. Descargar Carnet
+        async function downloadCarnet() {
+            if(!USER_DATA.foto) return Swal.fire('Atención', 'Primero debes subir tu foto.', 'warning');
+            
+            const btn = document.getElementById('btn-download-carnet');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...';
+            
+            setTimeout(async () => {
+                const canvas = await html2canvas(document.getElementById('carnet-container'), { scale: 3, useCORS: true, backgroundColor: '#020405' });
+                downloadCanvas(canvas, `Credencial_DBA_${USER_DATA.dni}.jpg`);
+                btn.innerHTML = '<i class="fas fa-check"></i> DESCARGADO';
+                setTimeout(() => btn.innerHTML = '<i class="fas fa-download"></i> DESCARGAR CREDENCIAL', 3000);
+            }, 500);
+        }
+
+        // 3. Descargar Diploma
+        async function downloadDiploma() {
+            Swal.fire({
+                title: 'Generando Diploma',
+                text: 'Espere mientras certificamos el documento...',
+                didOpen: () => Swal.showLoading()
+            });
+
+            // Pequeña espera para asegurar carga de imágenes
+            await new Promise(r => setTimeout(r, 1000));
+
+            const canvas = await html2canvas(document.getElementById('diploma-container'), { scale: 2, useCORS: true }); // Escala 2 para buena calidad
+            downloadCanvas(canvas, `Diploma_Oficial_${USER_DATA.dni}.jpg`);
+            
+            Swal.close();
+            Swal.fire('¡Felicitaciones!', 'Documento generado con éxito.', 'success');
+        }
+
+        // UTILIDADES
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL("image/jpeg", 0.95);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function generateQR(dni) {
+            const cleanDni = dni.replace(/\D/g,'');
+            const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
+            var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
+            document.getElementById('qr-img-render').src = qr.toDataURL();
+        }
+
+        function renderLogos(id, list, className = 'logo-img') {
+            if(list && list.length) document.getElementById(id).innerHTML = list.map(i => `<img src="${i.img}" class="${className}" crossorigin="anonymous">`).join('');
+        }
+
+        function updateVisuals(name, dni) {
+            document.getElementById('view-name').innerText = name;
+            document.getElementById('view-dni').innerText = 'DNI: ' + dni;
+            document.getElementById('dip-name').innerText = name;
+            document.getElementById('dip-meta').innerText = 'DNI: ' + dni;
+        }
+
         function loadPhoto(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('preview-img').src = e.target.result;
-                    // Optimizar imagen para BD (Max 200px para evitar errores de tamaño)
-                    resizeImage(e.target.result, 200).then(resized => { currentPhotoBase64 = resized; });
+                    resizeImage(e.target.result, 300).then(resized => { currentPhotoBase64 = resized; });
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        // PROCESO DE GUARDADO Y DESCARGA
-        async function processAndDownload() {
-            const btn = document.getElementById('btn-action');
-            const name = document.getElementById('inp-name').value;
-            const dni = document.getElementById('inp-dni').value;
-
-            if(!name || !dni || !currentPhotoBase64) return Swal.fire('Atención', 'Debes subir tu foto.', 'warning');
-
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> GUARDANDO...';
-            btn.disabled = true;
-
-            try {
-                // 1. GUARDAR EN SUPABASE
-                // IMPORTANTE: Mapeo exacto de columnas:
-                // dni -> dni
-                // nombre -> nombre_completo
-                // matricula_arg -> dni
-                // foto -> foto
-                const { error } = await sb.from('alumnos').upsert([
-                    { 
-                        dni: dni, 
-                        nombre_completo: name, 
-                        matricula_arg: dni,
-                        foto: currentPhotoBase64 
-                    }
-                ], { onConflict: 'dni' });
-
-                if (error) throw error;
-
-                // 2. GENERAR QR
-                btn.innerHTML = 'GENERANDO QR...';
-                const cleanDni = dni.replace(/\D/g,'');
-                const validationUrl = `${BASE_URL}?dni=${cleanDni}`;
-                var qr = new QRious({ value: validationUrl, size: 200, level: 'H' });
-                document.getElementById('qr-img-render').src = qr.toDataURL();
-
-                // 3. ESPERA TÉCNICA (Para renderizado)
-                await new Promise(r => setTimeout(r, 1200));
-
-                // 4. DESCARGAR
-                btn.innerHTML = 'DESCARGANDO...';
-                const canvas = await html2canvas(document.getElementById('carnet-container'), {
-                    scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#020405', logging: false
-                });
-
-                const link = document.createElement('a');
-                link.download = `Credencial_DBA_${name.replace(/\s/g,'_')}.jpg`;
-                link.href = canvas.toDataURL("image/jpeg", 0.95);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                Swal.fire({icon:'success', title:'¡Éxito!', text:'Credencial generada correctamente.'});
-
-            } catch (err) {
-                console.error(err);
-                Swal.fire({
-                    icon: 'error', 
-                    title: 'Error Base de Datos', 
-                    text: 'Error técnico: ' + (err.message || err)
-                });
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        }
-
-        // REDIMENSIONAR IMAGEN (Evita payload too large)
         function resizeImage(base64Str, maxWidth) {
             return new Promise((resolve) => {
                 let img = new Image();
@@ -276,25 +402,9 @@
                     canvas.width = width; canvas.height = height;
                     let ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    resolve(canvas.toDataURL('image/jpeg', 0.8));
                 }
             });
-        }
-
-        // CARGAR LOGOS
-        async function loadData() {
-            try {
-                let { data } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
-                if (data?.datos) {
-                    const DB = data.datos;
-                    if(DB.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
-                    renderLogos('avales-container', DB.avales);
-                    renderLogos('sponsors-container', DB.sponsors);
-                }
-            } catch (err) {}
-        }
-        function renderLogos(id, list) {
-            if(list && list.length) document.getElementById(id).innerHTML = list.map(i => `<img src="${i.img}" class="logo-img" crossorigin="anonymous">`).join('');
         }
     </script>
 </body>
