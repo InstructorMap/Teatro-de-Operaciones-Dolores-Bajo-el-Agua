@@ -344,12 +344,15 @@
         <button onclick="openModal()" class="btn" style="border-radius:30px; box-shadow:0 0 30px rgba(0,0,0,0.8);"><i class="fas fa-ticket-alt"></i> RESERVAR LUGAR</button>
     </div>
 
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-content" style="max-width: 550px; min-height: 600px; background: #1a1a1a; border: 1px solid var(--hydro-cyan); position: relative; overflow: hidden;">
+<div class="modal-overlay" id="paymentModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; padding: 10px;">
+        
+        <div class="modal-content" style="width: 100%; max-width: 550px; max-height: 90vh; background: #1a1a1a; border: 1px solid var(--hydro-cyan); position: relative; border-radius: 8px; display: flex; flex-direction: column; overflow-y: auto;">
             
-            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:var(--rescue-orange); cursor:pointer; font-size:1.5rem; z-index:50; font-weight:bold;">×</span>
+            <div style="position: absolute; top: 10px; right: 15px; z-index: 50;">
+                <span onclick="closeModal()" style="color:var(--rescue-orange); cursor:pointer; font-size:2rem; font-weight:bold; background:rgba(0,0,0,0.8); padding:0 8px; border-radius:4px;">×</span>
+            </div>
 
-            <div id="step-application" style="width:100%; height:100%; min-height:600px;">
+            <div id="step-application" style="width:100%; height: 100%; min-height: 70vh;">
                 <iframe 
                     data-tally-src="https://tally.so/embed/zxy81R?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
                     loading="lazy" 
@@ -358,10 +361,63 @@
                     frameborder="0" 
                     marginheight="0" 
                     marginwidth="0" 
-                    title="SOLICITUD DE ACCESO OPERATIVO">
-                </iframe>
+                    title="SOLICITUD DE ACCESO OPERATIVO"
+                    style="min-height: 400px;"> </iframe>
             </div>
 
+            <div id="step-analysis" style="display:none; flex-direction:column; justify-content:center; align-items:center; padding:40px; text-align:center; min-height: 300px;">
+                <div class="loader" style="width: 60px; height: 60px; border-width: 6px;"></div>
+                <h3 style="color:var(--hydro-cyan); margin-top:20px; font-family:'Black Ops One'; font-size:1.3rem; animation: pulse 1s infinite;">ANALIZANDO PERFIL...</h3>
+                <p id="analysis-text" style="color:#888; margin-top:10px; font-family:monospace; font-size: 0.9rem;">Verificando antecedentes operativos...</p>
+            </div>
+
+            <div id="step-payment" style="display:none; flex-direction:column; padding:20px; animation: fadeIn 0.5s;">
+                <div style="background:rgba(0, 230, 118, 0.1); border:1px solid #00e676; padding:15px; border-radius:5px; margin-bottom:20px; text-align:center;">
+                    <i class="fas fa-check-circle" style="color:#00e676; font-size:1.8rem; margin-bottom:5px;"></i>
+                    <h3 style="color:white; font-weight:bold; margin:0; font-size: 1.2rem;">¡PERFIL APROBADO!</h3>
+                    <p style="color:#ccc; font-size:0.8rem; margin-top:5px;">Tu solicitud ha sido validada.</p>
+                </div>
+
+                <div style="text-align:left; margin-bottom:15px;">
+                    <label style="color:#aaa; font-size:0.7rem; font-weight:bold;">TUS DATOS:</label>
+                    <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
+                    <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
+                </div>
+
+                <div id="paymentButtonsContainer" style="display:flex; gap:10px; flex-direction:column;">
+                    <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.85rem; display:flex; justify-content:space-between; align-items:center; padding: 12px;">
+                        <span>PAGO TOTAL ($100k)</span> <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-large-logo-mercado-pago.webp" style="height:18px; filter:brightness(10);">
+                    </button>
+                    
+                    <div id="goCuotasContainer" class="gocuotas-box" style="padding: 10px;">
+                        <div class="gocuotas-badge" style="right: -25px; top: 5px; font-size: 0.5rem;">PROMO</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="text-align:left;">
+                                <span style="display:block; color:white; font-weight:bold; font-size: 0.9rem;">3 x $33.333</span>
+                                <span style="color:#aaa; font-size:0.7rem;">Con Tarjeta de <b>DÉBITO</b></span>
+                            </div>
+                            <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.75rem; padding:6px 10px;">ELEGIR CUOTAS</button>
+                        </div>
+                        <div class="counter-bar" style="margin: 8px 0;"><div id="slotsBar" class="counter-fill"></div></div>
+                        <p id="slotsText" style="text-align:right; font-size:0.65rem; color:var(--hydro-cyan);">Quedan cupos</p>
+                    </div>
+                </div>
+
+                <button onclick="document.getElementById('validationStep').style.display='block'; this.style.display='none'" style="margin-top:15px; background:none; border:none; color:#666; font-size:0.7rem; cursor:pointer; text-decoration:underline;">Ya pagué, quiero validar mi código.</button>
+
+                <div id="validationStep" style="display:none; margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+                    <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px; font-size: 0.9rem;">ACTIVACIÓN MANUAL</p>
+                    <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:15px; padding: 10px;"><i class="fab fa-whatsapp"></i> ENVIAR A COMANDO</button>
+                    <div style="background:#222; padding:10px; border-radius:5px; border:1px dashed #555;">
+                        <div style="display:flex; gap:5px;">
+                            <input type="text" id="accessCodeInput" class="input-dark" placeholder="CÓDIGO" style="margin-bottom:0; text-align:center; text-transform:uppercase;">
+                            <button onclick="verifyAndEnter()" class="btn-hydro" style="padding: 10px;">ENTRAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
             <div id="step-analysis" style="display:none; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:40px; text-align:center;">
                 <div class="loader" style="width: 80px; height: 80px; border-width: 8px;"></div>
                 <h3 style="color:var(--hydro-cyan); margin-top:20px; font-family:'Black Ops One'; font-size:1.5rem; animation: pulse 1s infinite;">ANALIZANDO PERFIL...</h3>
