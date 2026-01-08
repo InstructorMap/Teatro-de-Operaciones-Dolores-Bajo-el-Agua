@@ -45,7 +45,8 @@
 
         .highlight-box { background: #1a1a1a; color: white; padding: 15px; font-size: 12px; margin: 20px 0; border-left: 5px solid #00e5ff; }
 
-        .logos-container img { height: 45px; object-fit: contain; margin-left: 20px; filter: grayscale(100%); opacity: 0.8; }
+        /* CORRECCIÓN LOGOS: Quitamos margen izquierdo y ajustamos altura */
+        .logos-container img { height: 40px; object-fit: contain; filter: grayscale(100%); opacity: 0.8; }
         
         .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 120px; color: rgba(0,0,0,0.04); font-weight: 900; pointer-events: none; white-space: nowrap; font-family: 'Black Ops One'; }
     </style>
@@ -149,13 +150,12 @@
                 </p>
             </div>
 
-            <div style="position:absolute; bottom:50px; left:60px; right:60px; border-top:2px solid #1a1a1a; padding-top:15px;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="position:absolute; bottom:40px; left:60px; right:60px; border-top:2px solid #1a1a1a; padding-top:15px;">
+                <div style="display:flex; flex-direction: column; gap: 12px;">
                     <div style="font-size:10px; color:#333;">
-                        <strong>COMANDO DE ORGANIZACIÓN</strong><br>
-                        Whatsapp Oficial: +54 9 221 364-2475
+                        <strong>COMANDO DE ORGANIZACIÓN</strong> | Whatsapp Oficial: +54 9 221 364-2475
                     </div>
-                    <div id="footerLogos" class="logos-container flex"></div>
+                    <div id="footerLogos" class="logos-container flex" style="flex-wrap: wrap; gap: 20px; justify-content: flex-start;"></div>
                 </div>
             </div>
 
@@ -183,7 +183,8 @@
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if(data && data.datos.avales) {
-                    const logos = data.datos.avales.slice(0, 6).map(l => 
+                    // Tomamos los primeros 8 logos para que no explote el footer, con wrap se acomodan
+                    const logos = data.datos.avales.slice(0, 8).map(l => 
                         `<img src="${l.img}" crossorigin="anonymous">`
                     ).join('');
                     document.getElementById('footerLogos').innerHTML = logos;
@@ -206,7 +207,6 @@
             btn.disabled = true;
             
             try {
-                // OPCIONAL: Guardar Lead en Supabase si quisieras (Descomentar y crear tabla leads)
                 // await sb.from('leads').insert({ nombre: name, email: email, origen: 'PDF_SUMMARY' });
 
                 const canvas = await html2canvas(document.getElementById('a4-paper'), {
