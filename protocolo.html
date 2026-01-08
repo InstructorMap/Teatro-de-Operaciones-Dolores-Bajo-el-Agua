@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descarga Protocolo Oficial | DBA2026</title>
+    <title>Dossier Informativo | DBA2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -21,7 +21,7 @@
         /* HOJA A4 PARA PDF */
         #a4-paper {
             width: 794px; min-height: 1123px; /* A4 a 96dpi */
-            background: white; color: #333;
+            background: white; color: #1a1a1a;
             padding: 60px;
             margin: 0 auto;
             position: relative;
@@ -29,105 +29,133 @@
         }
         
         /* ESTILOS DEL DOCUMENTO */
-        .doc-header { border-bottom: 3px solid #ff4500; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .doc-title { font-size: 24px; font-weight: 900; text-transform: uppercase; line-height: 1; color: #000; }
-        .doc-meta { font-size: 10px; color: #666; text-align: right; }
+        .doc-header { border-bottom: 4px solid #ff4500; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .doc-title { font-size: 28px; font-weight: 900; text-transform: uppercase; line-height: 1; color: #000; letter-spacing: -1px; }
+        .doc-subtitle { font-size: 14px; color: #ff4500; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+        .doc-meta { font-size: 10px; color: #666; text-align: right; line-height: 1.4; }
         
-        .doc-body h2 { color: #ff4500; font-weight: 900; text-transform: uppercase; font-size: 16px; border-left: 4px solid #000; padding-left: 10px; margin-top: 30px; margin-bottom: 15px; }
-        .doc-body p { font-size: 12px; line-height: 1.6; margin-bottom: 10px; text-align: justify; }
-        .doc-body ul { font-size: 12px; margin-left: 20px; margin-bottom: 10px; }
-        .doc-body li { margin-bottom: 5px; }
+        .doc-body h2 { color: #000; font-weight: 900; text-transform: uppercase; font-size: 16px; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 25px; margin-bottom: 10px; }
+        .doc-body p { font-size: 12px; line-height: 1.5; margin-bottom: 10px; text-align: justify; color: #333; }
         
-        .warning-box { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; font-size: 11px; margin: 20px 0; border-left: 5px solid #ffc107; }
+        /* GRID DE ESTACIONES */
+        .stations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .station-box { background: #f4f4f4; padding: 10px; border-left: 3px solid #ff4500; }
+        .station-title { font-weight: 900; font-size: 11px; text-transform: uppercase; color: #000; }
+        .station-desc { font-size: 10px; color: #555; }
 
-        .logos-container img { height: 40px; object-fit: contain; margin-left: 15px; filter: grayscale(100%); opacity: 0.7; }
+        .highlight-box { background: #1a1a1a; color: white; padding: 15px; font-size: 12px; margin: 20px 0; border-left: 5px solid #00e5ff; }
+
+        .logos-container img { height: 45px; object-fit: contain; margin-left: 20px; filter: grayscale(100%); opacity: 0.8; }
         
-        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 100px; opacity: 0.03; font-weight: 900; pointer-events: none; white-space: nowrap; }
+        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 120px; color: rgba(0,0,0,0.04); font-weight: 900; pointer-events: none; white-space: nowrap; font-family: 'Black Ops One'; }
     </style>
 </head>
 <body class="flex flex-col md:flex-row min-h-screen">
 
     <div class="w-full md:w-1/3 bg-[#111] border-r border-[#333] p-8 flex flex-col justify-center">
         <div class="mb-8 text-center">
-            <h1 class="font-ops text-3xl text-[#00e5ff] mb-2">MATERIAL CLASIFICADO</h1>
-            <p class="text-gray-400 text-sm">Protocolo de Seguridad Acuática 2026</p>
+            <h1 class="font-ops text-3xl text-[#00e5ff] mb-2">RESUMEN DE MISIÓN</h1>
+            <p class="text-gray-400 text-sm">Genere su dossier personalizado con el detalle operativo del evento.</p>
         </div>
 
         <div class="bg-[#0a0a0a] p-6 rounded border border-[#333]">
-            <label class="block text-xs font-bold text-[#ff4500] mb-2">OPERADOR (NOMBRE COMPLETO)</label>
-            <input type="text" id="userName" class="w-full bg-[#1a1a1a] border border-[#333] text-white p-3 rounded mb-4" placeholder="Ej: Juan Pérez" oninput="updateDocName()">
+            <label class="block text-xs font-bold text-[#ff4500] mb-2">NOMBRE DEL INTERESADO</label>
+            <input type="text" id="userName" class="w-full bg-[#1a1a1a] border border-[#333] text-white p-3 rounded mb-4 focus:border-[#ff4500] outline-none" placeholder="Ej: Juan Pérez" oninput="updateDocName()">
 
-            <label class="block text-xs font-bold text-[#ff4500] mb-2">EMAIL DE CONTACTO</label>
-            <input type="email" id="userEmail" class="w-full bg-[#1a1a1a] border border-[#333] text-white p-3 rounded mb-6" placeholder="contacto@email.com">
+            <label class="block text-xs font-bold text-[#ff4500] mb-2">EMAIL (Para envío de info extra)</label>
+            <input type="email" id="userEmail" class="w-full bg-[#1a1a1a] border border-[#333] text-white p-3 rounded mb-6 focus:border-[#ff4500] outline-none" placeholder="contacto@email.com">
 
             <button onclick="downloadPDF()" id="btnDownload" class="w-full bg-gradient-to-r from-[#ff4500] to-red-700 text-white font-bold py-4 rounded shadow-[0_0_20px_rgba(255,69,0,0.3)] hover:scale-[1.02] transition-transform">
-                <i class="fas fa-download mr-2"></i> DESCARGAR PROTOCOLO
+                <i class="fas fa-file-download mr-2"></i> DESCARGAR DOSSIER
             </button>
-            <p class="text-xs text-center text-gray-500 mt-4"><i class="fas fa-lock"></i> Acceso seguro. Gratuito.</p>
+            <p class="text-xs text-center text-gray-500 mt-4">Documento oficial DBA 2026.</p>
         </div>
     </div>
 
-    <div class="w-full md:w-2/3 bg-[#333] p-8 overflow-y-auto flex justify-center">
+    <div class="w-full md:w-2/3 bg-[#222] p-8 overflow-y-auto flex justify-center">
         
         <div id="a4-paper">
-            <div class="watermark">USO INTERNO DBA</div>
+            <div class="watermark">DBA 2026</div>
 
             <div class="doc-header">
                 <div>
-                    <div class="doc-title">PROTOCOLO DE INTERVENCIÓN<br>EN MEDIOS ACUÁTICOS</div>
-                    <div style="font-weight:bold; margin-top:5px;">VERSIÓN TÁCTICA 2026</div>
+                    <div class="doc-title">RESUMEN EJECUTIVO<br>DE OPERACIONES</div>
+                    <div class="doc-subtitle">DOLORES BAJO EL AGUA 2026</div>
                 </div>
                 <div class="doc-meta">
-                    DOC ID: <span id="docId">DBA-26-001</span><br>
-                    FECHA: <span id="docDate"></span><br>
-                    ASIGNADO A: <span id="docUser" style="text-transform:uppercase; font-weight:bold;">INVITADO</span>
+                    <strong>DESTINATARIO:</strong><br>
+                    <span id="docUser" style="text-transform:uppercase; font-size:14px; color:#000;">INVITADO</span><br>
+                    FECHA EMISIÓN: <span id="docDate"></span>
                 </div>
             </div>
 
             <div class="doc-body">
-                <div class="warning-box">
-                    <strong>ADVERTENCIA DE SEGURIDAD:</strong> Este documento resume procedimientos operativos estándar. No reemplaza la capacitación práctica en el terreno.
+                
+                <p style="font-size:14px; font-weight:bold;">ESTIMADO/A OPERADOR/A:</p>
+                <p>Este documento detalla la estructura táctica y logística del <strong>X Congreso y Entrenamiento de Medicina Invasiva y Rescate</strong> a realizarse en la ciudad de Dolores.</p>
+
+                <h2>1. CONCEPTO OPERATIVO</h2>
+                <p>DBA2026 no es una capacitación de aula. Es un <strong>Teatro de Operaciones de 48 horas continuas</strong> diseñado para someter al cursante a estrés controlado, fatiga y toma de decisiones en escenarios de alto realismo. El objetivo es validar la aptitud física y mental del respondiente.</p>
+
+                <div class="highlight-box">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>📅 <strong>FECHA:</strong> 27 y 28 de Febrero, 2026</span>
+                        <span>📍 <strong>UBICACIÓN:</strong> Solís 139, Dolores (Bs. As.)</span>
+                    </div>
                 </div>
 
-                <h2>1. ZONIFICACIÓN DE LA ESCENA (S.C.O.)</h2>
-                <p>Para garantizar la seguridad del equipo de respuesta, se debe establecer el perímetro operativo antes de cualquier intervención:</p>
-                <ul>
-                    <li><strong>ZONA CALIENTE (HOT ZONE):</strong> 0 a 3 metros del borde del agua. Solo personal con EPP completo (Chaleco, Casco, Neopreno) y línea de vida.</li>
-                    <li><strong>ZONA TIBIA (WARM ZONE):</strong> 3 a 10 metros. Personal de soporte logístico y descontaminación.</li>
-                    <li><strong>ZONA FRÍA (COLD ZONE):</strong> Puesto de Comando (PC) y Área de Espera de Víctimas.</li>
-                </ul>
-
-                <h2>2. EPP MÍNIMO REQUERIDO</h2>
-                <p>Ningún operador ingresará al agua sin la configuración estándar DBA:</p>
-                <ul>
-                    <li><strong>PFD (Chaleco):</strong> Tipo III o V con arnés de liberación rápida.</li>
-                    <li><strong>Protección Térmica:</strong> Traje húmedo (Neopreno) o seco según temperatura < 18°C.</li>
-                    <li><strong>Calzado:</strong> Suela antideslizante con drenaje (No botas de incendio).</li>
-                    <li><strong>Casco:</strong> Certificación EN 1385 (Con orificios de drenaje).</li>
-                </ul>
-
-                <h2>3. ALGORITMO DE RESCATE (RETHROG)</h2>
-                <p>El orden de prioridad para minimizar el riesgo del rescatista es estricto:</p>
-                <ol style="font-size:12px; margin-left:20px;">
-                    <li><strong>REACH (Alcanzar):</strong> Usar pértigas o ramas desde zona segura.</li>
-                    <li><strong>THROW (Lanzar):</strong> Uso de bolsa de rescate (Throw bag) o flotador.</li>
-                    <li><strong>ROW (Navegar):</strong> Aproximación con embarcación.</li>
-                    <li><strong>GO (Nadar):</strong> Entrada al agua (Último recurso, requiere contacto directo).</li>
-                </ol>
-
-                <div style="margin-top:40px; border:1px dashed #000; padding:15px; text-align:center; font-size:11px;">
-                    <em>"El rescatista muerto no salva a nadie."</em> - Lema DBA 2026
+                <h2>2. CIRCUITO DE ROTACIÓN (6 ESTACIONES)</h2>
+                <p>Los operadores rotarán por islas de especialidad técnica bajo supervisión de instructores certificados:</p>
+                
+                <div class="stations-grid">
+                    <div class="station-box">
+                        <div class="station-title">1. RESCATE ACUÁTICO</div>
+                        <div class="station-desc">Técnicas de autosocorro, natación táctica y extracción con elementos en aguas rápidas/inundación.</div>
+                    </div>
+                    <div class="station-box">
+                        <div class="station-title">2. ALTURA Y CUERDAS</div>
+                        <div class="station-desc">Sistemas de descenso, ascenso y recuperación de víctimas en planos verticales hostiles.</div>
+                    </div>
+                    <div class="station-box">
+                        <div class="station-title">3. BREC / CONFINADOS</div>
+                        <div class="station-desc">Búsqueda y Rescate en Estructuras Colapsadas con visibilidad nula y espacios reducidos.</div>
+                    </div>
+                    <div class="station-box">
+                        <div class="station-title">4. MEDICINA TÁCTICA</div>
+                        <div class="station-desc">Protocolo MARCH, control de hemorragias masivas y extracción bajo amenaza.</div>
+                    </div>
+                    <div class="station-box">
+                        <div class="station-title">5. COMUNICACIONES</div>
+                        <div class="station-desc">Gestión de crisis, Puesto de Comando y enlace radial en zona de desastre.</div>
+                    </div>
+                    <div class="station-box">
+                        <div class="station-title">6. PSICOLOGÍA (PAP)</div>
+                        <div class="station-desc">Primeros Auxilios Psicológicos y gestión del estrés en el interviniente y la víctima.</div>
+                    </div>
                 </div>
+
+                <h2>3. CERTIFICACIÓN Y VALIDEZ</h2>
+                <p>Al finalizar el simulacro integrador, se otorgará:</p>
+                <ul>
+                    <li>Certificado de Aprobación (Sujeto a evaluación continua).</li>
+                    <li>Registro en libro de actas RENAM (Registro Nacional).</li>
+                    <li>Diploma Oficial con avales institucionales y universitarios.</li>
+                </ul>
+
+                <h2>4. INVERSIÓN Y CUPOS</h2>
+                <p>El valor del pase incluye acceso a todas las estaciones, kit de bienvenida, hidratación y zona de acampe/alojamiento gestionado.</p>
+                <p style="text-align:center; font-weight:bold; margin-top:15px; font-size:13px; color:#ff4500;">
+                    CUPOS LIMITADOS A 50 OPERADORES PARA GARANTIZAR LA SEGURIDAD.
+                </p>
             </div>
 
-            <div style="position:absolute; bottom:60px; left:60px; right:60px; border-top:1px solid #ccc; padding-top:10px;">
+            <div style="position:absolute; bottom:50px; left:60px; right:60px; border-top:2px solid #1a1a1a; padding-top:15px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-size:10px; color:#666;">
-                        <strong>DOLORES BAJO EL AGUA 2026</strong><br>
-                        Entrenamiento de Alto Rendimiento
+                    <div style="font-size:10px; color:#333;">
+                        <strong>COMANDO DE ORGANIZACIÓN</strong><br>
+                        Whatsapp Oficial: +54 9 221 364-2475
                     </div>
-                    <div id="footerLogos" class="logos-container flex">
-                        </div>
+                    <div id="footerLogos" class="logos-container flex"></div>
                 </div>
             </div>
 
@@ -135,7 +163,7 @@
     </div>
 
     <script>
-        // CONEXIÓN DB (MISMAS CREDENCIALES)
+        // CONEXIÓN DB
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
@@ -151,13 +179,11 @@
             document.getElementById('docUser').innerText = name || "INVITADO";
         }
 
-        // CARGAR LOGOS DESDE SUPABASE
         async function loadBranding() {
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if(data && data.datos.avales) {
-                    // Solo tomamos los primeros 4 para que no explote el footer
-                    const logos = data.datos.avales.slice(0, 5).map(l => 
+                    const logos = data.datos.avales.slice(0, 6).map(l => 
                         `<img src="${l.img}" crossorigin="anonymous">`
                     ).join('');
                     document.getElementById('footerLogos').innerHTML = logos;
@@ -170,39 +196,46 @@
             const email = document.getElementById('userEmail').value;
             
             if(!name || !email) {
-                Swal.fire({icon:'warning', title:'Faltan datos', text:'Ingresa tu nombre y mail para liberar el documento.', confirmButtonColor:'#ff4500'});
+                Swal.fire({icon:'warning', title:'Faltan datos', text:'Por favor completa tu nombre y mail.', confirmButtonColor:'#ff4500'});
                 return;
             }
 
             const btn = document.getElementById('btnDownload');
+            const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...';
+            btn.disabled = true;
             
             try {
-                // OPCIONAL: AQUÍ PODRÍAS GUARDAR EL LEAD EN SUPABASE
-                // await sb.from('alumnos').insert({ nombre_completo: name, email: email, rol: 'LEAD_PDF' });
+                // OPCIONAL: Guardar Lead en Supabase si quisieras (Descomentar y crear tabla leads)
+                // await sb.from('leads').insert({ nombre: name, email: email, origen: 'PDF_SUMMARY' });
 
                 const canvas = await html2canvas(document.getElementById('a4-paper'), {
                     scale: 2, useCORS: true
                 });
                 
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                const imgData = canvas.toDataURL('image/jpeg', 0.9);
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
-                pdf.save(`Protocolo_DBA2026_${name}.pdf`);
+                
+                const pdfWidth = 210;
+                const pdfHeight = 297;
+                
+                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`DBA2026_Resumen_${name.replace(/\s/g, '_')}.pdf`);
 
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Descarga Exitosa!',
-                    text: 'Revisa tu carpeta de descargas.',
+                    title: 'Dossier Generado',
+                    text: 'El resumen se ha descargado en tu dispositivo.',
                     confirmButtonColor: '#ff4500'
                 });
 
             } catch(e) {
                 console.error(e);
-                alert("Error al generar PDF");
+                Swal.fire({icon:'error', title:'Error', text:'No se pudo generar el documento.'});
             } finally {
-                btn.innerHTML = '<i class="fas fa-download mr-2"></i> DESCARGAR PROTOCOLO';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         }
     </script>
