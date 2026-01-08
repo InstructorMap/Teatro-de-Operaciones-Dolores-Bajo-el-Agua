@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dolores Bajo el Agua 2026 | Teatro de Operaciones Hidro-Táctico</title>
+    
     <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#020405">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#020405">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <meta property="og:title" content="Teatro de Operaciones DBA2026">
-    <meta property="og:description" content="Entrenamiento de Alto Rendimiento. 27-28 MAR. Validación Oficial.">
+    <meta property="og:description" content="Entrenamiento de Alto Rendimiento. 27-28 FEB. Validación Oficial.">
     <meta property="og:image" content="https://teatro-de-operaciones-dba2026.vercel.app/preview-flyer.jpg">
     <meta property="og:url" content="https://teatro-de-operaciones-dba2026.vercel.app/">
     <meta property="og:type" content="website">
@@ -18,7 +20,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'TU_PIXEL_ID_AQUI'); // REEMPLAZAR CON TU ID
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=TU_PIXEL_ID_AQUI&ev=PageView&noscript=1"/></noscript>
     <style>
         :root {
             --bg-deep: #020405; --bg-panel: #0d1114; 
@@ -54,7 +70,7 @@
         .btn-hydro { background: rgba(0, 229, 255, 0.05); border: 1px solid var(--hydro-cyan); color: var(--hydro-cyan); padding: 12px 30px; font-weight: 700; text-transform: uppercase; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: 0.3s; display: inline-block; text-decoration: none; cursor: pointer; }
         .btn-hydro:hover { background: rgba(0, 229, 255, 0.15); box-shadow: 0 0 20px rgba(0, 229, 255, 0.5); }
 
-        /* SWITCH TOGGLE (NUEVO) */
+        /* SWITCH TOGGLE */
         .switch-container { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #333; }
         .switch-label { color: white; font-weight: bold; font-size: 0.9rem; }
         .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
@@ -147,76 +163,14 @@
         .sticky-cta { position: fixed; bottom: 20px; right: 20px; z-index: 900; display: none; }
         @media (max-width: 768px) { .sticky-cta { display: block; } h1 { font-size: 3rem; } .hero { padding-top: 120px; } }
 
-<div class="modal-overlay" id="paymentModal">
-        <div class="modal-content" style="max-width: 550px; min-height: 600px; background: #1a1a1a; border: 1px solid var(--hydro-cyan); position: relative; overflow: hidden;">
-            
-            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:var(--rescue-orange); cursor:pointer; font-size:1.5rem; z-index:50; font-weight:bold;">×</span>
+        /* MODAL PAGO & TALLY (CORREGIDO) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 500px; text-align: center; border-radius: 8px; position: relative; box-shadow: 0 0 50px rgba(0,229,255,0.2); }
+        .gocuotas-box { border: 1px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.05); padding: 15px; border-radius: 8px; margin-top: 15px; position: relative; overflow: hidden; }
+        .gocuotas-badge { position: absolute; top: 10px; right: -30px; background: var(--rescue-orange); color: white; font-size: 0.6rem; padding: 2px 30px; transform: rotate(45deg); font-weight: bold; }
+        .counter-bar { height: 6px; background: #333; border-radius: 3px; margin: 10px 0; overflow: hidden; }
+        .counter-fill { height: 100%; background: var(--hydro-cyan); width: 100%; transition: width 1s; }
 
-            <div id="step-application" style="width:100%; height:100%; min-height:600px;">
-                <iframe 
-                    data-tally-src="https://tally.so/embed/zxy81R?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
-                    loading="lazy" 
-                    width="100%" 
-                    height="100%" 
-                    frameborder="0" 
-                    marginheight="0" 
-                    marginwidth="0" 
-                    title="SOLICITUD DE ACCESO OPERATIVO">
-                </iframe>
-            </div>
-
-            <div id="step-analysis" style="display:none; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:40px; text-align:center;">
-                <div class="loader" style="width: 80px; height: 80px; border-width: 8px;"></div>
-                <h3 style="color:var(--hydro-cyan); margin-top:20px; font-family:'Black Ops One'; font-size:1.5rem; animation: pulse 1s infinite;">ANALIZANDO PERFIL...</h3>
-                <p id="analysis-text" style="color:#888; margin-top:10px; font-family:monospace;">Verificando antecedentes operativos...</p>
-            </div>
-
-            <div id="step-payment" style="display:none; flex-direction:column; padding:30px; animation: fadeIn 0.5s;">
-                <div style="background:rgba(0, 230, 118, 0.1); border:1px solid #00e676; padding:15px; border-radius:5px; margin-bottom:25px; text-align:center;">
-                    <i class="fas fa-check-circle" style="color:#00e676; font-size:2rem; margin-bottom:10px;"></i>
-                    <h3 style="color:white; font-weight:bold; margin:0;">¡PERFIL APROBADO!</h3>
-                    <p style="color:#ccc; font-size:0.8rem; margin-top:5px;">Tu solicitud ha sido validada. Tienes 15 minutos para asegurar tu cupo.</p>
-                </div>
-
-                <div style="text-align:left; margin-bottom:20px;">
-                    <label style="color:#aaa; font-size:0.7rem; font-weight:bold;">CONFIRMA TUS DATOS PARA FACTURACIÓN:</label>
-                    <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
-                    <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
-                </div>
-
-                <div style="display:flex; gap:10px; flex-direction:column;">
-                    <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span>PAGO TOTAL ($100k)</span> <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-large-logo-mercado-pago.webp" style="height:20px; filter:brightness(10);">
-                    </button>
-                    
-                    <div id="goCuotasContainer" class="gocuotas-box">
-                        <div class="gocuotas-badge">PROMO</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div style="text-align:left;">
-                                <span style="display:block; color:white; font-weight:bold;">3 x $33.333</span>
-                                <span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span>
-                            </div>
-                            <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.8rem; padding:8px 15px;">ELEGIR CUOTAS</button>
-                        </div>
-                    </div>
-                </div>
-
-                <button onclick="document.getElementById('validationStep').style.display='block'; this.style.display='none'" style="margin-top:20px; background:none; border:none; color:#666; font-size:0.7rem; cursor:pointer; text-decoration:underline;">Ya pagué, quiero validar mi código.</button>
-
-                <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px;">ACTIVACIÓN MANUAL</p>
-                    <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">Envía el comprobante para recibir tu código de acceso.</p>
-                    <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:20px;"><i class="fab fa-whatsapp"></i> ENVIAR A COMANDO</button>
-                    <div style="background:#222; padding:15px; border-radius:5px; border:1px dashed #555;">
-                        <div style="display:flex; gap:5px;">
-                            <input type="text" id="accessCodeInput" class="input-dark" placeholder="CÓDIGO RECIBIDO" style="margin-bottom:0; text-align:center; text-transform:uppercase;">
-                            <button onclick="verifyAndEnter()" class="btn-hydro">ENTRAR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
         /* MODAL ADMIN */
         #adminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #15191d; padding: 25px; width: 95%; max-width: 800px; z-index: 3000; border: 1px solid #333; max-height: 90vh; overflow-y: auto; color: white; box-shadow: 0 0 80px black; border-radius: 8px; }
         .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
@@ -358,25 +312,27 @@
             <p style="color:#ccc; margin:20px 0;">Acceso Virtual + Presencial + Kit + Certificación.</p>
             <button onclick="openModal()" class="btn" style="width:100%;">INICIAR INSCRIPCIÓN</button>
         </div>
-    </section>
-<div class="price-box" style="text-align:center; background:linear-gradient(135deg, #0a0a0a, #1a1a1a); padding:40px; border:2px solid var(--titanium); max-width:600px; margin:40px auto 0; border-radius:10px; position:relative; overflow:hidden;">
-    <div style="position:absolute; top:20px; right:-35px; background:var(--titanium); color:black; font-weight:bold; font-size:0.7rem; padding:5px 40px; transform:rotate(45deg);">INSTITUCIONAL</div>
-    
-    <h3 style="color:var(--titanium); margin-bottom:15px; font-size:1.5rem; font-family:'Black Ops One';">PACK BRIGADA / FUERZAS</h3>
-    <p style="color:#ccc; margin-bottom:20px; font-size:0.9rem;">
-        Diseñado para Jefes de Cuerpo y Directores de Seguridad que buscan certificar escuadras completas.
-    </p>
-    
-    <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:8px; margin-bottom:25px;">
-        <p style="color:white; font-weight:bold; font-size:1.2rem; margin-bottom:5px;">BENEFICIO 5 + 1 FREE</p>
-        <p style="color:var(--hydro-cyan); font-size:0.9rem;">Abone 5 Operativos, Acredite 6.</p>
-    </div>
 
-    <a href="nota.html" target="_blank" class="btn" style="width:100%; background:var(--titanium); color:black; display:flex; justify-content:center; align-items:center; gap:10px; text-decoration:none;">
-        <i class="fas fa-file-invoice"></i> GENERAR SOLICITUD DE PRESUPUESTO
-    </a>
-    <p style="color:#666; font-size:0.7rem; margin-top:15px;">Descargue una nota formal instantánea para presentar en su administración.</p>
-</div>
+        <div class="price-box" style="text-align:center; background:linear-gradient(135deg, #0a0a0a, #1a1a1a); padding:40px; border:2px solid var(--titanium); max-width:600px; margin:40px auto 0; border-radius:10px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:20px; right:-35px; background:var(--titanium); color:black; font-weight:bold; font-size:0.7rem; padding:5px 40px; transform:rotate(45deg);">INSTITUCIONAL</div>
+            
+            <h3 style="color:var(--titanium); margin-bottom:15px; font-size:1.5rem; font-family:'Black Ops One';">PACK BRIGADA / FUERZAS</h3>
+            <p style="color:#ccc; margin-bottom:20px; font-size:0.9rem;">
+                Diseñado para Jefes de Cuerpo y Directores de Seguridad que buscan certificar escuadras completas.
+            </p>
+            
+            <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:8px; margin-bottom:25px;">
+                <p style="color:white; font-weight:bold; font-size:1.2rem; margin-bottom:5px;">BENEFICIO 5 + 1 FREE</p>
+                <p style="color:var(--hydro-cyan); font-size:0.9rem;">Abone 5 Operativos, Acredite 6.</p>
+            </div>
+
+            <a href="nota.html" target="_blank" class="btn" style="width:100%; background:var(--titanium); color:black; display:flex; justify-content:center; align-items:center; gap:10px; text-decoration:none;">
+                <i class="fas fa-file-invoice"></i> GENERAR SOLICITUD DE PRESUPUESTO
+            </a>
+            <p style="color:#666; font-size:0.7rem; margin-top:15px;">Descargue una nota formal instantánea para presentar en su administración.</p>
+        </div>
+    </section>
+
     <footer style="background: black; padding: 40px 10%; text-align: center; border-top: 1px solid #222;">
         <p style="color: #555; margin-bottom: 20px;">© 2026 Dolores Bajo el Agua.</p>
         <p style="color:#333; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px; text-transform:uppercase;">NOS ACOMPAÑAN:</p>
@@ -389,42 +345,70 @@
     </div>
 
     <div class="modal-overlay" id="paymentModal">
-        <div class="modal-content">
-            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
-            <h3 style="color:white; font-size:1.5rem; margin-bottom:5px;">ELIGE TU PASE</h3>
-            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Asegura tu lugar hoy mismo.</p>
+        <div class="modal-content" style="max-width: 550px; min-height: 600px; background: #1a1a1a; border: 1px solid var(--hydro-cyan); position: relative; overflow: hidden;">
             
-            <div style="text-align:left; margin-bottom:20px;">
-                <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
-                <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
+            <span onclick="closeModal()" style="position:absolute; top:15px; right:20px; color:var(--rescue-orange); cursor:pointer; font-size:1.5rem; z-index:50; font-weight:bold;">×</span>
+
+            <div id="step-application" style="width:100%; height:100%; min-height:600px;">
+                <iframe 
+                    data-tally-src="https://tally.so/embed/zxy81R?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                    loading="lazy" 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0" 
+                    title="SOLICITUD DE ACCESO OPERATIVO">
+                </iframe>
             </div>
 
-            <div id="step1">
+            <div id="step-analysis" style="display:none; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:40px; text-align:center;">
+                <div class="loader" style="width: 80px; height: 80px; border-width: 8px;"></div>
+                <h3 style="color:var(--hydro-cyan); margin-top:20px; font-family:'Black Ops One'; font-size:1.5rem; animation: pulse 1s infinite;">ANALIZANDO PERFIL...</h3>
+                <p id="analysis-text" style="color:#888; margin-top:10px; font-family:monospace;">Verificando antecedentes operativos...</p>
+            </div>
+
+            <div id="step-payment" style="display:none; flex-direction:column; padding:30px; animation: fadeIn 0.5s;">
+                <div style="background:rgba(0, 230, 118, 0.1); border:1px solid #00e676; padding:15px; border-radius:5px; margin-bottom:25px; text-align:center;">
+                    <i class="fas fa-check-circle" style="color:#00e676; font-size:2rem; margin-bottom:10px;"></i>
+                    <h3 style="color:white; font-weight:bold; margin:0;">¡PERFIL APROBADO!</h3>
+                    <p style="color:#ccc; font-size:0.8rem; margin-top:5px;">Tu solicitud ha sido validada. Tienes 15 minutos para asegurar tu cupo.</p>
+                </div>
+
+                <div style="text-align:left; margin-bottom:20px;">
+                    <label style="color:#aaa; font-size:0.7rem; font-weight:bold;">CONFIRMA TUS DATOS PARA FACTURACIÓN:</label>
+                    <input type="text" id="payName" class="input-dark" placeholder="NOMBRE COMPLETO" required style="margin-bottom:5px;">
+                    <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
+                </div>
+
                 <div style="display:flex; gap:10px; flex-direction:column;">
                     <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span>PAGO TOTAL ($100k)</span> <i class="fas fa-credit-card"></i>
+                        <span>PAGO TOTAL ($100k)</span> <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-large-logo-mercado-pago.webp" style="height:20px; filter:brightness(10);">
                     </button>
+                    
                     <div id="goCuotasContainer" class="gocuotas-box">
                         <div class="gocuotas-badge">PROMO</div>
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div style="text-align:left;"><span style="display:block; color:white; font-weight:bold;">3 x $33.333</span><span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span></div>
+                            <div style="text-align:left;">
+                                <span style="display:block; color:white; font-weight:bold;">3 x $33.333</span>
+                                <span style="color:#aaa; font-size:0.75rem;">Con Tarjeta de <b>DÉBITO</b></span>
+                            </div>
                             <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.8rem; padding:8px 15px;">ELEGIR CUOTAS</button>
                         </div>
-                        <div class="counter-bar"><div id="slotsBar" class="counter-fill"></div></div>
-                        <p id="slotsText" style="text-align:right; font-size:0.7rem; color:var(--hydro-cyan);">Quedan cupos</p>
                     </div>
                 </div>
-            </div>
 
-            <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px; animation: fadeIn 0.5s;">
-                <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px;">¡CASI LISTO!</p>
-                <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">1. Envía el comprobante.<br>2. Recibirás un código.<br>3. Ingrésalo abajo.</p>
-                <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:20px;"><i class="fab fa-whatsapp"></i> ENVIAR COMPROBANTE</button>
-                <div style="background:#222; padding:15px; border-radius:5px; border:1px dashed #555;">
-                    <label style="color:#fff; font-size:0.7rem; display:block; margin-bottom:5px; text-align:left;">TENGO MI CÓDIGO:</label>
-                    <div style="display:flex; gap:5px;">
-                        <input type="text" id="accessCodeInput" class="input-dark" placeholder="EJ: A1B2C3D4" style="margin-bottom:0; text-align:center; text-transform:uppercase; letter-spacing:2px; font-weight:bold;">
-                        <button onclick="verifyAndEnter()" class="btn-hydro" style="padding:10px 20px;">ENTRAR</button>
+                <button onclick="document.getElementById('validationStep').style.display='block'; this.style.display='none'" style="margin-top:20px; background:none; border:none; color:#666; font-size:0.7rem; cursor:pointer; text-decoration:underline;">Ya pagué, quiero validar mi código.</button>
+
+                <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
+                    <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px;">ACTIVACIÓN MANUAL</p>
+                    <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">Envía el comprobante para recibir tu código de acceso.</p>
+                    <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:20px;"><i class="fab fa-whatsapp"></i> ENVIAR A COMANDO</button>
+                    <div style="background:#222; padding:15px; border-radius:5px; border:1px dashed #555;">
+                        <div style="display:flex; gap:5px;">
+                            <input type="text" id="accessCodeInput" class="input-dark" placeholder="CÓDIGO RECIBIDO" style="margin-bottom:0; text-align:center; text-transform:uppercase;">
+                            <button onclick="verifyAndEnter()" class="btn-hydro">ENTRAR</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -459,7 +443,8 @@
             <button class="tab-btn" onclick="showTab('tabInst')">INSTRUCTORES</button>
             <button class="tab-btn" onclick="showTab('tabGal')">GALERÍA</button>
             <button class="tab-btn" onclick="showTab('tabAcc')">ALOJAMIENTO</button>
-            <button class="tab-btn" onclick="showTab('tabDiploma')">DIPLOMA</button> </div>
+            <button class="tab-btn" onclick="showTab('tabDiploma')">DIPLOMA</button> 
+        </div>
 
         <div id="tabKeys" class="admin-section active">
             <div style="background:#222; padding:20px; border-radius:8px; text-align:center;">
@@ -475,7 +460,6 @@
 
         <div id="tabConfig" class="admin-section">
             <h4 style="color:var(--hydro-cyan);">CONFIGURACIÓN GLOBAL</h4>
-            
             <div class="switch-container">
                 <span class="switch-label">HABILITAR DESCARGA CARNETS</span>
                 <label class="switch">
@@ -490,13 +474,11 @@
                     <span class="slider"></span>
                 </label>
             </div>
-            
             <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
             <h4 style="color:var(--hydro-cyan); font-size:0.9rem;">IMAGEN DE FONDO</h4>
             <input type="file" id="bgFile" class="input-dark" accept="image/*">
             <button onclick="updateBackground()" class="btn" style="padding:10px; width:100%;">CAMBIAR FONDO WEB</button>
             <button onclick="clearBackground()" style="color:red; background:none; border:none; margin-top:5px;">Restaurar Default</button>
-            
             <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
             <h4 style="color:var(--hydro-cyan); font-size:0.9rem;">PAGOS</h4>
             <label style="font-size:0.8rem; color:#888;">Link MP / GoCuotas:</label>
@@ -562,27 +544,20 @@
     <div id="renamModal">
         <div class="renam-card">
             <span onclick="document.getElementById('renamModal').style.display='none'" style="position:absolute; top:15px; right:20px; color:white; cursor:pointer; font-size:1.5rem;">×</span>
-            
             <h3 style="color:var(--hydro-cyan); margin-bottom:20px; font-family:'Black Ops One'; font-size: 1.5rem;">RENAM DIGITAL</h3>
-            
             <div id="renamLoading">
                 <i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:white;"></i>
                 <p style="color:#aaa; margin-top:20px;">Verificando Matrícula...</p>
             </div>
-
             <div id="renamResult" style="display:none;">
                 <img id="renamPhoto" src="" class="renam-photo">
                 <div class="status-badge badge-active">MATRÍCULA ACTIVA</div>
                 <h2 id="renamName" style="color:white; font-size:1.8rem; font-weight:bold; line-height:1.1; margin-bottom:10px;"></h2>
                 <p id="renamDni" style="color:#aaa; font-size:1.2rem; margin-bottom:5px; font-family: monospace;"></p>
                 <p id="renamRole" style="color:var(--rescue-orange); font-weight:bold; letter-spacing:3px; font-size:1.2rem; margin-top:10px;"></p>
-                
-                <button id="btnCheckIn" onclick="markAttendance()" class="btn" style="width:100%; margin-top:20px; background:#00c853; display:none;">
-                    ✅ CONFIRMAR ASISTENCIA
-                </button>
+                <button id="btnCheckIn" onclick="markAttendance()" class="btn" style="width:100%; margin-top:20px; background:#00c853; display:none;">✅ CONFIRMAR ASISTENCIA</button>
                 <p id="checkInStatus" style="color:#00e676; font-weight:bold; margin-top:15px; display:none;">¡PRESENTE CONFIRMADO!</p>
             </div>
-
             <div id="renamError" style="display:none;">
                 <i class="fas fa-exclamation-triangle" style="font-size:4rem; color:red; margin-bottom:20px;"></i>
                 <h3 style="color:white; font-size:1.5rem;">NO REGISTRADO</h3>
@@ -593,19 +568,11 @@
 
     <script>
         const WHATSAPP_NUMBER = "5492213642475"; 
-        
-        // CONEXIÓN SUPABASE
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // Agregamos flags nuevos al DB local
-        let DB = { 
-            avales:[], sponsors:[], stations:[], instructores:[], galeria:[], accom:[], 
-            config:{ mp:"", go:"", sold:0, bg:"", enable_download:false, enable_diploma:false, diploma_bg:"" } 
-        };
-        
-        // VARIABLE GLOBAL PARA EL DNI ESCANEADO ACTUALMENTE
+        let DB = { avales:[], sponsors:[], stations:[], instructores:[], galeria:[], accom:[], config:{ mp:"", go:"", sold:0, bg:"", enable_download:false, enable_diploma:false, diploma_bg:"" } };
         let currentScannedDNI = null;
 
         const DEFAULT_STATIONS = [
@@ -623,57 +590,57 @@
             checkUrlForRenam(); 
         });
 
-        // --- LÓGICA DE VALIDACIÓN QR (CON CHECK-IN) ---
+        // TALLY LISTENER
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.event === 'Tally.FormSubmitted') {
+                runAnalysisSequence();
+            }
+        });
+
+        function runAnalysisSequence() {
+            document.getElementById('step-application').style.display = 'none';
+            const analysisStep = document.getElementById('step-analysis');
+            analysisStep.style.display = 'flex';
+            const textElement = document.getElementById('analysis-text');
+            setTimeout(() => { textElement.innerText = "Consultando base de datos RENAM..."; }, 1500);
+            setTimeout(() => { textElement.innerText = "Validando aptitud física..."; }, 3000);
+            setTimeout(() => { textElement.innerText = "Calculando cupos disponibles..."; }, 4500);
+            setTimeout(() => {
+                analysisStep.style.display = 'none';
+                document.getElementById('step-payment').style.display = 'flex';
+                const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+                Toast.fire({ icon: 'success', title: '¡ACCESO AUTORIZADO!' });
+            }, 6000);
+        }
+
         async function checkUrlForRenam() {
             const params = new URLSearchParams(window.location.search);
             const dni = params.get('dni');
-            
             if (dni) {
-                currentScannedDNI = dni; // Guardamos DNI
+                currentScannedDNI = dni;
                 document.getElementById('renamModal').style.display = 'flex';
                 document.getElementById('renamLoading').style.display = 'block';
                 document.getElementById('renamResult').style.display = 'none';
                 document.getElementById('renamError').style.display = 'none';
-
                 try {
-                    // Verificamos si hay sesión de admin activa
                     const { data: { session } } = await sb.auth.getSession();
                     const isAdmin = !!session;
-
-                    let { data, error } = await sb
-                        .from('alumnos')
-                        .select('*')
-                        .eq('dni', dni)
-                        .single();
-
+                    let { data, error } = await sb.from('alumnos').select('*').eq('dni', dni).single();
                     document.getElementById('renamLoading').style.display = 'none';
-
                     if (error || !data) {
                         document.getElementById('renamError').style.display = 'block';
                     } else {
                         document.getElementById('renamResult').style.display = 'block';
-                        
                         document.getElementById('renamName').innerText = data.nombre_completo || "SIN NOMBRE";
                         document.getElementById('renamDni').innerText = 'DNI: ' + data.dni;
                         document.getElementById('renamRole').innerText = data.rol || "ASISTENTE";
                         document.getElementById('renamPhoto').src = data.foto || 'https://via.placeholder.com/150?text=FOTO';
-
-                        // Lógica del botón Check-in
                         const btnCheck = document.getElementById('btnCheckIn');
                         const statusMsg = document.getElementById('checkInStatus');
-
                         if (isAdmin) {
-                            if (data.asistio) {
-                                btnCheck.style.display = 'none';
-                                statusMsg.style.display = 'block'; // Ya estaba presente
-                            } else {
-                                btnCheck.style.display = 'block'; // Mostrar botón para dar presente
-                                statusMsg.style.display = 'none';
-                            }
-                        } else {
-                            btnCheck.style.display = 'none'; // Visitante normal no ve botones
-                            statusMsg.style.display = 'none';
-                        }
+                            if (data.asistio) { btnCheck.style.display = 'none'; statusMsg.style.display = 'block'; }
+                            else { btnCheck.style.display = 'block'; statusMsg.style.display = 'none'; }
+                        } else { btnCheck.style.display = 'none'; statusMsg.style.display = 'none'; }
                     }
                 } catch (err) {
                     console.error(err);
@@ -683,29 +650,19 @@
             }
         }
 
-        // --- FUNCIÓN DAR PRESENTE ---
         async function markAttendance() {
             if(!currentScannedDNI) return;
             const btn = document.getElementById('btnCheckIn');
-            btn.innerText = "PROCESANDO...";
-            btn.disabled = true;
-
+            btn.innerText = "PROCESANDO..."; btn.disabled = true;
             try {
-                const { error } = await sb
-                    .from('alumnos')
-                    .update({ asistio: true })
-                    .eq('dni', currentScannedDNI);
-
+                const { error } = await sb.from('alumnos').update({ asistio: true }).eq('dni', currentScannedDNI);
                 if(error) throw error;
-
                 btn.style.display = 'none';
                 document.getElementById('checkInStatus').style.display = 'block';
                 alert("✅ Asistencia Confirmada Exitosamente");
-
             } catch(e) {
                 alert("Error al marcar asistencia: " + e.message);
-                btn.innerText = "REINTENTAR";
-                btn.disabled = false;
+                btn.innerText = "REINTENTAR"; btn.disabled = false;
             }
         }
 
@@ -726,31 +683,20 @@
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if (!error && data) DB = { ...DB, ...data.datos };
-                
                 if(!DB.stations || !DB.stations.length) DB.stations = DEFAULT_STATIONS;
-                
-                // Cargar Configs Admin
                 document.getElementById('linkMP').value = DB.config.mp || "";
                 document.getElementById('linkGO').value = DB.config.go || "";
                 document.getElementById('soldSlots').value = DB.config.sold || 0;
                 document.getElementById('toggleDownload').checked = DB.config.enable_download || false;
                 document.getElementById('toggleDiploma').checked = DB.config.enable_diploma || false;
-                
-                if(DB.config.bg) {
-                    document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
-                }
-                if(DB.config.diploma_bg) {
-                    document.getElementById('previewDiplomaBg').src = DB.config.diploma_bg;
-                }
-                
+                if(DB.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
+                if(DB.config.diploma_bg) document.getElementById('previewDiplomaBg').src = DB.config.diploma_bg;
                 renderAll();
-                
                 setTimeout(() => {
                     const screen = document.getElementById('loading-screen');
                     screen.style.opacity = '0';
                     setTimeout(() => screen.style.display = 'none', 500);
                 }, 1000);
-
             } catch (err) { console.error("Error carga:", err); }
         }
 
@@ -776,28 +722,21 @@
             const password = document.getElementById('adminPass').value;
             const errorText = document.getElementById('loginError');
             const btn = event.target;
-
             btn.disabled = true; btn.textContent = "VERIFICANDO...";
             errorText.style.display = 'none';
-
             try {
                 const { data, error } = await sb.auth.signInWithPassword({ email, password });
                 if (error) throw error;
-
                 document.getElementById('adminLoginModal').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
                 alert("BIENVENIDO COMANDANTE");
-                
                 document.getElementById('adminEmail').value = '';
                 document.getElementById('adminPass').value = '';
-
             } catch (err) {
                 console.error(err);
                 errorText.textContent = "ERROR: " + err.message;
                 errorText.style.display = 'block';
-            } finally {
-                btn.disabled = false; btn.textContent = "INICIAR SESIÓN";
-            }
+            } finally { btn.disabled = false; btn.textContent = "INICIAR SESIÓN"; }
         }
 
         function logoutAdmin() {
@@ -825,10 +764,8 @@
             DB.config.mp = document.getElementById('linkMP').value;
             DB.config.go = document.getElementById('linkGO').value;
             DB.config.sold = document.getElementById('soldSlots').value;
-            // GUARDAR TOGGLES
             DB.config.enable_download = document.getElementById('toggleDownload').checked;
             DB.config.enable_diploma = document.getElementById('toggleDiploma').checked;
-            
             await saveToCloud();
         }
         async function updateBackground() {
@@ -841,7 +778,6 @@
         async function updateDiplomaBg() {
             const f = document.getElementById('diplomaBgFile').files[0];
             if(!f) return alert("Imagen requerida");
-            // No comprimimos tanto el diploma para que se vea bien al imprimir (1200px)
             DB.config.diploma_bg = await resize(f, 1200);
             document.getElementById('previewDiplomaBg').src = DB.config.diploma_bg;
             await saveToCloud();
@@ -886,7 +822,6 @@
             DB.stations[idx].img = await resize(f,400);
             renderAll(); await saveToCloud();
         }
-
         function deleteItem(type, idx) {
             if(!confirm("¿Borrar?")) return;
             if(type === 'avales') DB.avales.splice(idx,1);
@@ -896,29 +831,21 @@
             else if(type === 'galeria') DB.galeria.splice(idx,1);
             renderAll(); saveToCloud();
         }
-
         function renderAll() {
             document.getElementById('publicAvales').innerHTML = DB.avales.map(i => `<div class="aval-item"><img src="${i.img}" class="aval-img"></div>`).join('') || '<p style="color:#444">Avales</p>';
             document.getElementById('listAvales').innerHTML = DB.avales.map((i,x) => mkRow(i.name, 'avales', x)).join('');
-            
             document.getElementById('publicSponsors').innerHTML = DB.sponsors.map(i => `<img src="${i.img}" class="sponsor-img-footer">`).join('');
             document.getElementById('listSponsors').innerHTML = DB.sponsors.map((i,x) => mkRow(i.name, 'sponsors', x)).join('');
-
             document.getElementById('publicStations').innerHTML = DB.stations.map(s => `<div class="station-card"><img src="${s.img}" class="station-img"><div class="station-body"><i class="${s.icon} station-icon"></i><div class="station-title">${s.title}</div><p style="color:#ccc">${s.desc}</p></div></div>`).join('');
-            
             document.getElementById('publicInstructors').innerHTML = DB.instructores.map(i => `<div class="inst-card"><div class="inst-img-wrap"><img src="${i.img}" class="inst-img"></div><div class="inst-name">${i.name}</div><div class="inst-role">${i.role}</div></div>`).join('');
             document.getElementById('listInst').innerHTML = DB.instructores.map((i,x) => mkRow(i.name, 'instructores', x)).join('');
-            
             document.getElementById('publicGallery').innerHTML = DB.galeria.map(i => `<div class="gallery-item"><img src="${i.img}" class="gallery-img"></div>`).join('');
             document.getElementById('listGaleria').innerHTML = DB.galeria.map((i,x) => mkRow('Foto '+x, 'galeria', x)).join('');
-            
             document.getElementById('publicAccom').innerHTML = DB.accom.map(i => `<div class="accom-card"><i class="${i.icon} accom-icon"></i><h3 style="color:white">${i.name}</h3><p style="color:#aaa">${i.desc}</p></div>`).join('');
             document.getElementById('listAccom').innerHTML = DB.accom.map((i,x) => mkRow(i.name, 'accom', x)).join('');
-            
             checkSlots();
         }
         function mkRow(txt, type, idx) { return `<div class="preview-item"><span>${txt}</span><button onclick="deleteItem('${type}', ${idx})" style="color:red;border:none;background:none;">X</button></div>`; }
-
         function checkSlots() {
             const sold = parseInt(DB.config.sold) || 0;
             const remaining = 50 - sold;
@@ -926,10 +853,17 @@
             document.getElementById('slotsBar').style.width = `${(remaining/50)*100}%`;
             if(remaining <= 0) document.getElementById('goCuotasContainer').style.display = 'none';
         }
-
         function contactSponsor(tier) { window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa ser sponsor nivel '+tier)}`, '_blank'); }
         function openModal() { document.getElementById('paymentModal').style.display='flex'; }
-        function closeModal() { document.getElementById('paymentModal').style.display='none'; }
+        
+        function closeModal() {
+            document.getElementById('paymentModal').style.display='none';
+            setTimeout(() => {
+                document.getElementById('step-application').style.display = 'block';
+                document.getElementById('step-analysis').style.display = 'none';
+                document.getElementById('step-payment').style.display = 'none';
+            }, 500);
+        }
         
         function processPayment(type) {
             const name = document.getElementById('payName').value;
@@ -938,8 +872,25 @@
             const link = type === 'MP' ? DB.config.mp : DB.config.go;
             if(!link) return alert("Link no configurado");
             window.open(link, '_blank');
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('validationStep').style.display = 'block';
+            document.getElementById('step-payment').innerHTML = `
+                <div style="text-align:center; padding:20px;">
+                    <i class="fas fa-check-circle" style="font-size:3rem; color:#00e676;"></i>
+                    <h3 style="color:white; margin-top:20px;">¡PAGO INICIADO!</h3>
+                    <p style="color:#aaa;">Cuando termines, valida tu código abajo.</p>
+                </div>
+                <button onclick="document.getElementById('validationStep').style.display='block'" class="btn" style="width:100%; margin-top:20px;">YA PAGUÉ</button>
+                <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
+                    <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px;">ACTIVACIÓN MANUAL</p>
+                    <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">Envía el comprobante para recibir tu código de acceso.</p>
+                    <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:20px;"><i class="fab fa-whatsapp"></i> ENVIAR A COMANDO</button>
+                    <div style="background:#222; padding:15px; border-radius:5px; border:1px dashed #555;">
+                        <div style="display:flex; gap:5px;">
+                            <input type="text" id="accessCodeInput" class="input-dark" placeholder="CÓDIGO RECIBIDO" style="margin-bottom:0; text-align:center; text-transform:uppercase;">
+                            <button onclick="verifyAndEnter()" class="btn-hydro">ENTRAR</button>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
         function sendProof() {
             const name = document.getElementById('payName').value;
@@ -961,5 +912,6 @@
             document.getElementById(id).classList.add('active'); event.target.classList.add('active');
         }
     </script>
+    <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
