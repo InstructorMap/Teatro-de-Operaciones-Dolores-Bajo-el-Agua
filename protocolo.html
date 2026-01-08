@@ -18,17 +18,13 @@
         body { background-color: #0a0a0a; font-family: 'Roboto', sans-serif; color: white; }
         .font-ops { font-family: 'Black Ops One', cursive; }
         
-        /* HOJA A4 PARA PDF */
         #a4-paper {
-            width: 794px; min-height: 1123px; /* A4 a 96dpi */
+            width: 794px; min-height: 1123px;
             background: white; color: #1a1a1a;
-            padding: 60px;
-            margin: 0 auto;
-            position: relative;
+            padding: 60px; margin: 0 auto; position: relative;
             box-shadow: 0 0 50px rgba(255,255,255,0.1);
         }
         
-        /* ESTILOS DEL DOCUMENTO */
         .doc-header { border-bottom: 4px solid #ff4500; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
         .doc-title { font-size: 28px; font-weight: 900; text-transform: uppercase; line-height: 1; color: #000; letter-spacing: -1px; }
         .doc-subtitle { font-size: 14px; color: #ff4500; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
@@ -37,7 +33,6 @@
         .doc-body h2 { color: #000; font-weight: 900; text-transform: uppercase; font-size: 16px; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 25px; margin-bottom: 10px; }
         .doc-body p { font-size: 12px; line-height: 1.5; margin-bottom: 10px; text-align: justify; color: #333; }
         
-        /* GRID DE ESTACIONES */
         .stations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
         .station-box { background: #f4f4f4; padding: 10px; border-left: 3px solid #ff4500; }
         .station-title { font-weight: 900; font-size: 11px; text-transform: uppercase; color: #000; }
@@ -45,13 +40,18 @@
 
         .highlight-box { background: #1a1a1a; color: white; padding: 15px; font-size: 12px; margin: 20px 0; border-left: 5px solid #00e5ff; }
 
-        /* CORRECCIÓN LOGOS: Quitamos margen izquierdo y ajustamos altura */
         .logos-container img { height: 40px; object-fit: contain; filter: grayscale(100%); opacity: 0.8; }
         
         .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 120px; color: rgba(0,0,0,0.04); font-weight: 900; pointer-events: none; white-space: nowrap; font-family: 'Black Ops One'; }
     </style>
 </head>
 <body class="flex flex-col md:flex-row min-h-screen">
+
+    <iframe name="brevoIframe" style="display:none;"></iframe>
+    <form id="brevo-form" method="POST" action="https://2305ae99.sibforms.com/serve/MUIFAF7dZmm4WpJWG0bEOiwYDnfC0uw3VGc5aNRBBSBcy0pxEcIRjGe6z-h9Q8gRaLRGkO-tS-sSLc8al1LeTzQAyu_4OJyZ7y40H6tSL3tkQhwHVtBnYWPrV7UFuUhSi1IdIbVmO_-mjpNnuooB-37gLqUJr7Y9lZ6YsIBBMulpC51ZfEmN1sQ13GcEE36qLto5Jsf-uJTveuOK" target="brevoIframe" style="display:none;">
+        <input type="text" id="BREVO_EMAIL" name="EMAIL">
+        <input type="hidden" name="locale" value="es">
+    </form>
 
     <div class="w-full md:w-1/3 bg-[#111] border-r border-[#333] p-8 flex flex-col justify-center">
         <div class="mb-8 text-center">
@@ -66,7 +66,7 @@
             <label class="block text-xs font-bold text-[#ff4500] mb-2">EMAIL (Para envío de info extra)</label>
             <input type="email" id="userEmail" class="w-full bg-[#1a1a1a] border border-[#333] text-white p-3 rounded mb-6 focus:border-[#ff4500] outline-none" placeholder="contacto@email.com">
 
-            <button onclick="downloadPDF()" id="btnDownload" class="w-full bg-gradient-to-r from-[#ff4500] to-red-700 text-white font-bold py-4 rounded shadow-[0_0_20px_rgba(255,69,0,0.3)] hover:scale-[1.02] transition-transform">
+            <button onclick="processAndDownload()" id="btnDownload" class="w-full bg-gradient-to-r from-[#ff4500] to-red-700 text-white font-bold py-4 rounded shadow-[0_0_20px_rgba(255,69,0,0.3)] hover:scale-[1.02] transition-transform">
                 <i class="fas fa-file-download mr-2"></i> DESCARGAR DOSSIER
             </button>
             <p class="text-xs text-center text-gray-500 mt-4">Documento oficial DBA 2026.</p>
@@ -74,10 +74,8 @@
     </div>
 
     <div class="w-full md:w-2/3 bg-[#222] p-8 overflow-y-auto flex justify-center">
-        
         <div id="a4-paper">
             <div class="watermark">DBA 2026</div>
-
             <div class="doc-header">
                 <div>
                     <div class="doc-title">RESUMEN EJECUTIVO<br>DE OPERACIONES</div>
@@ -89,88 +87,67 @@
                     FECHA EMISIÓN: <span id="docDate"></span>
                 </div>
             </div>
-
             <div class="doc-body">
-                
                 <p style="font-size:14px; font-weight:bold;">ESTIMADO/A OPERADOR/A:</p>
                 <p>Este documento detalla la estructura táctica y logística del <strong>X Congreso y Entrenamiento de Medicina Invasiva y Rescate</strong> a realizarse en la ciudad de Dolores.</p>
-
                 <h2>1. CONCEPTO OPERATIVO</h2>
-                <p>DBA2026 no es una capacitación de aula. Es un <strong>Teatro de Operaciones de 48 horas continuas</strong> diseñado para someter al cursante a estrés controlado, fatiga y toma de decisiones en escenarios de alto realismo. El objetivo es validar la aptitud física y mental del respondiente.</p>
-
+                <p>DBA2026 no es una capacitación de aula. Es un <strong>Teatro de Operaciones de 48 horas continuas</strong> diseñado para someter al cursante a estrés controlado, fatiga y toma de decisiones en escenarios de alto realismo.</p>
                 <div class="highlight-box">
                     <div style="display:flex; justify-content:space-between;">
                         <span>📅 <strong>FECHA:</strong> 27 y 28 de Febrero, 2026</span>
                         <span>📍 <strong>UBICACIÓN:</strong> Solís 139, Dolores (Bs. As.)</span>
                     </div>
                 </div>
-
                 <h2>2. CIRCUITO DE ROTACIÓN (6 ESTACIONES)</h2>
-                <p>Los operadores rotarán por islas de especialidad técnica bajo supervisión de instructores certificados:</p>
-                
                 <div class="stations-grid">
                     <div class="station-box">
                         <div class="station-title">1. RESCATE ACUÁTICO</div>
-                        <div class="station-desc">Técnicas de autosocorro, natación táctica y extracción con elementos en aguas rápidas/inundación.</div>
+                        <div class="station-desc">Técnicas de autosocorro y extracción en aguas rápidas.</div>
                     </div>
                     <div class="station-box">
                         <div class="station-title">2. ALTURA Y CUERDAS</div>
-                        <div class="station-desc">Sistemas de descenso, ascenso y recuperación de víctimas en planos verticales hostiles.</div>
+                        <div class="station-desc">Sistemas de descenso y recuperación en planos verticales.</div>
                     </div>
                     <div class="station-box">
                         <div class="station-title">3. BREC / CONFINADOS</div>
-                        <div class="station-desc">Búsqueda y Rescate en Estructuras Colapsadas con visibilidad nula y espacios reducidos.</div>
+                        <div class="station-desc">Búsqueda y Rescate en estructuras colapsadas.</div>
                     </div>
                     <div class="station-box">
                         <div class="station-title">4. MEDICINA TÁCTICA</div>
-                        <div class="station-desc">Protocolo MARCH, control de hemorragias masivas y extracción bajo amenaza.</div>
+                        <div class="station-desc">Protocolo MARCH y control de hemorragias.</div>
                     </div>
                     <div class="station-box">
                         <div class="station-title">5. COMUNICACIONES</div>
-                        <div class="station-desc">Gestión de crisis, Puesto de Comando y enlace radial en zona de desastre.</div>
+                        <div class="station-desc">Gestión de crisis y Puesto de Comando.</div>
                     </div>
                     <div class="station-box">
                         <div class="station-title">6. PSICOLOGÍA (PAP)</div>
-                        <div class="station-desc">Primeros Auxilios Psicológicos y gestión del estrés en el interviniente y la víctima.</div>
+                        <div class="station-desc">Primeros Auxilios Psicológicos y estrés.</div>
                     </div>
                 </div>
-
-                <h2>3. CERTIFICACIÓN Y VALIDEZ</h2>
-                <p>Al finalizar el simulacro integrador, se otorgará:</p>
-                <ul>
-                    <li>Certificado de Aprobación (Sujeto a evaluación continua).</li>
-                    <li>Registro en libro de actas RENAM (Registro Nacional).</li>
-                    <li>Diploma Oficial con avales institucionales y universitarios.</li>
-                </ul>
-
-                <h2>4. INVERSIÓN Y CUPOS</h2>
-                <p>El valor del pase incluye acceso a todas las estaciones, kit de bienvenida e hidratación.</p>
+                <h2>3. CERTIFICACIÓN</h2>
+                <p>Diploma Oficial, Registro RENAM y avales institucionales.</p>
+                <h2>4. INVERSIÓN</h2>
                 <p style="text-align:center; font-weight:bold; margin-top:15px; font-size:13px; color:#ff4500;">
-                    CUPOS LIMITADOS A 50 OPERADORES PARA GARANTIZAR LA SEGURIDAD.
+                    CUPOS LIMITADOS A 50 OPERADORES.
                 </p>
             </div>
-
             <div style="position:absolute; bottom:40px; left:60px; right:60px; border-top:2px solid #1a1a1a; padding-top:15px;">
                 <div style="display:flex; flex-direction: column; gap: 12px;">
-                    <div style="font-size:10px; color:#333;">
-                        <strong>COMANDO DE ORGANIZACIÓN</strong> | Whatsapp Oficial: +54 9 221 364-2475
-                    </div>
+                    <div style="font-size:10px; color:#333;"><strong>COMANDO DE ORGANIZACIÓN</strong> | Whatsapp Oficial: +54 9 221 364-2475</div>
                     <div id="footerLogos" class="logos-container flex" style="flex-wrap: wrap; gap: 20px; justify-content: flex-start;"></div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        // CONEXIÓN DB
         const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
         const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const date = new Date().toLocaleDateString('es-AR');
-            document.getElementById('docDate').innerText = date;
+            document.getElementById('docDate').innerText = new Date().toLocaleDateString('es-AR');
             loadBranding();
         });
 
@@ -183,53 +160,47 @@
             try {
                 let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
                 if(data && data.datos.avales) {
-                    // Tomamos los primeros 8 logos para que no explote el footer, con wrap se acomodan
-                    const logos = data.datos.avales.slice(0, 8).map(l => 
-                        `<img src="${l.img}" crossorigin="anonymous">`
-                    ).join('');
+                    const logos = data.datos.avales.slice(0, 8).map(l => `<img src="${l.img}" crossorigin="anonymous">`).join('');
                     document.getElementById('footerLogos').innerHTML = logos;
                 }
             } catch(e) { console.error(e); }
         }
 
-        async function downloadPDF() {
+        async function processAndDownload() {
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
             
             if(!name || !email) {
-                Swal.fire({icon:'warning', title:'Faltan datos', text:'Por favor completa tu nombre y mail.', confirmButtonColor:'#ff4500'});
+                Swal.fire({icon:'warning', title:'Faltan datos', text:'Ingresa tu nombre y mail.', confirmButtonColor:'#ff4500'});
                 return;
             }
 
             const btn = document.getElementById('btnDownload');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
             btn.disabled = true;
-            
-            try {
-                // await sb.from('leads').insert({ nombre: name, email: email, origen: 'PDF_SUMMARY' });
 
-                const canvas = await html2canvas(document.getElementById('a4-paper'), {
-                    scale: 2, useCORS: true
-                });
-                
+            // 1. ENVIAR A BREVO (Invisible)
+            try {
+                document.getElementById('BREVO_EMAIL').value = email;
+                document.getElementById('brevo-form').submit();
+            } catch(e) { console.error("Error Brevo", e); }
+
+            // 2. GENERAR PDF
+            try {
+                const canvas = await html2canvas(document.getElementById('a4-paper'), { scale: 2, useCORS: true });
                 const imgData = canvas.toDataURL('image/jpeg', 0.9);
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                
-                const pdfWidth = 210;
-                const pdfHeight = 297;
-                
-                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
                 pdf.save(`DBA2026_Resumen_${name.replace(/\s/g, '_')}.pdf`);
 
                 Swal.fire({
                     icon: 'success',
-                    title: 'Dossier Generado',
-                    text: 'El resumen se ha descargado en tu dispositivo.',
+                    title: '¡Suscripción Exitosa!',
+                    text: 'El dossier se ha descargado y recibirás info extra en tu mail.',
                     confirmButtonColor: '#ff4500'
                 });
-
             } catch(e) {
                 console.error(e);
                 Swal.fire({icon:'error', title:'Error', text:'No se pudo generar el documento.'});
