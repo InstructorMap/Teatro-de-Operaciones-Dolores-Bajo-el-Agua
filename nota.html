@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Solicitud | DBA2026</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { background-color: #0a0a0a; font-family: 'Roboto', sans-serif; color: white; }
+        .font-exo { font-family: 'Exo 2', sans-serif; }
+        .bg-tactical { background: #111; border: 1px solid #333; }
+        
+        /* SIMULACIÓN HOJA A4 EN PANTALLA */
+        /* A4 es 210mm x 297mm. Usamos una relación de aspecto similar en píxeles */
+        #a4-paper {
+            width: 794px; /* Ancho A4 a 96dpi */
+            min-height: 1123px; /* Alto A4 a 96dpi */
+            background: white; color: black;
+            padding: 50px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.1);
+            margin: 0 auto;
+            position: relative;
+            font-size: 12pt; /* Tamaño letra estándar documento */
+            line-height: 1.6;
+        }
+        /* Marcas de agua y detalles visuales */
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 10rem; color: rgba(0,0,0,0.03); font-weight: 900; pointer-events: none;
+            font-family: 'Exo 2'; text-transform: uppercase; white-space: nowrap;
+        }
+        .header-logos img { height: 60px; object-fit: contain; filter: grayscale(100%); opacity: 0.8; }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row min-h-screen">
+
+    <div class="w-full md:w-1/3 bg-gray-900 p-6 border-r border-gray-800 overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-4 text-orange-500 font-exo">DATOS DE SOLICITUD</h2>
+        <p class="text-gray-400 text-sm mb-6">Complete para generar la nota formal.</p>
+        
+        <div class="space-y-4 bg-tactical p-4 rounded">
+            <div>
+                <label class="text-xs text-cyan-400 font-bold block mb-1">NOMBRE DEL SOLICITANTE (Jefe/Director)</label>
+                <input type="text" id="inp-jefe" class="w-full p-2 bg-black border border-gray-700 rounded text-white" placeholder="Ej: Of. Ppal. Juan Pérez" oninput="updatePreview()">
+            </div>
+            <div>
+                <label class="text-xs text-cyan-400 font-bold block mb-1">INSTITUCIÓN / CUARTEL / EMPRESA</label>
+                <input type="text" id="inp-institucion" class="w-full p-2 bg-black border border-gray-700 rounded text-white" placeholder="Ej: Bomberos Voluntarios de..." oninput="updatePreview()">
+            </div>
+            <div class="flex gap-4">
+                <div class="w-1/2">
+                    <label class="text-xs text-cyan-400 font-bold block mb-1">CANT. OPERATIVOS</label>
+                    <input type="number" id="inp-cantidad" class="w-full p-2 bg-black border border-gray-700 rounded text-white text-center" value="6" min="1" oninput="updatePreview()">
+                </div>
+                <div class="w-1/2">
+                    <label class="text-xs text-cyan-400 font-bold block mb-1">INVERSIÓN TOTAL ($)</label>
+                    <input type="text" id="inp-total" class="w-full p-2 bg-black border border-gray-700 rounded text-white font-bold text-green-400" value="$500.000" readonly>
+                    <p class="text-xs text-gray-500 mt-1">*Calculado (Pack 5+1 Free)</p>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="generatePDF()" id="btn-pdf" class="w-full mt-6 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-bold py-4 px-4 rounded flex justify-center items-center gap-2 transition-all shadow-lg shadow-orange-900/30">
+            <i class="fas fa-file-pdf fa-lg"></i> DESCARGAR NOTA OFICIAL
+        </button>
+        <p class="text-xs text-center text-gray-500 mt-4">Documento listo para imprimir o enviar digitalmente.</p>
+    </div>
+
+    <div class="w-full md:w-2/3 bg-gray-800 p-10 overflow-y-auto flex justify-center">
+        
+        <div id="a4-paper">
+            <div class="watermark">DBA 2026 OFICIAL</div>
+
+            <div class="flex justify-between items-center border-b-2 border-black pb-6 mb-10">
+                <div class="flex items-center gap-4">
+                    <div class="font-exo font-black text-3xl tracking-tighter">DBA<span class="text-orange-600">2026</span></div>
+                    <div class="h-8 w-px bg-gray-400"></div>
+                    <div id="paper-avales" class="header-logos flex gap-4"></div>
+                </div>
+                <div class="text-right">
+                    <p class="font-bold uppercase text-sm">Comando de Organización</p>
+                    <p class="text-sm text-gray-600">Entrenamiento de Alto Rendimiento</p>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <p class="text-right mb-10">
+                    Dolores, Buenos Aires, <span id="paper-date"></span>.
+                </p>
+
+                <p class="mb-2 font-bold">A: ADMINISTRACIÓN / JEFATURA</p>
+                <p class="mb-10 font-bold underline" style="text-transform: uppercase;">REF: SOLICITUD DE PRESUPUESTO PARA CAPACITACIÓN OPERATIVA "PACK BRIGADA"</p>
+
+                <p class="mb-6 text-justify">
+                    Por medio de la presente, el/la que suscribe, <b><span id="paper-jefe-name">[NOMBRE DEL JEFE]</span></b>, en su carácter de responsable de <b><span id="paper-institucion-name">[NOMBRE INSTITUCIÓN]</span></b>, solicita formalmente la autorización de partida presupuestaria para la participación de nuestra brigada en el <b>Teatro de Operaciones "Dolores Bajo el Agua 2026" (DBA)</b>, a realizarse los días 27 y 28 de Febrero en Dolores, Provincia de Buenos Aires.
+                </p>
+
+                <p class="mb-6 text-justify">
+                    Esta capacitación intensiva de 48 horas en escenarios reales de inundación, altura y estructuras colapsadas es crítica para mantener y elevar los estándares operativos de nuestro personal frente a emergencias complejas. El evento cuenta con avales institucionales de primer nivel (visualizables en el encabezado) y certificación oficial.
+                </p>
+
+                <p class="mb-8 text-justify">
+                    Hemos accedido a un <b>beneficio institucional exclusivo ("Pack Escuadra")</b>, que bonifica la inscripción de 1 efectivo cada 5 inscriptos pagos.
+                </p>
+
+                <div class="bg-gray-100 p-6 border-2 border-black mb-8">
+                    <h3 class="font-bold border-b border-gray-400 pb-2 mb-4">DETALLE DE INVERSIÓN SOLICITADA</h3>
+                    <div class="flex justify-between mb-2">
+                        <span>Cantidad de Operativos a capacitar:</span>
+                        <span class="font-bold"><span id="paper-qty">6</span> Efectivos</span>
+                    </div>
+                    <div class="flex justify-between mb-2 text-sm text-gray-600">
+                        <span>Valor unitario de mercado:</span>
+                        <span>$100.000 c/u</span>
+                    </div>
+                     <div class="flex justify-between mb-4 text-sm text-green-700 font-bold">
+                        <span>Bonificación aplicada (Pack Escuadra):</span>
+                        <span>-$100.000 (1 Cupo Free)</span>
+                    </div>
+                    <div class="flex justify-between border-t-2 border-black pt-4 text-xl font-black">
+                        <span>TOTAL A AUTORIZAR:</span>
+                        <span><span id="paper-total">$500.000</span> ARS</span>
+                    </div>
+                </div>
+
+                <p class="text-justify">
+                    Quedo a disposición para ampliar la información técnica del programa y presentar la facturación proforma correspondiente por parte de la organización del evento.
+                </p>
+
+                <p class="mt-16 text-center">
+                    Atentamente,
+                </p>
+                
+                <div class="mt-20 mb-4 mx-auto w-64 border-t-2 border-black"></div>
+                <p class="text-center font-bold" id="paper-firma-name">[NOMBRE DEL JEFE]</p>
+                <p class="text-center text-sm text-gray-600">Firma y Sello del Responsable</p>
+
+            </div>
+            
+            <div class="absolute bottom-10 left-10 right-10 text-center text-xs text-gray-500 border-t pt-4">
+                DBA2026 | Contacto Oficial Institucional: +54 9 221 364-2475 | Documento generado digitalmente el <span id="paper-footer-date"></span>.
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        // CONEXIÓN SUPABASE (Misma que usas siempre)
+        const SB_URL = 'https://bqhitoqdfzjzqfcltgap.supabase.co';
+        const SB_KEY = 'sb_publishable__uctuloHzMPp2GK5KPKgjQ_7LGlZ9E6';
+        const sb = supabase.createClient(SB_URL, SB_KEY);
+
+        // PRECIO BASE UNITARIO
+        const UNIT_PRICE = 100000;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLogos();
+            setCurrentDate();
+            updatePreview(); // Carga inicial
+        });
+
+        // 1. CARGAR LOGOS DE AVALES (Igual que en el carnet)
+        async function loadLogos() {
+            try {
+                let { data, error } = await sb.from('sitio_config').select('datos').eq('id', 1).single();
+                if(data && data.datos.avales) {
+                    const avalesHTML = data.datos.avales.map(a => 
+                        // Usamos crossOrigin anonymous para que html2canvas pueda leer las imágenes
+                        `<img src="${a.img}" crossorigin="anonymous" alt="${a.name}">`
+                    ).join('');
+                    document.getElementById('paper-avales').innerHTML = avalesHTML;
+                }
+            } catch(e) { console.error("Error cargando avales:", e); }
+        }
+
+        // 2. PONER FECHA ACTUAL
+        function setCurrentDate() {
+            const date = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = date.toLocaleDateString('es-ES', options);
+            document.getElementById('paper-date').innerText = dateStr;
+            document.getElementById('paper-footer-date').innerText = dateStr;
+        }
+
+        // 3. ACTUALIZAR VISTA PREVIA EN TIEMPO REAL Y CALCULAR PRECIO
+        function updatePreview() {
+            const jefe = document.getElementById('inp-jefe').value || "[NOMBRE DEL JEFE]";
+            const institucion = document.getElementById('inp-institucion').value || "[NOMBRE INSTITUCIÓN]";
+            let qty = parseInt(document.getElementById('inp-cantidad').value) || 1;
+            if(qty < 1) qty = 1;
+
+            // Lógica de Cálculo "Pack Escuadra" (Pagas cada 5, llevas 6. O simplificado: pagas N-1 por cada grupo de N?
+            // Usemos la lógica simple que definimos en el PDF: "Si mandas 5, el 6to gratis".
+            // Esto significa que pagas por grupos de 6, pero solo se cobran 5.
+            
+            // Cálculo más exacto para "Pack Escuadra (6 pax por precio de 5)":
+            // Si pones 6 pax -> Pagas 5.
+            // Si pones 12 pax -> Pagas 10.
+            // Si pones 7 pax -> Pagas 5 (del pack) + 1 suelto = 6 pagados.
+
+            const packsCompletos = Math.floor(qty / 6);
+            const restoSueltos = qty % 6;
+            const pagados = (packsCompletos * 5) + restoSueltos;
+            const total = pagados * UNIT_PRICE;
+
+            // Formatear precio a moneda (Ej: $500.000)
+            const totalFormatted = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(total);
+
+            // Actualizar Inputs
+            document.getElementById('inp-total').value = totalFormatted;
+
+            // Actualizar Papel
+            document.getElementById('paper-jefe-name').innerText = jefe.toUpperCase();
+            document.getElementById('paper-firma-name').innerText = jefe.toUpperCase();
+            document.getElementById('paper-institucion-name').innerText = institucion.toUpperCase();
+            document.getElementById('paper-qty').innerText = qty;
+            document.getElementById('paper-total').innerText = totalFormatted;
+        }
+
+        // 4. GENERAR Y DESCARGAR PDF
+        async function generatePDF() {
+            const btn = document.getElementById('btn-pdf');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO DOCUMENTO...';
+            btn.disabled = true;
+
+            try {
+                // A. Tomar "foto" del div #a4-paper con html2canvas
+                const canvas = await html2canvas(document.getElementById('a4-paper'), {
+                    scale: 2, // Mayor escala para mejor calidad al imprimir
+                    useCORS: true, // Importante para los logos externos
+                    backgroundColor: '#ffffff' // Asegurar fondo blanco
+                });
+
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+                // B. Crear PDF con jsPDF
+                // Configuración: Orientación Portrait, Unidad mm, Formato A4
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Medidas A4: 210mm ancho x 297mm alto
+                const pdfWidth = 210;
+                const pdfHeight = 297;
+
+                // Agregar la imagen al PDF ocupando toda la hoja
+                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+                // C. Descargar
+                const jefeName = document.getElementById('inp-jefe').value.replace(/[^a-zA-Z0-9]/g, '_') || 'Solicitud';
+                pdf.save(`Solicitud_Presupuesto_DBA_${jefeName}.pdf`);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Nota Generada',
+                    text: 'El archivo PDF se ha descargado correctamente.',
+                    confirmButtonColor: '#ff4500'
+                });
+
+            } catch (error) {
+                console.error("Error PDF:", error);
+                Swal.fire({icon:'error', title:'Error', text:'No se pudo generar el PDF. Intente nuevamente.'});
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
