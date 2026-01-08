@@ -31,7 +31,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'TU_PIXEL_ID_AQUI'); // REEMPLAZAR CON TU ID
+    fbq('init', 'TU_PIXEL_ID_AQUI'); 
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=TU_PIXEL_ID_AQUI&ev=PageView&noscript=1"/></noscript>
@@ -163,7 +163,7 @@
         .sticky-cta { position: fixed; bottom: 20px; right: 20px; z-index: 900; display: none; }
         @media (max-width: 768px) { .sticky-cta { display: block; } h1 { font-size: 3rem; } .hero { padding-top: 120px; } }
 
-        /* MODAL PAGO & TALLY (CORREGIDO) */
+        /* MODAL PAGO & TALLY */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: #1a1a1a; padding: 30px; border: 1px solid var(--hydro-cyan); width: 95%; max-width: 500px; text-align: center; border-radius: 8px; position: relative; box-shadow: 0 0 50px rgba(0,229,255,0.2); }
         .gocuotas-box { border: 1px solid var(--rescue-orange); background: rgba(255, 69, 0, 0.05); padding: 15px; border-radius: 8px; margin-top: 15px; position: relative; overflow: hidden; }
@@ -381,7 +381,7 @@
                     <input type="text" id="payDni" class="input-dark" placeholder="DNI (Sin puntos)" required>
                 </div>
 
-                <div style="display:flex; gap:10px; flex-direction:column;">
+                <div id="paymentButtonsContainer" style="display:flex; gap:10px; flex-direction:column;">
                     <button onclick="processPayment('MP')" class="btn" style="width:100%; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
                         <span>PAGO TOTAL ($100k)</span> <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-large-logo-mercado-pago.webp" style="height:20px; filter:brightness(10);">
                     </button>
@@ -395,6 +395,8 @@
                             </div>
                             <button onclick="processPayment('GO')" class="btn-hydro" style="font-size:0.8rem; padding:8px 15px;">ELEGIR CUOTAS</button>
                         </div>
+                        <div class="counter-bar"><div id="slotsBar" class="counter-fill"></div></div>
+                        <p id="slotsText" style="text-align:right; font-size:0.7rem; color:var(--hydro-cyan);">Quedan cupos</p>
                     </div>
                 </div>
 
@@ -692,12 +694,16 @@
                 if(DB.config.bg) document.getElementById('dynamic-bg').style.backgroundImage = `url('${DB.config.bg}')`;
                 if(DB.config.diploma_bg) document.getElementById('previewDiplomaBg').src = DB.config.diploma_bg;
                 renderAll();
+            } catch (err) { 
+                console.error("Error carga:", err); 
+            } finally {
+                // ESTA LÍNEA ASEGURA QUE LA CARGA SE APAGUE SIEMPRE
                 setTimeout(() => {
                     const screen = document.getElementById('loading-screen');
                     screen.style.opacity = '0';
                     setTimeout(() => screen.style.display = 'none', 500);
                 }, 1000);
-            } catch (err) { console.error("Error carga:", err); }
+            }
         }
 
         async function saveToCloud() {
@@ -872,25 +878,8 @@
             const link = type === 'MP' ? DB.config.mp : DB.config.go;
             if(!link) return alert("Link no configurado");
             window.open(link, '_blank');
-            document.getElementById('step-payment').innerHTML = `
-                <div style="text-align:center; padding:20px;">
-                    <i class="fas fa-check-circle" style="font-size:3rem; color:#00e676;"></i>
-                    <h3 style="color:white; margin-top:20px;">¡PAGO INICIADO!</h3>
-                    <p style="color:#aaa;">Cuando termines, valida tu código abajo.</p>
-                </div>
-                <button onclick="document.getElementById('validationStep').style.display='block'" class="btn" style="width:100%; margin-top:20px;">YA PAGUÉ</button>
-                <div id="validationStep" style="display:none; margin-top:20px; border-top:1px solid #333; padding-top:20px;">
-                    <p style="color:#00e5ff; font-weight:bold; margin-bottom:5px;">ACTIVACIÓN MANUAL</p>
-                    <p style="color:#ccc; font-size:0.8rem; margin-bottom:15px;">Envía el comprobante para recibir tu código de acceso.</p>
-                    <button onclick="sendProof()" class="btn" style="background:#25d366; width:100%; margin-bottom:20px;"><i class="fab fa-whatsapp"></i> ENVIAR A COMANDO</button>
-                    <div style="background:#222; padding:15px; border-radius:5px; border:1px dashed #555;">
-                        <div style="display:flex; gap:5px;">
-                            <input type="text" id="accessCodeInput" class="input-dark" placeholder="CÓDIGO RECIBIDO" style="margin-bottom:0; text-align:center; text-transform:uppercase;">
-                            <button onclick="verifyAndEnter()" class="btn-hydro">ENTRAR</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            document.getElementById('paymentButtonsContainer').style.display = 'none';
+            document.getElementById('validationStep').style.display = 'block';
         }
         function sendProof() {
             const name = document.getElementById('payName').value;
